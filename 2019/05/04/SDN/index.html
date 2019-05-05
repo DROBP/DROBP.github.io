@@ -53,7 +53,21 @@
 <meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/37参数.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/38参数.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/39另外参数.png">
-<meta property="og:updated_time" content="2019-05-04T13:49:56.848Z">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/40以实现的南向接口协议.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/41OpenFlow协议.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/OF-Config.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/42NETCONF.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/43OVSDB.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/43%20XMPP.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/44%20PCEP.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/45I2RS.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/47%20OpenFlow头部.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/49%20OpenFlow消息体.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/50%20消息类型.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/51%20连接的建立.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/52%20连接握手.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/SDN/53%20流程的实例.png">
+<meta property="og:updated_time" content="2019-05-05T13:45:09.717Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DROBP">
 <meta name="twitter:description" content="11.为什么会出现SDN2.什么是软件定义网络网络系统的生命周期：  需求调研  对网络互联范围、互联规模 拟承载的应用 对象 类型 用户规模 实现模式 服务质量 安全要求 …..     规划设计 网络架构与拓扑 IP和路由 安全和Qos策略在设计过程中体现一定的冗余，以便对未来的规模和业务扩展留下一定的弹性空间   部署实施 根据规划与设计方案进行落地包括对设备的上架、配置、连通，对系统的集成">
@@ -561,6 +575,56 @@ OpenFlow交换机转发模型是现有通用可编程数据平面的代表。目
 <p><img src=".\37参数.png" alt="37参数.png"></p>
 <p><img src=".\38参数.png" alt="38参数.png"></p>
 <p><img src=".\39另外参数.png" alt="39另外参数.png"></p>
+<p>####南向接口</p>
+<p>#####南向接口协议概述<br>什么是南向接口协议？<br>南向接口协议是为了实现控制平面的控制器（或者说网络操作系统）和数据平面的交换机之间的信息交互而设计的协议，简单来说南向接口协议就是控制器与交换机的通信协议。<br>南向接口协议主要完成什么任务呢？<br>不同的南向接口协议有不同的实现目标，从已经实现的南向接口协议来看。概括一下，南向接口协议的主要设计目标有以下几类<br>1.实现数据平面与控制平面的信息交互，向上收集交换机信息（比如交换机的特性、配置信息、工作状态等），向下下发控制策略，指导数据平面的转发行为。<br>2.实现网络的配置与管理<br>3.面向流量工程而设计，如实现路径计算，包括传送链路的带宽与开销等属性、链路状态和拓扑信息等。<br>简单介绍几个以实现南向接口协议</p>
+<p><img src=".\40以实现的南向接口协议.png" alt="40以实现的南向接口协议.png"></p>
+<p>OpenFlow协议：OpenFlow是伴随着SDN一起出现的，应该说是最早标准化的南向接口协议。</p>
+<p><img src=".\41OpenFlow协议.png" alt="41OpenFlow协议.png"></p>
+<p>OF-Config协议：用于OpenFlow交换机的配置与管理，它是OpenFlow的伴侣协议，负责OpenFlow交换机的管理与配置因此OF-Config是一种管理与配置协议。</p>
+<p><img src=".\OF-Config.png" alt="OF-Config.png"></p>
+<p>NETCONF协议：最早是作为一种网管协议被提出来的，用于网络设备的配置与管理。再SDN兴起后被用来作为SDN的南向接口协议。（SDN控制器作为NETCONF的客户端，网络设备作为NETCONF的服务端）</p>
+<p><img src=".\42NETCONF.png" alt="42NETCONF.png"></p>
+<p>OVSDB协议：</p>
+<p><img src=".\43OVSDB.png" alt="43OVSDB.png"></p>
+<p>XMPP协议：最初设计是用来设计构建大规模的即时通信系统游戏平台、协作空间以及语音和视频的会议系统等。</p>
+<p><img src=".\43 XMPP.png" alt="43 XMPP.png"></p>
+<p>PCEP协议：部署在控制器中的路径计算单元（PCE）通过PCEP协议与部署再数据平面设备中的路径计算客户端（PCC）进行通信从而实现路径的计算。</p>
+<p><img src=".\44 PCEP.png" alt="44 PCEP.png"></p>
+<p>I2RS：</p>
+<p><img src=".\45I2RS.png" alt="45I2RS.png"></p>
+<p>OpFlex：面对SDN技术的加速落地思科公司推出了数据中心SDN解决方案，即应用为中心的基础设施ACI，OpFlex是ACI内部的策略控制协议。</p>
+<p>![46 OpFlex.png](.\46 OpFlex.png</p>
+<p>#####OpenFlow协议<br>OpenFlow协议为控制器与交换机之间的通信提供了一种开放标准的方式，OpenFlow交换机通过安全通道与控制器进行信息交互。通道内转发的信息主要有三种类型：<br>1.controller-to-switch消息（由控制器发起，可能会要求交换机回复对应的消息）：该消息是由控制器发起，可能会要求交换机回复对应的消息，这种消息又分为以下几类</p>
+<pre><code>（1）Features消息：在建立传输安全会话时控制器主动向交换机发送Feature_Request消息请求交换机的特性信息，交换机通过Feature_Reply消息回复所支持的功能特性。
+（2）Configuration消息：可以设置查询交换机的配置信息，交换机需应答查询请求。
+（3）Modify-State消息：修改状态消息主要用于增加、修改、删除交换机的流表项组表项及端口状态
+（4）Read-State消息：读取状态消息用于收集交换机的各种信息，包括配置信息、统计信息和功能特性。
+（5）Send-Packet消息：控制器通过Packet-out消息向交换机指定端口发送数据包，一般用于相应Packet-in消息的处理。Packet-out消息必须携带一个Buffer_id来定位缓存在交换机上的数据包
+（6）Barrier：用于告知控制器该报文之前的动作均已执行，通常用于确保动作执行顺序保持策略的一致性。
+</code></pre><p>2.asynchronous消息：asynchronous时异步的意思，这类消息的触发不是由于控制器的请求，而是交换机主动发起的，用于告知控制器新数据包的到达和交换机的状态的改变。主要有以下几类：</p>
+<pre><code>（1）Packet-in消息：如果数据包在流表中没有匹配项或者匹配的流表项中有指定端口为CONTROLLER的动作时交换机发送Packer-in消息到控制器，如果交换机有足够的缓存用于存储发往控制器的数据包则packet-in消息只需要将分组头中的控制信息发送给控制器，控制器在Packet-out消息中可以根据Buffer-id处理交换机缓存中对应的数据包，如果交换机不支持缓存或者缓存容量不足则将整个数据包封装进Packet-in消息发送给控制器。
+（2）Flow-Removed消息：交换机中的流表项由于超时或修改等原因被删除时会触发该消息。
+（3）Port-status消息：当交换机的端口状态发生变化时比如Up或者Down的时候会发送Port-status消息给控制器。
+（4）Error消息：交换机通过Error消息告知控制器发生的错误信息。
+</code></pre><p>3.symmetric消息：symmetric是对称的意思，该消息是控制器或交换机任意一方发送，无需对方的许可或请求。主要的类型有：</p>
+<pre><code>（1）Hello消息：是控制器和交换机双方通过握手消息Hello建立安全连接。
+（2）Echo消息：双方均可主动发送Echo-Request消息给对方，接收者需要回复Echo-Reply消息，该消息用于测量延迟、带宽或用于保持活动连接。
+（3）Vendor消息：为交换机提供额外的功能预留空间。
+</code></pre><p>OpenFlow消息格式：OpenFlow协议数据包由OpenFlow头部和OpenFlow消息体两部分组成。<br>1.OpenFlow头部是一个8字节的固定结构，该结构有四个字段：</p>
+<p><img src=".\47 OpenFlow头部.png" alt="47 OpenFlow头部.png"></p>
+<pre><code>（1）verson：表示OpenFlow的协议版本号
+（2）type：表示消息类型
+（3）length：表数据包的长度
+（4）xid：表示数据包的标识
+</code></pre><p>2.OpenFlow消息体：OpenFlow消息体与具体的消息类型有关，在OpenFlow中消息类型ofp_type是一个枚举类型。</p>
+<p><img src=".\49 OpenFlow消息体.png" alt="49 OpenFlow消息体.png"></p>
+<p>每个消息类型被定义成一个常数，比如OFPT_PACKETIN表示的Packet-in消息，类型对应的值是10，OFPT_PACKETOUT表示的是Packet-out消息类型，型对应的值是13.</p>
+<p><img src=".\50 消息类型.png" alt="50 消息类型.png"></p>
+<p>OpenFlow协议的主要通信流程：<br>1.首先是连接的建立：</p>
+<p><img src=".\51 连接的建立.png" alt="51 连接的建立.png"></p>
+<p><img src=".\52 连接握手.png" alt="52 连接握手.png"></p>
+<p>控制器与OpenFlow交换机建立TLS隧道后，双方发送HELLO消息进行版本的协商，如果协议版本协商成功则连接建立否则发送ERROR消息描述失败原因并终止连接；协商完成后控制器发送FEATURES_REQUEST消息获取交换机的参数，交换机回复FEATURES_REPLY消息将交换机的详细参数告知控制器包括支持的buffer数目、流表以及Actions等；控制器发送SET_CONFIG消息向交换机下发配置参数；然后通过GET_CONFIG_REQUEST消息来请求交换机上传修改后的配置信息，交换机通过GET_CONFIG_REPLY响应请求；控制器与OpenFlow交换机之间发送PACKET_OUT PACKET_IN消息，通过PACKET_OUT中内置的LLDP包进行网络拓扑的探测；通过FLOW_MOD消息向控制器下发流表操作，比如增删改等。</p>
+<p><img src=".\53 流程的实例.png" alt="53 流程的实例.png"></p>
 
       
     </div>
@@ -572,7 +636,7 @@ OpenFlow交换机转发模型是现有通用可编程数据平面的代表。目
         <p><span>本文标题:</span><a href="/2019/05/04/SDN/"></a></p>
         <p><span>文章作者:</span><a href="/" title="访问 DROBP 的个人博客">DROBP</a></p>
         <p><span>发布时间:</span>2019年05月04日 - 21时50分</p>
-        <p><span>最后更新:</span>2019年05月04日 - 21时49分</p>
+        <p><span>最后更新:</span>2019年05月05日 - 21时45分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/05/04/SDN/" title>http://yoursite.com/2019/05/04/SDN/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/05/04/SDN/　　作者: DROBP" title></span>
