@@ -273,6 +273,64 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-ARP" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/06/26/ARP/" class="article-date">
+      <time datetime="2019-06-26T02:35:27.121Z" itemprop="datePublished">2019-06-26</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>ARP<br>UNIX实现中完整表项的生存时间为20分钟，不完整表项的生存时间为3分钟。</p>
+<pre><code>所谓的不完整表项就是在以太网对一个不存在的主机发出ARP请求时，在本地保留的只有ip地址没有MAC地址的表项。
+</code></pre><p>Windows实现中没有被使用的ARP表项老化时间为2分钟，正在使用的ARP表项老化时间10分钟。<br>    在表项正在使用时，超时值就应该启动，但是大多数的从伯克利系统演变而来的系统没有这样做——它们每次都是在访问表项进重设超时值。</p>
+<p>路由器ARP老化时间可以设置，时间范围一般时1-1440分钟之间，缺省为20分钟。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">没有UNIX中的完整表项和不完整表项的概念，也不存在Windows中区分表项是否被上层协议所正在使用，只是固定一个老化时间，时间到了，表项就老化，正在使用的表项也一样被老化。</span><br></pre></td></tr></table></figure>
+<p>免费ARP（用于检测ip地址是否冲突）</p>
+<p>路由优先级</p>
+<p>路由协议的优先级（管理距离AD）一般为一个0到255直接的数字，数字越大则优先级越低。</p>
+<p>优先级：直连路由&gt;静态路由&gt;动态路由</p>
+<p>路由的优先级的概念是优先级高的新路由协议可替代优先级低的同信宿路由。</p>
+<p>Metric是某一个路由协议（相同路由协议）判别到达目的网络的最佳方法。当一路由协议有多条路径到达某一网络时，路由协议必须判断其中哪一条是最佳并把它放到路由表中，路由协议会给每条路径计算出一个数，这个数就是度量值，通常这个值是没有单位的，度量值越小这条路径越佳。</p>
+<p>度量值（Metric）指明了路径的优先权，而管理距离（AD）指明了 发现路由方式的优先权；metric是针对同一种路由协议而言，对不同的路由协议，由于代表的 含义不同，比较不同协议的metric是无意义的。所以要在两条不同协 议的同信宿路由中作出选择，只能比较路由协议的优先级；相反，preference是针对不同路由协议而言，同协议的路由的 preference优先级是一般情况下一样的，这时metric是在两条同信宿 路由中作出选择的标准。</p>
+<p><strong>总结：同种协议管理距离一样 ，所以比较metric ，不同协议比较管 理距离越小越优先 </strong></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-SDN" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
