@@ -2,1025 +2,558 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <meta name="baidu-site-verification" content="L6Lm9d5Crl">
-  
-  
-  
-  
   <title>DROBP</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="keywords" content>
+  <meta name="description" content="DROBP">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="ARPUNIX实现中完整表项的生存时间为20分钟，不完整表项的生存时间为3分钟。 所谓的不完整表项就是在以太网对一个不存在的主机发出ARP请求时，在本地保留的只有ip地址没有MAC地址的表项。 Windows实现中没有被使用的ARP表项老化时间为2分钟，正在使用的ARP表项老化时间10分钟。    在表项正在使用时，超时值就应该启动，但是大多数的从伯克利系统演变而来的系统没有这样做——它们每次都是">
+<meta property="og:type" content="article">
 <meta property="og:title" content="DROBP">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/06/26/ARP/index.html">
 <meta property="og:site_name" content="DROBP">
+<meta property="og:description" content="ARPUNIX实现中完整表项的生存时间为20分钟，不完整表项的生存时间为3分钟。 所谓的不完整表项就是在以太网对一个不存在的主机发出ARP请求时，在本地保留的只有ip地址没有MAC地址的表项。 Windows实现中没有被使用的ARP表项老化时间为2分钟，正在使用的ARP表项老化时间10分钟。    在表项正在使用时，超时值就应该启动，但是大多数的从伯克利系统演变而来的系统没有这样做——它们每次都是">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-06-26T12:56:23.075Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DROBP">
-  
-    <link rel="alternative" href="/atom.xml" title="DROBP" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/img/favicon.png">
-  
-  
-  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  
-    
-    
-  
-  
-      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  
-  <!-- 加载特效 -->
-    <script src="/js/pace.js"></script>
-    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
-  <script>
-      var yiliaConfig = {
-          fancybox: true,
-          animate: true,
-          isHome: true,
-          isPost: false,
-          isArchive: false,
-          isTag: false,
-          isCategory: false,
-          open_in_new: false
-      }
-  </script>
-</head></html>
-<body>
-  <div id="container">
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-    <header id="header" class="inner">
-        
-<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<meta name="twitter:description" content="ARPUNIX实现中完整表项的生存时间为20分钟，不完整表项的生存时间为3分钟。 所谓的不完整表项就是在以太网对一个不存在的主机发出ARP请求时，在本地保留的只有ip地址没有MAC地址的表项。 Windows实现中没有被使用的ARP表项老化时间为2分钟，正在使用的ARP表项老化时间10分钟。    在表项正在使用时，超时值就应该启动，但是大多数的从伯克利系统演变而来的系统没有这样做——它们每次都是">
 
-        <a href="/" class="profilepic">
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.0.1" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.0.1" rel="stylesheet">
+
+<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="/js/jquery.autocomplete.min.js?v=1.0.1"></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<script src="/js/iconfont.js?v=1.0.1"></script>
+
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="false">
+  <input class="theme_blog_path" value>
+</div>
+
+<body>
+<aside class="nav mobile">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg">
+</a>
+<div class="author">
+    <span>DROBP</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="rss" href="/atom.xml" target="_blank">
             
-            <img lazy-src="/img/tx.png" class="js-avatar">
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-rss"/>
+                </svg>
             
         </a>
-        <hgroup>
-          <h1 class="header-author"><a href="/">DROBP</a></h1>
-        </hgroup>
         
+    
         
-            <form>
-                <input type="text" class="st-default-search-input search" id="local-search-input" placeholder="搜索一下" autocomplete="off">
-            </form>
-            <div id="local-search-result"></div>
-        
-        
-            <script type="text/javascript">
-                (function() {
-                    'use strict';
-                    function getMatchData(keyword, data) {
-                        var matchData = [];
-                        for(var i =0;i<data.length;i++){
-                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
-                                matchData.push(data[i])
-                        }
-                        return matchData;
-                    }
-                    var $input = $('#local-search-input');
-                    var $resultContent = $('#local-search-result');
-                    $input.keyup(function(){
-                        $.ajax({
-                            url: '/search.json',
-                            dataType: "json",
-                            success: function( json ) {
-                                var str='<ul class=\"search-result-list\">';                
-                                var keyword = $input.val().trim().toLowerCase();
-                                $resultContent.innerHTML = "";
-                                if ($input.val().trim().length <= 0) {
-                                    $resultContent.empty();
-                                    $('#switch-area').show();
-                                    return;
-                                }
-                                var results = getMatchData(keyword, json);
-                                if(results.length === 0){
-                                    $resultContent.empty();
-                                    $('#switch-area').show();
-                                    return;
-                                } 
-                                for(var i =0; i<results.length; i++){
-                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
-                                }
-                                str += "</ul>";
-                                $resultContent.empty();
-                                $resultContent.append(str);
-                                $('#switch-area').hide();
-                            }
-                        });
-                    });
-                })();
-            </script>
-        
-        
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
-                        
-                        <div class="icon-wrap icon-link hide" data-idx="2">
-                            <div class="loopback_l"></div>
-                            <div class="loopback_r"></div>
-                        </div>
-                        
-                        
-                        <div class="icon-wrap icon-me hide" data-idx="3">
-                            <div class="user"></div>
-                            <div class="shoulder"></div>
-                        </div>
-                        
-                    </div>
-                </div>
-                <div class="tips-box hide">
-                    <div class="tips-arrow"></div>
-                    <ul class="tips-inner">
-                        <li>菜单</li>
-                        <li>标签</li>
-                        
-                        <li>友情链接</li>
-                        
-                        
-                        <li>关于我</li>
-                        
-                    </ul>
-                </div>
-            </div>
-        
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/categories/开发工具/">玩转开发工具</a></li>
-                        
-                            <li><a href="/categories/digital">玩转数码</a></li>
-                        
-                            <li><a href="/categories/algorithm">算法学习</a></li>
-                        
-                            <li><a href="/about/">关于我</a></li>
-                        
-                        </ul>
-                    </nav>
-                    <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fl github" target="_blank" href="/xxxxx" title="github">github</a>
-                            
-                                <a class="fl weibo" target="_blank" href="/xxxxxxxx" title="weibo">weibo</a>
-                            
-                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-                            
-                        </ul>
-                    </nav>
-                </section>
-                
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        
-                    </div>
-                </section>
-                
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
-                    
-                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.csdn.net/baidu_21483933">csdn</a>
-                    
-                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://segmentfault.com/blog/maocg_web">segmentfault</a>
-                    
-                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.jianshu.com/users/eb37ef89c746/latest_articles">简书</a>
-                    
-                    </div>
-                </section>
-                
-                
-                
-                <section class="switch-part switch-part4">
-                
-                    <div id="js-aboutme">爱动漫,爱游戏,爱编程,爱运动,爱的太多了!</div>
-                </section>
-                
-            </div>
-        </div>
-    </header>
-</div>
-
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-      <div class="overlay">
-          <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">DROBP</a></h1>
-      </div>
-    <div class="intrude-less">
-        <header id="header" class="inner">
-            <a href="/" class="profilepic">
-                
-                    <img lazy-src="/img/tx.png" class="js-avatar">
-                
-            </a>
-            <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">DROBP</a></h1>
-            </hgroup>
+        <a title="github" href="https://github.com/yelog" target="_blank">
             
-            <nav class="header-menu">
-                <ul>
-                
-                    <li><a href="/archives/">所有文章</a></li>
-                
-                    <li><a href="/categories/开发工具/">玩转开发工具</a></li>
-                
-                    <li><a href="/categories/digital">玩转数码</a></li>
-                
-                    <li><a href="/categories/algorithm">算法学习</a></li>
-                
-                    <li><a href="/about/">关于我</a></li>
-                
-                <div class="clearfix"></div>
-                </ul>
-            </nav>
-            <nav class="header-nav">
-                <div class="social">
-                    
-                        <a class="github" target="_blank" href="/xxxxx" title="github">github</a>
-                    
-                        <a class="weibo" target="_blank" href="/xxxxxxxx" title="weibo">weibo</a>
-                    
-                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-                    
-                </div>
-            </nav>
-        </header>
-    </div>
-</nav>
-      <div class="body-wrap">
-  
-    <article id="post-ARP" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/06/26/ARP/" class="article-date">
-      <time datetime="2019-06-26T02:35:27.121Z" itemprop="datePublished">2019-06-26</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"/>
+                </svg>
+            
+        </a>
+        
     
-      <input type="hidden" class="isFancy">
+        
+        <a title="facebook" href="https://www.facebook.com/faker.tops" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-facebook"/>
+                </svg>
+            
+        </a>
+        
     
+        
     
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>ARP<br>UNIX实现中完整表项的生存时间为20分钟，不完整表项的生存时间为3分钟。</p>
-<pre><code>所谓的不完整表项就是在以太网对一个不存在的主机发出ARP请求时，在本地保留的只有ip地址没有MAC地址的表项。
-</code></pre><p>Windows实现中没有被使用的ARP表项老化时间为2分钟，正在使用的ARP表项老化时间10分钟。<br>    在表项正在使用时，超时值就应该启动，但是大多数的从伯克利系统演变而来的系统没有这样做——它们每次都是在访问表项进重设超时值。</p>
-<p>路由器ARP老化时间可以设置，时间范围一般时1-1440分钟之间，缺省为20分钟。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">没有UNIX中的完整表项和不完整表项的概念，也不存在Windows中区分表项是否被上层协议所正在使用，只是固定一个老化时间，时间到了，表项就老化，正在使用的表项也一样被老化。</span><br></pre></td></tr></table></figure>
-<p>免费ARP（用于检测ip地址是否冲突）</p>
-<p>路由优先级</p>
-<p>路由协议的优先级（管理距离AD）一般为一个0到255直接的数字，数字越大则优先级越低。</p>
-<p>优先级：直连路由&gt;静态路由&gt;动态路由</p>
-<p>路由的优先级的概念是优先级高的新路由协议可替代优先级低的同信宿路由。</p>
-<p>Metric是某一个路由协议（相同路由协议）判别到达目的网络的最佳方法。当一路由协议有多条路径到达某一网络时，路由协议必须判断其中哪一条是最佳并把它放到路由表中，路由协议会给每条路径计算出一个数，这个数就是度量值，通常这个值是没有单位的，度量值越小这条路径越佳。</p>
-<p>度量值（Metric）指明了路径的优先权，而管理距离（AD）指明了 发现路由方式的优先权；metric是针对同一种路由协议而言，对不同的路由协议，由于代表的 含义不同，比较不同协议的metric是无意义的。所以要在两条不同协 议的同信宿路由中作出选择，只能比较路由协议的优先级；相反，preference是针对不同路由协议而言，同协议的路由的 preference优先级是一般情况下一样的，这时metric是在两条同信宿 路由中作出选择的标准。</p>
-<p><strong>总结：同种协议管理距离一样 ，所以比较metric ，不同协议比较管 理距离越小越优先 </strong></p>
-
-      
-    </div>
+        
     
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
+        
+        <a title="instagram" href="https://www.facebook.com/faker.tops" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-instagram"/>
+                </svg>
+            
+        </a>
+        
     
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-SDN" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/05/04/SDN/" class="article-date">
-      <time datetime="2019-05-04T13:50:18.421Z" itemprop="datePublished">2019-05-04</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
+        
+        <a title="reddit" href="https://www.reddit.com/user/yelog/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-reddit"/>
+                </svg>
+            
+        </a>
+        
     
-      <input type="hidden" class="isFancy">
+        
+        <a title="weibo" href="http://weibo.com/u/2307534817" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-weibo"/>
+                </svg>
+            
+        </a>
+        
     
+        
+        <a title="jianshu" href="https://www.jianshu.com/u/ff56736de7cf" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-jianshu"/>
+                </svg>
+            
+        </a>
+        
     
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="1"><a href="#1" class="headerlink" title="1"></a><strong>1</strong></h1><h2 id="1-为什么会出现SDN"><a href="#1-为什么会出现SDN" class="headerlink" title="1.为什么会出现SDN"></a>1.为什么会出现SDN</h2><h2 id="2-什么是软件定义网络"><a href="#2-什么是软件定义网络" class="headerlink" title="2.什么是软件定义网络"></a>2.什么是软件定义网络</h2><p>网络系统的生命周期：</p>
-<ol>
-<li><p>需求调研</p>
-<ol>
-<li>对网络互联范围、互联规模</li>
-<li>拟承载的应用<ul>
-<li>对象</li>
-<li>类型</li>
-<li>用户规模</li>
-<li>实现模式</li>
-<li>服务质量</li>
-<li>安全要求</li>
-<li>…..</li>
-</ul>
-</li>
-</ol>
-</li>
-<li>规划设计<ol>
-<li>网络架构与拓扑</li>
-<li>IP和路由</li>
-<li>安全和Qos策略<br>在设计过程中体现一定的冗余，以便对未来的规模和业务扩展留下一定的弹性空间</li>
-</ol>
-</li>
-<li>部署实施<ol>
-<li>根据规划与设计方案进行落地包括对设备的上架、配置、连通，对系统的集成、上线、测试。</li>
-</ol>
-</li>
-<li>运行维护<br> 对网络状态的监控与管理，包括设备、用户、流量、应用。发现并排除网络故障与隐患，确保网络对系统可靠有效的运行。（通常网络在运行了一定的年限后，不能再满足扩增或变化的应用需求而需要升级或被取代）</li>
-</ol>
-<p>网络亚健康问题：多元、多变的网络上层应用于业务与相对稳定的网络架构设计以及系统运维之间的矛盾。</p>
-<ol>
-<li>上层应用需要网络的规模扩展和服务能力上具有很大的灵活性，能过体现客户为中心提供应用服务和业务体现的自适应性和动态性。<br>以云计算为例：<ol>
-<li>三种典型的模式：<ol>
-<li>IaaS</li>
-<li>PaaS</li>
-<li>SaaS</li>
-</ol>
-</li>
-<li>无论哪种模式都需要具备按需进行资源分配与调度的能力，需要借助资源池化、网络功能虚拟化、虚拟主机自动恢复和动态可迁移、不同的用户或应用之间的安全隔离。来确保系统的自动化部署和资源的动态适配。</li>
-</ol>
-</li>
-</ol>
-<p>一方面：传统网络规划与设计是预设定于好的也就是说是静态的；调整与对应的空间有限；人工为主、自动为辅。加上在分布式网络架构中网络设备类型的多样性、厂家来源的多样性。所以调整的复杂度和难度比较大。<br>归结起来又两方面的根本原因：</p>
-<ol>
-<li>传统网络及其设备的只可配置、不可编程（网络的部署、配置与管理需要落到每台设备上区域手工完成，而每台设备紧耦合了三个平面）<br>   1.管理平面（命令行界面、图形界面）<br>   2.控制平面（在管理平面输入的配置与管理指令会在控制平面生成相应的控制表，例如：数据链路层的MAC交换表、网络层的路由表、MPLS标签表、ACL访问控制表等）<br>3.数据平面：数据平面数据转发的依据：数据平面会根据控制平面的相关控制表给出的信息，进行具体的报文处理或转发</li>
-</ol>
-<p>矛盾的根源不在于网络的生命周期而是来自我们对网络的设计思想、网络架构、管理模式。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>针对上述问题的根源软件定义网络技术（SDN）引入了两项重要的改变和创新：</p>
-<ol>
-<li>能够弹性响应上层应用变化的网络可编程从而实现随心而变，随应用而动</li>
-<li>在分布式网络设备连接上引入一个集中统一的控制与管理层来实现对网络的全局控制与管理和对上层应用与业务的动态相应。</li>
-</ol>
-<p>为此需要对网络设备的管理、控制、数据平面进行解耦：</p>
-<ol>
-<li>在设备中仅保留原来的数据层面</li>
-<li>将控制平面和管理平面放到集中控制管理层</li>
-</ol>
-<p>SDN的三层网络架构</p>
-<p><img src=".\1.png" alt="1.png"></p>
+        
+        <a title="zhihu" href="https://www.zhihu.com/people/jaytp/activities" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-zhihu"/>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+        <a title="oschina" href="https://my.oschina.net/yelog" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-oschina"/>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+        <a title="email" href="mailto:jaytp@qq.com" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"/>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="qq" href="http://wpa.qq.com/msgrd?v=3&uin=872336115&site=qq&menu=yes" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-qq"/>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="kugou" href="https://www.kugou.com/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-kugou"/>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="neteasemusic" href="https://music.163.com/#/user/home?id=88151013" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-neteasemusic"/>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
 <ul>
-<li>最上层是应用层：包含了网络所要承载的多元业务与应用</li>
-<li>最下层是网络的基础设施层：这些设备已经不是传统的网络设备，它们的控制平面和管理平面都已经被拉出。这些设备变得简单只承担报转发功能。</li>
-<li>被抽取出的控制与管理平面到中间的集中控制层（SDN集中控制器）这个控制层非常关键，它在应用业务层和基础设施层起到“承上启下”的全局管控作用。</li>
-<li>在控制器与应用层之间提供了不同的API接口（北向接口），通过这些API（北向接口）实现控制器与上层应用的交互。</li>
-<li>在控制器与基础设施层之间提供了控制数据平面接口（南向接口）：所有在SDN控制器里面通过软件定义生成的流表都通过南向接口下发到基础设施层的设备上，引导和决定设备的包转发行为。</li>
+    <li><div class="all active">全部文章<small>(4)</small></div></li>
+    
 </ul>
-<p><strong> 通过这种控、管、转的分离，网络的控制与管理效率会更高；弹性的相应也会更好。</strong><br>可以与计算机的操作系统模型进行类比（类比图如下）：</p>
-<p><img src=".\2.png" alt="2.png"></p>
-<p>新一代网络架构：</p>
-<ol>
-<li>底层网络设备通过解耦实现简单化</li>
-<li>网络的管理通过集中控制器实现了全局化</li>
-<li>网络的运维通过SDN南向接口与协议实现的自动化</li>
-<li>网络的应用通过SDN北向接口与协议实现了更加弹性的人性化</li>
-</ol>
-<h1 id="1-2软件定义网络的起源与发展"><a href="#1-2软件定义网络的起源与发展" class="headerlink" title="1.2软件定义网络的起源与发展"></a>1.2软件定义网络的起源与发展</h1><h1 id="1-3SDN的标准化"><a href="#1-3SDN的标准化" class="headerlink" title="1.3SDN的标准化"></a>1.3SDN的标准化</h1><p>SDN的标准化组织机构：</p>
-<ol>
-<li>ONF:是SDN的专门的标准化的组织、是最活跃、最具有影响力的组织，是SDN标准化和产业化最主要的推动力量。</li>
-<li>IETF:是全球最具权威的技术标准化组织。</li>
-<li>ITU-T：国际电信联盟</li>
-<li>ETSI:欧洲电信标准化协会<br>标准化的重要作用：提供了开放架构下的技术，互操作性，和系统的兼容性。</li>
-</ol>
-<h1 id="2"><a href="#2" class="headerlink" title="2"></a><strong>2</strong></h1><h1 id="2-1SDN的多种基本架构"><a href="#2-1SDN的多种基本架构" class="headerlink" title="2.1SDN的多种基本架构"></a>2.1SDN的多种基本架构</h1><ol>
-<li>ONF定义的基于OpenFlow的三层架构<br> 技术特点：<ol>
-<li>实现了转发与控制的分离</li>
-<li>对转发面进行了标准化<br>由于实现了逻辑的集中控制所以有以下几个<strong>优点</strong>：<ol>
-<li>在流量调度方面有优势</li>
-<li>开放生态链</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>IETF提出的技术架构<br> 主要思想：<ol>
-<li>开放现有网络设备的能力</li>
-<li>向应用层提供标准开放的API<br>优点：<ol>
-<li>充分利用了现有的网络设备和路由协议（能和现有网络进行兼容）</li>
-<li>便于快速实现</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>NICIRA（已被vmware收购）提出的Ocerlay技术架构<br> 技术架构：（在传统网络上抽象出虚拟网络）<ol>
-<li>网络边缘软件化</li>
-<li>Overlay技术（基于网络叠加）<br>优点：</li>
-<li>实现了与物理网络的解耦，对物理设备的要求降到最低</li>
-<li>部署非常灵活</li>
-</ol>
-</li>
-<li>ETSI的NFV（网络功能虚拟化：Network Function Virtualization）技术架构<br>下面详细简绍各架构：<h3 id="ONF定义的SDN三层架构"><a href="#ONF定义的SDN三层架构" class="headerlink" title="ONF定义的SDN三层架构"></a><strong>ONF定义的SDN三层架构</strong></h3>基本框架：</li>
-</ol>
-<p><img src=".\3架构.png" alt="3架构.png"><br>这是一种新型的网络创新架构，实现了网络设备控制与转发的分离；这是网络虚拟化的一种实现方式，核心技术是OpenFlow，控制层和转发层之间通过OpenFlow协议进行通信；控制与转发分离后可以实现逻辑上的集中控制，因此能实现网络流量的灵活控制，使网络作为管道变得更加智能。<br>体系架构：<br><img src=".\4四个平面.png" alt="4四个平面.png"></p>
-<ol>
-<li><p>四个平面：</p>
-<ol>
-<li><p>数据平面<br>是由若干网元（Network Element）组成，每个网元包含一个或多个SDN数据路径（SDN Datapath）。SDN Datapath是逻辑上的网络设备，负责转发和处理数据无控制能力，一个SDN DataPath包含控制数据平面接口（Control Data Plane Interface,CDPI）、代理、转发引擎（Forwarding Engine）表和处理功能（Processing Function）</p>
-<p>SDN数据面（转发面）的关键技术:对数据面进行抽象建模。如图：<br><img src=".\5关键技术.png" alt="5关键技术.png"></p>
-</li>
-<li><p>控制平面<br>控制平面包括北向接口（Northbound Interfaces,NBI）代理、SDN控制逻辑（Control Logic）、控制数据平面接口驱动三部分。控制平面有两个任务：1.将SDN应用层请求转换到SDN Datapath;2.为SDN应用提供底层网络的抽象模型（状态或事件）<br>控制平面的关键技术：控制器（网络操作系统（NOS）或网络控制器），SDN控制器是整个网络的大脑，网络的智能或核心实现都在SDN控制器中。开源的SDN控制器：NOX、POX、FloodLight、RYU、OpenDayLight、ONOS等。</p>
-</li>
-<li>应用平面<br>应用平面包括SDN应用逻辑与北向接口（NBI）驱动。应用平面通过北向接口与SDN控制器进行交互。在应用逻辑的实现上可以基于SDN理念改造传统应用的交付能力比如负载均衡、访问控制、应用加速。具体比如：可以通过软件实现的应用交付能力，降低系统的开支和成本；实现网元的虚拟化和集中化控制；支持网络系统的快速部署，在故障出现时能够快速并发现与解决问题；提供更高的智能，支持自动化运作，实现应用可感知的网络，这些都是SDN应用逻辑的具体实现。</li>
-<li>管理平面<br>管理平面负责一系列静态的工作例如网元的初始化配置；指定SDN DataPath控制器；定义SDN控制器及SDN应用的控制范围.</li>
-</ol>
-</li>
-<li><p>两大接口：</p>
-<ol>
-<li><p>数据平面与控制平面的接口（CDPI）:南向接口<br>主要功能：对所有的转发行为进行控制、设备性能查询、统计报告、事件通知等。<br>ONF架构最突出的特点：标准化的南向接口协议（Openflow），不依赖于底层具体厂商的交换设备。<br>南向接口的关键技术：</p>
-<ol>
-<li>转发面开放协议（南向接口协议）：该协议允许控制器控制交换机的配置以及相关转发行为，比如ONF定义的转发面开放协议是Openflow它将转发面抽象为一个或多个流表组成的转发模型。网络控制器通过Openflow协议下发流表到具体的交换机从而控制交换机的具体行为。下图是支持Openflow协议的交换机通过Opengflow协议与控制器进行通讯的示意图：<br><img src=".\6示意图.png" alt="6示意图.png"></li>
-</ol>
-</li>
-<li><p>控制平面与应用层面的接口（NBI）：北向接口<br>主要功能：负责向应用层提供抽象的网络视图，使应用能直接控制网络的行为。北向接口是一个开放的与厂商无关的接口。<br>北向接口的关键技术：<br> SDN北向接口的设计：设计的目的是将网络能力封装后开放接口，供上层业务调用。目前REST API 成为SDN北向接口的主流设计。<br>以Floodlight的北向API集合为例：<br><img src=".\7.png" alt="7.png"></p>
-</li>
-</ol>
-</li>
-</ol>
-<h3 id="2-2SDN的核心思想"><a href="#2-2SDN的核心思想" class="headerlink" title="2.2SDN的核心思想"></a><strong>2.2SDN的核心思想</strong></h3><p>SDN的网络架构中包含可那些核心的设计思想呢？</p>
-<ol>
-<li><p>解耦<br> 解耦是将控制平面和数据平面进行分离，主要是为了解决传统网络中控制平面和数据平面在紧耦合上导致的问题。解耦后控制平面负责上层的控制决策；数据平面负责数据的交换转发，两个平面之间不在相互依赖，双发只要遵循一定的开放接口即可进行通信。<br> 在传统网络中：</p>
-<p> <img src=".\8.png" alt="8.png"><br> 在SDN网络中：</p>
-<p> <img src=".\9.png" alt="9.png"></p>
-<p> 解耦带来的问题与挑战：</p>
-<pre><code>1. 控制平面的服务能力可能成为网路性能的瓶颈，而解决的办法之一就是在控制平面上布置多个分布式的控制器。
-2. 上述提到的多控制器之间如何交互路由信息，如何保持分布式网络状态节点的一致性。
-3. 由于控制平面在远端，控制平面的响应延迟，导致数据平面的可用性问题。
-</code></pre><p> 总体来说控制平面与数据平面的解耦，实现了网络的逻辑集中控制。从发展的角度来看解耦后两个平面可以独立完成体系结构与技术发展的冶进。有利于网络的技术创新技术发展。</p>
-</li>
-<li><p>抽象</p>
-<p> SDN借鉴了计算机系统的抽象技术，从用户的视角来看可以把网络看成一个类似计算机操作系统的分层系统，如图：</p>
-<p> <img src=".\10类比图.png" alt="10类比图.png"></p>
-<p> 在各个层上进行进一步的抽象，主要实现了三种类型的抽象：</p>
-<ol>
-<li><p>转发抽象</p>
-<p><img src=".\11转发抽象.png" alt="11转发抽象.png"></p>
-<p>转发抽象是将数据平面抽象为通用的转发模型，比如OpenFlow的交换机模型，转发行为与硬件无关，同时各种转发表象如MAC表、路由表、MPLS标签表、ACL访问控制链表等抽象为统一的流表。</p>
-</li>
-<li>分布状态抽象<br>控制层将设备的分布状态抽象成全局的网络视图从而实现逻辑的集中控制。抽象功能具体可通过网络操作系统（NOS）来实现，主要有两方面功能一是实现下发控制命令；二是通过手机设备和链路状态，为上层应用提供全局网络视图。</li>
-<li>配置抽象<br>配置抽象是指应用层对网络行为的表达，可以通过网络编程语言来实现，用户或者应用程序可以基于简化抽象模型，将抽象配置映射到（为）物理配置。<br>在SDN前我们对网络行为的表达主要通过命令行配置后或者通过网管协议接口编写简单的脚本来实现。<br>而在SDN中可以利用控制器提供的API通过python、java、c++等编程语言来实现，而且这种编程是基于控制层提供的全局网络视图而不是基于单个设备的编程。<br>抽象的思想不仅体现在ONF提出的三层网络架构中，在Overlay架构中也给予了抽象的思想。在Overlay架构中Overlay网络在Underlay的基础上进行了抽象，应用程序不需要关注底层网络的实现细节。如图：</li>
-</ol>
-</li>
-</ol>
-<p><img src=".\12over来、y.png" alt="12over来、y.png"></p>
-<ol start="3">
-<li>网络的可编程<br> 可编程，SDN在数据平面和控制平面解耦后，提供了开放的可编程接口，这也是SDN区别于传统网络的重要思想之一。<br> 传统网络的管理接口主要是命令行和网络管理协议等，也可以通过Shell脚本和Python脚本实现一些运维或管理功能，但都属于一种非常初级的网络编程方式。而网络管理员需要的是类似于软件编程那样更高级的编程方式。这种编程方式的实现是基于整个网络的而不是基于某一设备的，因而需要对网络功能进行抽象来实现网络的可编程。<br> 在SDN出现之前学术界已经对网络的可编程进行了大量相关研究，其中最具代表的是主动网络和4D架构。主动网络的主要思想是开放网络节点的可编程接口；允许网络节点在用户数据上根据用户有需求执行相应的计算。4D架构将网络系统划分为四个平面：数据平面、发现平面、扩展平面、决策平面。这些研究都对SDN的可编程奠定了基础。<br> 在SDN中有哪些可编程接口呢？</li>
-</ol>
-<p><img src=".\13.png" alt="13.png"></p>
-<pre><code>SDN可编程接口主要包括：
-1. 北向接口
-    北向接口的实现方式主要有REST API、JAVA API等.
-2. 南向接口
-    南向接口的实现协议主要有OpenFlow、OF-Config、OVSDB等。
-3. 东西向接口（研究阶段没有形成统一标准）
-    东西向接口主要负责多控制器或控制器与外部组件之间的通信。目前还在研究阶段没有形成统一的标准。
-4. 除了三大接口支持可编程外，SDN的数据平面也支持可编程。
-    目前数据平面的可编程技术主要包括Intel主导的高性能网络数据处理框架DPDK；斯坦福大学主导的数据平面可编程语言P4等。
-</code></pre><p>##2.3实验<br>能够运用mininet创建网络拓扑结构，三种方式：<br>1.可视化工具<br>2.交互式命令<br>    命令行 如：sudo mn<br>    交互式命令 如：py net.addhost(‘h3’)<br>    基本命令：</p>
-<p>3.运用python脚本构建网络拓扑结构</p>
-<p>#3<br>数据平面<br>在传统网络设备中控制平面和数据平面在物理上是紧耦合的在逻辑上相互独立，运行于独立的处理器或板卡中。</p>
-<pre><code>数据平面的任务主要是执行网络的控制逻辑，如解析数据包头、转发数据包到某些端口，数据平面对数据包的处理主要通过查询由控制平面所生成的转发信息表来完成。传统网络数据平面中数据包的处理流程，数据包从入端口进入后主要经过拆封与解析转发策略匹配和转发调度等处理阶段然后被转发到相应的输出端口。传统网络数据平面中数据转发的特点：1.协议相关，只能处理某几种特定的协议的数据包（比如某一设备的数据平面只能对某几种特定的特殊协议的数据包进行解析）2.网络设备的功能模块在生产时就已经固定，只支持有限的用户配置不支持编程的自定义（比如二层表只支持MAC地址学习和查找处理，三层表只支持IP地址的学习与查找处理）
-针对上述数据平面存在的不足提出了一种理想的SDN数据平面架构：
-理想的SDN数据平面与传统数据平面是一致的。主要变换在于第一在该SDN数据平面中包处理流程中的所有模块包括解析、转发和调度都是可编程与协议无关的；第二传统网络设备中的二层或三层转发表被抽象成流表。如下图：
-</code></pre><p><img src=".\20 架构.png" alt="20 架构.png"></p>
-<pre><code>上述这种理想的架构设计目的是为网络用户提供一种可以通过软件编程任意定义网络功能的方式。
-McKeown团队设计了一个可编程通用转发抽象模型（OpenFlow交换机模型），具体如下：
-</code></pre><p><img src=".\21 open.png" alt="21 open.png"></p>
-<pre><code>在该转发模型中OpenFlow交换机将传统网络数据平面中的各种查找表抽象成一种通用的流表结构，同时将数据转发处理抽象为通用的匹配-动作过程，每个流表可以实现用户定义的网络处理功能从而实现可编程的数据转发处理。
-
-OpenFlow交换机转发模型是现有通用可编程数据平面的代表。目前主流厂商的SDN物理交换机和主流的虚拟交换机（Open vSwitch）都实现了OpenFlow的支持。但是OpenFlow交换机模型并未实现协议无关的转发页也不支持对数据包解析进行编程，因此还无法达到理想的通用可编程转发模型的要求。
-为进一步实现通用可编程的数据平面，学术界做了大量的研究工作其中最具代表性的设计思路是Nick教授提出的可编程协议无关交换机架构（PISA架构）
-在PISA架构中，首先在数据包到达后由可编程解析器解析在通过入口侧一系列的匹配-动作阶段，然后经由队列系统交换再由出口匹配-动作阶段再次处理最后重新组装发送到输出端口。
-</code></pre><p><img src=".\22架构PISA.png" alt="22架构PISA.png"></p>
-<pre><code>与OpenFlow交换机架构相比，该架构有两个主要的不同，第一，设计了可编程解析器，实现了协议无关的数据包协议解析处理，改进了OpenFlow交换机在支持新网络协议方面的不足；第二，在入口和出口分别设计了匹配-动作逻辑，而且匹配-动作逻辑是通过支持通用数据包处理指令集的计算逻辑单元来实现的。解析器和匹配-动作单元只有在被编程后才能做具体的数据包处理工作，PISA芯片在没有配置前不会实现任何的数据平面协议，所以说PISA是协议无关的架构。
-</code></pre><p>#####数据平面的OpenFlow交换机架构</p>
-<p><img src=".\14openflow架构.png" alt="14openflow架构.png"></p>
-<p>在该架构中主要有三个部分，分别是流表、安全通道、OpenFlow协议。<br>流表（Flow Table）：指示交换机如何进行流的处理，每个动作关联一个流表项。<br>安全通道（Sccure Channel）：负责控制器与交换机之间的联系，OpenFlow交换机通过安全通道与远端的控制器连接。<br>OpenFlow协议：定义了一种南向接口标准，为控制器与交换机之间的通信提供了一种开放的标准的方式。<br>OpenFlow是ONF主推的南向接口协议也是SDN主流的南向接口协议之一。</p>
-<p>OpenFlow主要版本以及特性</p>
-<p><img src=".\16版本.png" alt="16版本.png"></p>
-<p>由于OpenFlow和各个版本不兼容，因此ONF奖1.0和1.3版本作为长期支持的稳定版本<br>OpenFlow交换机架构的变换过程：</p>
-<p><img src=".\17.png" alt="17.png"></p>
-<p>该架构是简单的单流表设计，数据包的匹配在这张流表中完成。这张流表就相当于承载了传统网络OSI模型中4到7层的大部分功能。随着越来越多样化的网络需求流表变得十分臃肿，流表规模的增加对硬件性能的要求越来越高。为解决这一问题OpenFlow1.1版本设计了多级流表+组表的交换机架构。</p>
-<p><img src=".\18 1.1-1.4.png" alt="18 1.1-1.4.png"></p>
-<p>上图是OpenFlow1.1到1.4版本一直沿用的多级流表+组表的交换机架构设计，多张流表串联起来形成了流水线，数据包的匹配在流水线的处理过程中完成。</p>
-<p><img src=".\19V1.5.png" alt="19V1.5.png"></p>
-<p>上图是Openflow V1.5的架构，在该架构中流水线的处理包括向入向匹配和出口匹配两个阶段。</p>
-<p>####OpenFlow流表<br>我们把同一时间经过同一网络中具有某种共同特征或属性的数据抽象为一个流，比如我们将访问同一目的地的地址的数据视为一个流，流一般是由网络管理员定义的可以根据不同的流执行不同的策略。在OpenFlow体系中数据都是以“流”作为单位进行处理的，<strong>所以流表就是针对特定流的策略的集合，负责数据包的查询与转发。</strong>一张流表包括了一系列的流表项（flow entries）。以OpenFlow1.0为例流表项包括了三个部分包头域、计数器和动作表。包头域由多个匹配项组成，涵盖了链路层、网络层和传输层大部分标识；计数器用于统计数据流量的相关信息，可以针对交换机中的每张流表每个数据流数据流每个设备端口以及每个转发队列进行维护；动作表指示了与交换机匹配的数据包应该执行的下一步动作。</p>
-<h5 id="流表的组成"><a href="#流表的组成" class="headerlink" title="流表的组成"></a>流表的组成</h5><p><img src=".\23流表的组成.png" alt="23流表的组成.png"></p>
-<p>包头域是一个12元组，基本涵盖了OSI模型的1-4层</p>
-<p><img src=".\24 包头域.png" alt="24 包头域.png"></p>
-<p>计数器针对交换机中的每张流表、每个数据流、每个设备端口以及每个转发队列进行维护，用于统计数据流量的相关信息。具体来说对于每张流表统计当前活动的表项数、数据包查询次数数据包匹配次数等；对于数据流统计接收到的数据包数、字节数、数据流持续时间等；对于每个设备端口统计接收到的数据包数、发送数据包数、接收数据包数、发送字节、错误发生的次数；对于每个队列统计发送的数据包、字节数、溢出错误次数等。</p>
-<p><img src=".\25计数器.png" alt="25计数器.png"></p>
-<p>动作表用于指示交换机在收到匹配的数据包后应该如何对其进行处理，每个流表项可以对应零到多个动作，如果没有定义转发动作，那么与流表项包头域匹配的数据包将被默认丢弃；统一流表项中的多个动作的执行可以具有不同的优先级，但是在数据的发送上并不保证其顺序；如果流表项中出现有OpenFlow交换机不支持的参数值，交换机将向控制器返回相应的出错信息。<br>OpenFlow交换机的端口（因为动作的转发与交换机的端口直接相关），是交换机传递数据包的网络接口，交换机通过接口与其他交换机建立逻辑连接，主要有三类接口;<br>    1.物理端口<br>    2.逻辑端口<br>    3.保留端口（指定通用的转发动作）<br>    ALL:转发给所有出端口，但不包含入端口<br>    CINTEROLLER：封装数据包并转发给控制器<br>    TABLE：对packet_out数据包执行流表操作<br>    IN_PORT：从入端口发出<br>    LOCAL：转发给本地的网络栈<br>    NORMAL：传统转发机制处理数据包<br>    FLOOD：按照最小生成树从设备出端口洪泛发出</p>
-<p>流表项的动作分为必备动作和可选动作两类</p>
-<p><img src=".\26流表动作.png" alt="26流表动作.png"></p>
-<p>数据包的匹配处理如何进行？<br>1.数据包处理流程</p>
-<p><img src=".\27数据包处理流程.png" alt="27数据包处理流程.png"></p>
-<p>首先接收到报文后，TP处理（可选动作），进行包头的解析，进入匹配阶段（在匹配阶段每个包按照优先级依次去匹配流表中的表项，最后优先级最高的匹配项即为匹配结果，如果匹配成功对应的计数器将更新并实施相应的动作，如果表项没有操作对应数据包将会被丢弃，如果没有找到匹配的表项则分装数据包通过安全通道转发给控制器。</p>
-<p>包头解析匹配流程：包头解析是为了得到数据分组的12元组。</p>
-<p><img src=".\28包头解析匹配流程.png" alt="28包头解析匹配流程.png"></p>
-<p>首先是初始化包头根据以太网类型得到Vlan或三层IP的信息，再根据IP分组头中的协议类型确定是TCP协议还是UDP协议或者是ICMP协议，最后得到四层的TCP/UDP的源目的端口号或者ICMP类型和编码。<br>以上是以V1.0版本为例，简绍了OpenFlow交换机的流表以及数据的处理流程。后续版本的一些细节变化。如图：</p>
-<p><img src=".\29变化.png" alt="29变化.png"></p>
-<p>从OpenFlow1.1版本开始原1.0版本中流表项中的分组头域改为匹配域；为增强协议的扩展性从1.3版本开始用户可以根据需要自定义匹配字段；同时1.3版本中增加了优先级、计数器和Cookie字段。优先级字段表示表项在所属表中的优先级匹配冲突时以优先级高的表项为准；另外为满足更加丰富的处理方法从OpenFlow1.1开始提出了指令集的概念。在1.3版本中的组表和计量表，组表为OpenFlow交换机提供了更高级的数据包转发特性，实现组播、负载均衡、容灾备份和聚合等功能，一个组表由多个组表项（Group Entries）组成，包括组表号、组表类型、计数器和动作桶通过计量表OpenFlow交换机可以实现简单的QoS功能（比如速率限制等），还可以与每个端口队列结合实现更复杂的QoS框架，每个计量表也由多个计量表项组成包括计量表号、计量表带和计数器。</p>
-<p>#####SDN交换机<br>SDN交换机的核心部件——交换芯片。<br>我们说SDN数据平面架构改变了传统数据流量的处理方式，因此如何设计专门满足SDN交换设备的通用交换芯片是业界需要解决的重要问题。<br>常用的交换芯片类型主要有通用的CPU、专用的集成电路芯片（Application-Specific Integrated Circuit-ASIC）、现场可编程门阵列（Field Programmable Gate Array-FPGA）和网络处理器（Network Processor-NP），各种芯片都有其各自的特点。</p>
-<p><img src=".\31芯片类型.png" alt="31芯片类型.png"></p>
-<p>提出了支持OpenFlow接口的折中方案（Table Typing Pattern-TTP）后来更名为可协商的数据平面模型（Negotiable Data-plane Model-NDM）。这种方案实质是基于现有的交换芯片在传统交换机芯片基础上增加对OpenFlow的支持。该方案被芯片厂商普遍接受，加快了交换芯片在业界的落地。</p>
-<p><img src=".\32.png" alt="32.png"></p>
-<p><img src=".\33.png" alt="33.png"></p>
-<p><img src=".\34.png" alt="34.png"></p>
-<p>目前SDN的交换机主要包括两大类：SDN物理（硬件）交换机和SDN的虚拟（软件）交换机。SDN物理（硬件）交换机大多数为支持OpenFlow的混合模式交换机，也就是同时支持SDN处理模式和传统的二三层的处理模式。SDN的虚拟（软件）交换机具有成本低和配置灵活但是性能上跟硬件交换机还由很大差距，只能满足中小规模网络要求。<br>SDN的硬件交换机可以分为两类。（还由一些基于NP的SDN交换机和基于FPGA的SDN交换机等）<br>1.基于ASIC芯片的SDN品牌交换机（主要是以Cisc、NEC、Juniper、HPE、Arista等公司的产品）</p>
-<p><img src=".\35物理交换机.png" alt="35物理交换机.png"></p>
-<p>2.基于ASIC芯片的SDN白盒交换机（代表厂商BigSwitc、盛科、Pica8等）</p>
-<p><img src=".\白盒交换机.png" alt="白盒交换机.png"><br>SDN的软件交换机主要是Open vSwitch（OVS）以及Cisco的Nexus 1000V为主的一些虚拟交换机。<br>下面介绍交换机的主要参数</p>
-<p>背板带宽是机架式的交换机的一个技术参数对盒式交换机来说一般没有背版带宽的概念，背板带宽从几个Gbps到几百Gbps不等。对于线速转发的交换机背板的宽带计算方法：端口数*相应端口的速率（如果是全双工需要乘以2）。</p>
-<p><img src=".\37参数.png" alt="37参数.png"></p>
-<p><img src=".\38参数.png" alt="38参数.png"></p>
-<p><img src=".\39另外参数.png" alt="39另外参数.png"></p>
-<p>####南向接口</p>
-<p>#####南向接口协议概述<br>什么是南向接口协议？<br>南向接口协议是为了实现控制平面的控制器（或者说网络操作系统）和数据平面的交换机之间的信息交互而设计的协议，简单来说南向接口协议就是控制器与交换机的通信协议。<br>南向接口协议主要完成什么任务呢？<br>不同的南向接口协议有不同的实现目标，从已经实现的南向接口协议来看。概括一下，南向接口协议的主要设计目标有以下几类<br>1.实现数据平面与控制平面的信息交互，向上收集交换机信息（比如交换机的特性、配置信息、工作状态等），向下下发控制策略，指导数据平面的转发行为。<br>2.实现网络的配置与管理<br>3.面向流量工程而设计，如实现路径计算，包括传送链路的带宽与开销等属性、链路状态和拓扑信息等。<br>简单介绍几个以实现南向接口协议</p>
-<p><img src=".\40以实现的南向接口协议.png" alt="40以实现的南向接口协议.png"></p>
-<p>OpenFlow协议：OpenFlow是伴随着SDN一起出现的，应该说是最早标准化的南向接口协议。</p>
-<p><img src=".\41OpenFlow协议.png" alt="41OpenFlow协议.png"></p>
-<p>OF-Config协议：用于OpenFlow交换机的配置与管理，它是OpenFlow的伴侣协议，负责OpenFlow交换机的管理与配置因此OF-Config是一种管理与配置协议。</p>
-<p><img src=".\OF-Config.png" alt="OF-Config.png"></p>
-<p>NETCONF协议：最早是作为一种网管协议被提出来的，用于网络设备的配置与管理。再SDN兴起后被用来作为SDN的南向接口协议。（SDN控制器作为NETCONF的客户端，网络设备作为NETCONF的服务端）</p>
-<p><img src=".\42NETCONF.png" alt="42NETCONF.png"></p>
-<p>OVSDB协议：</p>
-<p><img src=".\43OVSDB.png" alt="43OVSDB.png"></p>
-<p>XMPP协议：最初设计是用来设计构建大规模的即时通信系统游戏平台、协作空间以及语音和视频的会议系统等。</p>
-<p><img src=".\43 XMPP.png" alt="43 XMPP.png"></p>
-<p>PCEP协议：部署在控制器中的路径计算单元（PCE）通过PCEP协议与部署再数据平面设备中的路径计算客户端（PCC）进行通信从而实现路径的计算。</p>
-<p><img src=".\44 PCEP.png" alt="44 PCEP.png"></p>
-<p>I2RS：</p>
-<p><img src=".\45I2RS.png" alt="45I2RS.png"></p>
-<p>OpFlex：面对SDN技术的加速落地思科公司推出了数据中心SDN解决方案，即应用为中心的基础设施ACI，OpFlex是ACI内部的策略控制协议。</p>
-<p>![46 OpFlex.png](.\46 OpFlex.png</p>
-<p>#####OpenFlow协议<br>OpenFlow协议为控制器与交换机之间的通信提供了一种开放标准的方式，OpenFlow交换机通过安全通道与控制器进行信息交互。通道内转发的信息主要有三种类型：<br>1.controller-to-switch消息（由控制器发起，可能会要求交换机回复对应的消息）：该消息是由控制器发起，可能会要求交换机回复对应的消息，这种消息又分为以下几类</p>
-<pre><code>（1）Features消息：在建立传输安全会话时控制器主动向交换机发送Feature_Request消息请求交换机的特性信息，交换机通过Feature_Reply消息回复所支持的功能特性。
-（2）Configuration消息：可以设置查询交换机的配置信息，交换机需应答查询请求。
-（3）Modify-State消息：修改状态消息主要用于增加、修改、删除交换机的流表项组表项及端口状态
-（4）Read-State消息：读取状态消息用于收集交换机的各种信息，包括配置信息、统计信息和功能特性。
-（5）Send-Packet消息：控制器通过Packet-out消息向交换机指定端口发送数据包，一般用于相应Packet-in消息的处理。Packet-out消息必须携带一个Buffer_id来定位缓存在交换机上的数据包
-（6）Barrier：用于告知控制器该报文之前的动作均已执行，通常用于确保动作执行顺序保持策略的一致性。
-</code></pre><p>2.asynchronous消息：asynchronous时异步的意思，这类消息的触发不是由于控制器的请求，而是交换机主动发起的，用于告知控制器新数据包的到达和交换机的状态的改变。主要有以下几类：</p>
-<pre><code>（1）Packet-in消息：如果数据包在流表中没有匹配项或者匹配的流表项中有指定端口为CONTROLLER的动作时交换机发送Packer-in消息到控制器，如果交换机有足够的缓存用于存储发往控制器的数据包则packet-in消息只需要将分组头中的控制信息发送给控制器，控制器在Packet-out消息中可以根据Buffer-id处理交换机缓存中对应的数据包，如果交换机不支持缓存或者缓存容量不足则将整个数据包封装进Packet-in消息发送给控制器。
-（2）Flow-Removed消息：交换机中的流表项由于超时或修改等原因被删除时会触发该消息。
-（3）Port-status消息：当交换机的端口状态发生变化时比如Up或者Down的时候会发送Port-status消息给控制器。
-（4）Error消息：交换机通过Error消息告知控制器发生的错误信息。
-</code></pre><p>3.symmetric消息：symmetric是对称的意思，该消息是控制器或交换机任意一方发送，无需对方的许可或请求。主要的类型有：</p>
-<pre><code>（1）Hello消息：是控制器和交换机双方通过握手消息Hello建立安全连接。
-（2）Echo消息：双方均可主动发送Echo-Request消息给对方，接收者需要回复Echo-Reply消息，该消息用于测量延迟、带宽或用于保持活动连接。
-（3）Vendor消息：为交换机提供额外的功能预留空间。
-</code></pre><p>OpenFlow消息格式：OpenFlow协议数据包由OpenFlow头部和OpenFlow消息体两部分组成。<br>1.OpenFlow头部是一个8字节的固定结构，该结构有四个字段：</p>
-<p><img src=".\47 OpenFlow头部.png" alt="47 OpenFlow头部.png"></p>
-<pre><code>（1）verson：表示OpenFlow的协议版本号
-（2）type：表示消息类型
-（3）length：表数据包的长度
-（4）xid：表示数据包的标识
-</code></pre><p>2.OpenFlow消息体：OpenFlow消息体与具体的消息类型有关，在OpenFlow中消息类型ofp_type是一个枚举类型。</p>
-<p><img src=".\49 OpenFlow消息体.png" alt="49 OpenFlow消息体.png"></p>
-<p>每个消息类型被定义成一个常数，比如OFPT_PACKETIN表示的Packet-in消息，类型对应的值是10，OFPT_PACKETOUT表示的是Packet-out消息类型，型对应的值是13.</p>
-<p><img src=".\50 消息类型.png" alt="50 消息类型.png"></p>
-<p>OpenFlow协议的主要通信流程：<br>1.首先是连接的建立：</p>
-<p><img src=".\51 连接的建立.png" alt="51 连接的建立.png"></p>
-<p><img src=".\52 连接握手.png" alt="52 连接握手.png"></p>
-<p>控制器与OpenFlow交换机建立TLS隧道后，双方发送HELLO消息进行版本的协商，如果协议版本协商成功则连接建立否则发送ERROR消息描述失败原因并终止连接；协商完成后控制器发送FEATURES_REQUEST消息获取交换机的参数，交换机回复FEATURES_REPLY消息将交换机的详细参数告知控制器包括支持的buffer数目、流表以及Actions等；控制器发送SET_CONFIG消息向交换机下发配置参数；然后通过GET_CONFIG_REQUEST消息来请求交换机上传修改后的配置信息，交换机通过GET_CONFIG_REPLY响应请求；控制器与OpenFlow交换机之间发送PACKET_OUT PACKET_IN消息，通过PACKET_OUT中内置的LLDP包进行网络拓扑的探测；通过FLOW_MOD消息向控制器下发流表操作，比如增删改等。</p>
-<p><img src=".\53 流程的实例.png" alt="53 流程的实例.png"></p>
-<p>#####OF-Config协议<br>在OpenFlow协议的规范中，交换机与控制器进行通信前需要对其功能特性以及资源进行配置才能正常工作，而这些工作如何完成的呢？实际上是由专门的配置协议指导完成的。OF-Config协议就是一种OpenFlow交换机的配置协议，它是OpenFlow的伴侣协议，OF-Config协议也有多个版本<br>OF-Fonfig协议与OpenFlow协议版本对应关系</p>
-<p><img src=".\54 OF-Fonfig协议与OpenFlow协议版本对应关系.png" alt="54 OF-Fonfig协议与OpenFlow协议版本对应关系.png"></p>
-<p>下面这张图讲解以下OpenFlow协议与OF-Config协议的主要区别。OpenFlow协议的设计动机是实现控制器与OpenFlow交换机之间的信息交互，控制器通过OpenFlow协议对OpenFlow交换机流表的转发进行指导。OF-Config协议设计的动机是实现OpenFlow交换机的远端配置，OF配置点通过OF-Config协议完成OpenFlow交换机的配置与管理工作，OF-Config协议实现中将各组件从逻辑上进行抽象，OF-Config中的各组件及关系如下图所示，一个OpenFlow交换机相当于一个物理或虚拟的网元设备可以由一个或多个OpenFlow逻辑交换机构成，逻辑交换机就相当于前面提到的数据路径Datapath，每一个OpenFlow逻辑交换机都被分配了一定的资源，比如端口、队列等。发送OF-Config消息到OpenFlow交换机的服务称为OpenFlow配置点。</p>
-<p><img src=".\55 OpenFlow与OF-Config协议的主要区别.png" alt="55 OpenFlow与OF-Config协议的主要区别.png"></p>
-<p>那么OF-Config协议实现了那些管理配置功能呢？下面以1.1版本为例，从OpenFlow交换机的配置、操作运维和管理三个方面分别简绍OF-Config协议的设计需求。</p>
-<p><img src=".\56 OF-Config的设计需求.png" alt="56 OF-Config的设计需求.png"></p>
-<p>第一方面是配置需求，包括控制器的连接设置，交换机再连接到控制之前有三个参数需要提前设置，包括控制器IP地址、控制器端口和传输协议；第二是多控制器的设置，OF-Config协议提供交换机同时连接到多个控制器的参数配置；第三是OpenFlow的逻辑交换机，OF-Config协议须支持与OpenFlow逻辑交换机相关的各种资源配置，比如端口和队列等资源的配置；第四是连接中断设置，当交换机与控制器失去连接时可以进入两种可选的模式，失败安全模式或者失败独立模式，OF-Config协议支持预先配置交换机连接中断后进入的模式；第五是加密设置，协议提供交换机与控制器安全连接的证书配置；第六是队列的设置，OF-Config协议提供队列参数的配置，包括最小速率、最大速率以及自定义速率；第七是端口设置，OpenFlow协议本身实现了部分端口参数的配置，但十分有限，而端口配置是网络配置中必不可少的一步，因而OF-Config协议提供了更全面的端口配置功能，包括4种属性配置，禁止接收、禁止转发、禁止Packet-in以及管理状态，同时可以对端口速率、双工模式、铜介质、光纤介质自动协商暂停以及非对称暂停等参数进行配置，此外在数据中心等场景的网络虚拟化中，OF-Config协议还支持逻辑端口的配置，目前版本仅支持IPinGRE、VxLAN以及NVGRE等几种类型的隧道，今后的版本可能会支持更多类型的隧道；第八是能力发现，OpenFlow协议为逻辑交换机定义了多种能力特征，比如多种action类型，OF-Config协议支持发现这些能力的特征，另外OF-Config协议提供了对Datapath ID的设置。</p>
-<p><img src=".\57 配置需求.png" alt="57 配置需求.png"></p>
-<p><img src=".\58 配置需求.png" alt="58 配置需求.png"></p>
-<p>第二方面是操作运维的需求，为满足OpenFlow交换机的实际运维需求OF-Config1.1版本的协议必须支持以下几种场景。第一就是支持OpenFlow交换机被多个OpenFlow服配置点的进行配置；第二是支持一个OpenFlow配置点管理多个OpenFlow的交换机；第三是支持一个OpenFlow逻辑交换机被多个控制器进行控制；第四是支持配置OpenFlow交换机的端口和队列；第五支持OpenFlow逻辑交换机的能力发现；第六是支持配置隧道的。</p>
-<p><img src=".\59 (1" alt="59 (1).png">.png)</p>
-<p><img src=".\60.png" alt="60.png"></p>
-<p><img src=".\61.png" alt="61.png"></p>
-<p><img src=".\62.png" alt="62.png"></p>
-<p>第三方面是管理需求，OpenFlow交换机的管理需求有很多。概括来讲主要是安全性、可靠性以及可扩展性等方面的需求，比如支持完整私有以及认证、支持交换机的与配置点两端的双向认证、支持配置请求和应答的可靠传输等。</p>
-<p><img src=".\63 .png" alt="63 .png"></p>
-<p>接下来我们讲一下，我们讲一下这个协议的数据模型，OF-Config协议的数据模型。</p>
-<p><img src=".\64  .png" alt="64  .png"></p>
-<p>OF-Config的数据模型是由XML语言定义的，数据模型由类和类的属性构成。其数据模型的顶级类图如图所示：</p>
-<p><img src=".\65.png" alt="65.png"></p>
-<p>该模型的核心类是OpenFlow交换机，通过OpenFlow服务配置点对其进行配置，该交换机包含了一系列的资源，在OF-Config1.1版本中，资源类型包括OpenFlow端口、队列、证书、流表等。未来版本中可能会加入更多类型的资源，每个OpenFlow交换机包含多个OpenFlow逻辑交换机实例，每个OpenFlow逻辑交换机可以指定一组控制器，并且使用可使用各类资源。</p>
-<p><img src=".\66.png" alt="66.png"></p>
-<p>数据模型中有多种标识符，多数以XML ID标识，这些ID都是由字符串定义的唯一标识利用XML定义的数据模型，具有很好的可读性和可扩展性，同时也方便软件的实现。以OpenFlow交换机数据模型为例。UML图描述了它的数据模型，其中ID元素是交换机的唯一标识，converse是它的版本号，分别实现了配置点多资源和逻辑交换机的配置。</p>
-<p><img src=".\67.png" alt="67.png"></p>
-<p>下图这个图是控制控制器的数据模型以及xml配置的例子，这个例子中定义了控制器的ID、角色、连接IP地址、端口号、逻辑交换机的IP端口号、协议类型、并且定义了连接状状态信息包括当前的连接状态当前使用的OpenFlow版本号，以及控制器支持的所有OpenFlow版本号等参数。</p>
-<p><img src=".\68.png" alt="68.png"></p>
-<p>OF-Config的数据内容是如何传输的呢？<br>OF-Config采用了目前比较成熟的管理配置协议，NETCONF协议来传输其内容,NETCONF由RFC 6241进行定义，关于NETCONF协议的具体内容下节简绍。</p>
-<p>#####NETCONF协议<br>NETCONF协议是SDN南向接口协议中应用非常广泛的一个协议，</p>
-<p>最早是作为网管协议被提出来的，说起网管协议，大家都知道SNMP，但是SNMP的优势在于网络设备的检测，在大规模的网管应用中有很大的不足，这是针对SNMP的不足提出了网络配置协议NETCONF，它提供了一套管理网络设备的机制通过NETCONF协议，用户可以增加、修改、删除网络设备的配置，获取网络设备的配置和状态信息。与SNMP相比NETCONF协议有那些优点呢？主要有以下四个方面的优点：<br>1.NETCONF提供保护锁定机制，防止多用户操作产生冲突。<br>2.NETCONF可以针对整个系统的配置数据可直接进行操作，且定义了过滤功能。<br>3.扩展性好：协议模型分层定义，各层之间相互独立，当协议的某一层进行扩展时能够最大限度不影响到上层协议；协议采用XML编码，使得协议在管理能力上和系统兼容性方面也具有一定的可扩展性。<br>4.利用现有的安全协议（SSH、TLS等）提供安全保证，并不与具体的安全协议绑定，在使用中NETCONF要比SNMP更灵活。</p>
-<p>除了以上的优点外，NETCONF还有几个新的特点，在该协议中区分配置数据和状态数据，分别提供不同的操作进行数据的增删该查。配置数据是指对网络设备进行配置的数据，如创建Vlan的数据。状态数据反映了设备状态的数据，如端口状态、端口的Up/Down等。<br>NETCONF协议有三个标准概念配置数据库，candidate（可选）、running和startup（可选）。<br>running数据库代表目前在设备上运行的配置，这个配置数据库一般提供持久化操作的指令。例如思科交换机可以通过copy命令将当前的running配置保存到starup配置，用于设备重启后的配置恢复。<br>NETCONF可以支持candidate，就相当于多了一个练手的闲置数据库，你可以通过&lt; edit-config &gt;操作在candidate配置数据库上进行反复配置，直到得到想要的结果。然后用&lt; commit &gt;操作将candidate的配置覆盖running配置数据库，可以通过&lt; copy-config &gt;操作将running配置覆盖startup配置数据库，在设备重新启动后能够恢复运行的配置。</p>
-<p><img src=".\69 三个标准数据库.png" alt="69 三个标准数据库.png"></p>
-<p>NETCONF协议模型采用分层的的定义具有很好的扩展性，那么给协议模型包括那些层呢？<br>NETCONF协议采用客户端/服务器结构，客户端和服务器之间通过NETCONF协议进行通信，协议在逻辑上可以分为4层，自下往上分别时安全传输层、消息层、操作层、内容层。每一层对应的实例如图所示：</p>
-<p><img src=".\70 NETCONF协议框架.png" alt="70 NETCONF协议框架.png"></p>
-<p>我们下面对每一层进行简绍：<br>安全传输层为NETCONF的连接提供可靠的序列号发送机制，提供了认证、数据完整性和安全性保障。安全传输层是承载在SSH TLS等协议基础上的，当一个安全连接建立后，客户端与服务器会通过hello消息进行一次NETCONF消息交互。</p>
-<p>消息层采用远程过程调用协议RPC的协通讯机制，RPC是一种通过网络从远程计算机程序上请求服务而不需要了解底层网络技术的协议，NETCONF协议使用&lt; RPC &gt;、&lt; RPC reply &gt;元素来提供独立于承载协议的NETCONF请求与响应，完成对设备的配置和管理，在交换过hello消息后，NETCONF客户端向服务端发送&lt; RPC &gt;消息，对服务端的设备进行配置管理，服务端对每个&lt; RPC &gt;消息请求发送&lt; RPC-reply &gt;进行回应。</p>
-<p>NETCONF协议在核心的核心在于操作层，操作层定义了一个底层操作的集合，用于配置和获取设备信息，而设备信息一般存放在数据库中，所以定义的操作提供了对数据库信息的获取、配置、复制和删除等功能，协议提供了基本操作如下表所示：</p>
-<p><img src=".\71 基本操作.png" alt="71 基本操作.png"></p>
-<p>内容层提供了网络管理所设计的配置数据，使用YANG语言进行建模。配置数据主要涉及到我们前面讲的running、candidate、starup数据库，YANG是一种建模语言，我们这里不做展开。简单说一下它的主要特点，YANG采用层级的一个树形结构进行建模，通过YANG建立的模型可以直接映射到xml，具有可读性好、易学习以及可复用可扩展的特点。如下图：</p>
-<p><img src=".\72.png" alt="72.png"></p>
-<p>下面看一下具体的NETCONF协议操作例子，第1个是&lt; get-config &gt;的RPC请求与响应，控制器通过该RPC请求获取交换机的配置信息从请求的xml配置我们可以看出，RPC标签表示消息层的RPC请求，&lt; get-config &gt;标签代表操作层的操作，running标签说明操作的对象是running数据库。</p>
-<p><img src=".\73.png" alt="73.png"></p>
-<p>同样，从RPC响应xml我们可以看出，获取交换机的datapathid，所连接的控制器的角色、IP和端口号等信息。</p>
-<p><img src=".\74.png" alt="74.png"></p>
-<p>下面一个是&lt; edit-config &gt;的操作，该操作对目标数据库进行编辑，操作的属性能主要包括”create”、”replace”、”merge”、”delete”.</p>
-<p><img src=".\75.png" alt="75.png"></p>
-<p><img src=".\76.png" alt="76.png"></p>
-<p>在下面是一个&lt; copy-config &gt;操作，用于创建或替换整个配置数据库，如果目标存在则覆盖，否则创建一个新的库。</p>
-<p><img src=".\77.png" alt="77.png"></p>
-<p>最后一个例子是&lt; delete-config &gt;操作，用于删除数据库，我们注意一下，&lt; running &gt;配置数据库不能被删除。</p>
-<p><img src=".\78.png" alt="78.png"></p>
-<p>前面是我们介绍的NETCONF协议，NETCONF协议虽然是多个SDN控制器支持的南向接口协议之一，但是它无法指导交换机进行数据转发，所以它的定位和OF-Config、OVSDB协议类似是一种网络设备的管理与配置协议。</p>
-<p>#####SDN控制平面<br>SDN控制平面一般有一个或多个控制器组成，控制器是网络的大脑控制器，负责两大任务，第一是通过南向接口协议对底层网络交换设备进行集中管理、状态监测、转发决策以及处理和调度数据平面的流量。第二是通过北向接口向上层应用开放多个层次的可编程能力，允许网络用户根据特定的应用场景，灵活的制定各种完了过策略。</p>
-<p>目前已经实现的SDN控制器非常多，有开源的控制器，有商用的控制器，不同的控制器有不同的架构和功能，我们来看一下典型的SDN控制器的架构，如下图所示，该架构分成6个层，南向接口层、抽象逻辑层、基础网络层、内置应用层、北向接口层和配置管理层。</p>
-<p><img src=".\69.png" alt="69.png"></p>
-<p>南向接口层主要对各种南向接口协议的支持，如OpenFlow、OVSDB等标准协议，控制器通过接口层的通道实现对底层网络的管理。</p>
-<p>抽象逻辑层，主要作用是将服务抽象出来，实现各种通信协议的适配，为各模块和应用提供一致的服务。</p>
-<p>基础网络层在任何控制器中，都是必不可少的。这里的模块包括了控制器内部的实现逻辑，比如拓扑管理、链路计算等，也包括一些底层的网络实现逻辑，比如BGP、Vxlan的实现等。</p>
-<p>内置应用层提供了基础的功能包，如L2、L3层网络、Over APP、服务链APP等。</p>
-<p>北向接口层中控制器实现了Restful API接口，或者是嵌入式的API，提供给上层应用调用。</p>
-<p>配置管理层提供了控制器服务管理、集群管理和图形化界面，如ODL控制器提供了模块的启用，删除等功能。Floodlight等控制器提供了简单易用的UI界面，可以在WEB界面中调用控制器的北向API，对控制器进行配置。</p>
-<p>不同的控制器有不同的架构和功能，那么SDN控制器的关键技术是什么呢？控制器的关键技术主要包括，南向网络控制和北向业务支撑。</p>
-<p>我们现分别介绍一下。控制器的南向网络控制技术主要包括链路发现、拓扑管理、策略制定和表项下发等，其中链路发现是获得SDN全网信息的关键，是实现网络地址学习、VLAN、路由转发等网络功能的基础与传统网络链路发现由各个网元自主进行不同，SDN网络中的链路发现工作由控制器统一完成，对于OpenFlow交换机直连链路的发现SDN控制器通过链路层发现协议LLDP实现，如图所示：</p>
-<p><img src=".\79.png" alt="79.png"></p>
-<p>首先控制器通过packet-out消息，向所有相连的交换机发送LLDP数据包，该消息命令交换机将LLDP数据包发送给所有端口，当交换机收到packet-out消息，它就会把LLDP数据包通过其所有端口发送给与之相连的设备，由于邻居交换机是一台OpenFlow交换机，在该交换机中没有专门的流表项用于处理LLDP数据包，所以它将通过一个packet-in消息将数据包发送给控制器，控制器在收到packet-in消息后，会对数据包进行分析，并创建两台交换机之间的链接记录，网络中的其它交换机也都采用同样的方式向控制器发送packet-in消息，因此控制器能够创建完整的网络拓扑视图，OpenFlow交换机非直连链路的发现即两台OpenFlow交换机通过其他多台非OpenFlow交换机连接，控制器在发送packet-out消息给OpenFlow交换机的时候会同时要求交换机发出广播包通过广播的机制实现链路的发现。</p>
-<p><img src=".\80.png" alt="80.png"></p>
-<p>拓扑管理是为了随时监控和采集网络中SDN交换机的信息及时反馈网络的设备状态和链路状态，控制器需要定时发送带LLDP数据包的packet-out消息，给相连的SDN交换机并根据反馈回来的packet-in消息获知交换机的信息，以完成交换机工作状态的监测和网络拓扑视图的更新。但是当网络规模较大的时候，这种拓扑管理机制收敛速度很慢会影响网络状态的实时反馈。</p>
-<p>南向网络控制中的核心技术之一是策略制定，交换机流表生算法是影响控制器智能化水平的关键因素，控制器要针对不同网络层次的传输需求制定相应的转发策略，变成相应的流表项。SDN中策略制定与传统网络相比有很大优势。在传统网络中，在各台设备中进行相关的算法执行通常只能根据设备自身所掌握的有限的局部网络连接情况进行数据处理决策，SDN具有集中化控管的优势，控制器能够拥有全局的是网络视图，因此更容易获得优化的算法执行结果。</p>
-<p><img src=".\81.png" alt="81.png"></p>
-<p><img src=".\82.png" alt="82.png"></p>
-<p>策略计算的结果，需要通过下发表项来实现，控制器下发表项有两种交互方式，主动下发和被动下发。<br>主动下发是控制器在交换机还没收到数据包之前先给交换机下发流表，告诉交换机如何处理第1个数据包，这样做的好处是可以避免交换机启动时数据流对交换机的冲击，并且可以消除数据传输过程中流表项设置延迟的问题。</p>
-<p><img src=".\83.png" alt="83.png"></p>
-<p>另外一种是被动下发，被动下发是等到有数据流来才发送给控制器等待下发流表，这种在复杂网络中会产生流表项设置延迟的问题。</p>
-<p><img src=".\84.png" alt="84.png"></p>
-<p>控制器的另外一个关键技术是北向业务支撑，控制器的北向业务支撑，主要是通过北向接口向上层业务应用，提供灵活的网络资源抽象；与南向接口已有的OpenFlow为代表的标准协议的不同，SDN在北向接口标准方面存在争议，这主要是因为北向接口直接为业务应用服务其涉及密切联系业务应用需求所以具有多样化的特征很难统一。同时北向接口设计的合理性和网络能力的开放性，会直接影响到SDN控制器技术和产品的市场前景。这也是SDN标准难以统一的重要原因，当前业界有近20种控制器，每种控制器都会对外提供北向接口用于上层应用开发和资源编排，从技术实现上来看，目前rest API是用户比较容易接受的方式。</p>
-<p>#####开源控制器<br>目前已经实现的SDN开源控制器非常多，如果按实现的程序设计语言进行分类主要有三类。第一类是c或c++加语言系列的；第二类是Python语言系列；第三类是java语言系列的。具体如下图：</p>
-<p><img src=".\85.png" alt="85.png"></p>
-<p>下面简绍几个典型的控制器：</p>
-<p>POX控制器是基于NOX控制器的，完全采用Python语言开发，实现了简单的控制平面的功能，具有简单易上手的特点，非常适合初学者。</p>
-<p><img src=".\86.png" alt="86.png"></p>
-<p>POX由内核和组件组成，内核负责组建的注册，组件之间可以通过内核进行交互。内核的主要模块有两个，OpenFlow和of_01，控制器可以通过OpenFlow模块控制所有的交换机，of_01模块主要是运行一个线程，该线程不断与交换机进行TCP的连接到某交换机送来一个协议消息时of_01会触发消息所对应的事件并由相关的组件处理函数进行事件的处理。下面这张表是POX中主要组件和功能的介绍，其中包括了POX的核心模块、web服务器模块、拓扑模块等，定义了OpenFlow类库、消息系统、日志系统、事件系统以及报文的解封装以及处理逻辑等，此外还实现了2层3层交换机的功能。</p>
-<p><img src=".\87.png" alt="87.png"></p>
-<p>POX控制器最大特点是简单和绿色、代码结构十分简单、无需安装即可使用，初学者学习POX并不需要完全学习所有的代码，只需要阅读Forwarding目录下的简单例子，便可学会使用它的API。</p>
-<p><img src=".\88.png" alt="88.png"></p>
-<p>由于POX简单高效，所以POX应用开发的效率很高，适用于快速开发和功能验证的科研场景。那么POX控制器的缺点是什么呢？正是由于POX代码简单它缺少模块也比较多功能不够全面，由日本NTT主导开发的RYU控制器正好解决这一问题，Ryu也是基于Python语言开发的，它是一个简单易用的轻量级SDN控制器，Ryu的整体架构如图所示：</p>
-<p><img src=".\89.png" alt="89.png"></p>
-<p>控制层主要包含协议解析、事件系统、基本的网络报文库等模块，而应用层包含内涵内建应用和基于控制层提供的API编写的网络应用。Ryu通过南向接口与数据平面的设备进行通信。在南向协议方面，不仅支持从1.0~1.5版本的OpenFlow协议还支持如OF-Config、OVSDB、VRRP和NETCONF等其他南向协议。通过北向接口，完成应用层和控制层的通信Ryu提供了Rest API和RPC的接口，允许外界的进程和Ryu进行通信，用户可以在OpenStack或者其他应用程序上与Ryu通信，从而控制SDN网络。</p>
-<p><strong>Ryu</strong><br>Ryu控制器中包含了大量的库函数和组件供SDN的应用开发使用。其中库函数是Ryu针对SDN控制器需求抽取的一些共性功能，这些库函数可以在组件中被直接调用，而组件之间的关系是相互独立的。Ryu提供的库函数和组件如图所示，Netconf、OF-conf、sFlow等函数主要实现对OpenFlow交换机的控制功能。<br>在几个重要的组件中，OF-wire主要实现对OpenFlow不同协议版本的支持；Topology主要实现对拓扑图构建，以及列入状态的跟踪；OF REST为用户提供了REST API；VRRp组件用于在Open Flow交换机上添加了VRRP能力，有效的改善网络的可靠性；此外Ryu可以作为OpenStack的插件也支持与开源入侵检测系统Snort协同合作，Ryu也支持使用Zookeeper来实现高可用的目标。</p>
-<p><img src=".\91.png" alt="91.png"></p>
-<p>下表是Ryu主要组件的功能简绍，Ryu提供了丰富的组件和特性代码风格优美模块直接逻辑清晰，因此Ryu得到了sdn初学者的青睐，目前已成为主流的开源控制器之一。</p>
-<p><img src=".\92.png" alt="92.png"></p>
-<p><strong>floodlight</strong></p>
-<p>另一个不得不提非常经典的控制器是Floodlight，它几乎影响了后来所有采用Java语言编写的SDN控制器。Floodlight模块可以分成Floodlight控制器、模块应用、Java API、REST API和REST应用部分。如图所示：</p>
-<p><img src=".\93.png" alt="93.png"></p>
-<p>Floodlight的控制器是Floodlight的核心模块部分，包括模块管理、线程池、WEB UI、设备管理和Open Flow的相关服务。核心部分完成了SDN控制器的基础功能并向应用层提供API使得开发者可以在此基础上开发SDN应用。模块应用部分包含了如集线器，自学交换机等模块化的基础网络应用，初学者可以通过学习这些应用掌握Floodlight的API使用方法为开发新应用做准备。此外Floodlight支持第三方软件通过REST API与之通信，共同完成复杂的网络管理，下表是Floodlight的主要组件的功能介绍。</p>
-<p><img src=".\94.png" alt="94.png"></p>
-<p>由于Floodlight的优秀性能，Floodlight被学术界和工业界广泛的采用，已经成为主流的SDN开源控制器之一。</p>
-<p>Opendaylight和ONOS也是基于java语言开发的相对于Floodlight而言，它们的架构更加复杂功能也更加强大，适合于大型项目的开发应用。</p>
-<p><img src=".\95.png" alt="95.png"></p>
-<p>#####北向接口</p>
-<p>什么是北向接口呢？</p>
-<p>北向接口是应用平面与控制平面之间的接口（NBI），通过控制器向上层业务应用开放的接口，为上层业务应用和资源管理系统提供灵活的网络资源抽象。</p>
-
-      
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
     </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-new 1" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/04/01/new 1/" class="article-date">
-      <time datetime="2019-04-01T06:37:24.350Z" itemprop="datePublished">2019-04-01</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/01/new 1/">网络信息安全攻防学习平台-基础关</a>
-    </h1>
-  
-
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>游戏地址【<a href="http://hackinglab.cn/ShowQues.php?type=bases】" target="_blank" rel="noopener">http://hackinglab.cn/ShowQues.php?type=bases】</a></p>
-<h2 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h2><p>key在哪里？<br>这类题时最简单的，一般只需在浏览器内打开开发者选项（键盘F12）即可。<br><img src="https://img-blog.csdnimg.cn/20181102105210914.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="开发者选项后的界面！"></p>
-<h2 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h2><p><img src="https://img-blog.csdnimg.cn/20181102105502672.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>此题加密方法为rot13，百度rot13在线解密即可得到key</p>
-<h2 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h2><p>我们看到此题的密文以符号结尾，判断其为base64加密后的密文，复制密文到百度在线解码（需要多解几次）后得到key<br><img src="https://img-blog.csdnimg.cn/20181102105956650.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h2><p>题中说时MD5加密，我们去百度MD5解密即可得到key<br><img src="https://img-blog.csdnimg.cn/20181102110202282.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> </p>
-<h2 id="第五题"><a href="#第五题" class="headerlink" title="第五题"></a>第五题</h2><p><em>种族歧视<br>分值: 300<br>小明同学今天访问了一个网站，竟然不允许中国人访问！太坑了，于是小明同学决心一定要进去一探究竟！</em><br><img src="https://img-blog.csdnimg.cn/20181104155141132.png" alt="在这里插入图片描述"><br>如图即可的到key：key is: <em>(TU687jksf6&amp;</em></p>
-<h2 id="第六题"><a href="#第六题" class="headerlink" title="第六题"></a>第六题</h2><p>HAHA浏览器<br>分值: 200<br>据说信息安全小组最近出了一款新的浏览器，叫HAHA浏览器，有些题目必须通过HAHA浏览器才能答对。小明同学坚决不要装HAHA浏览器，怕有后门，但是如何才能过这个需要安装HAHA浏览器才能过的题目呢？<img src="https://img-blog.csdnimg.cn/20181104164543243.png" alt="在这里插入图片描述"><br>恭喜您，成功安装HAHA浏览器！key is: meiyouHAHAliulanqi</p>
-<h2 id="第七题"><a href="#第七题" class="headerlink" title="第七题"></a>第七题</h2><p>key究竟在哪里呢？<br>分值: 200<br>上一次小明同学轻松找到了key，感觉这么简单的题目多无聊，于是有了找key的加强版，那么key这次会藏在哪里呢？<img src="https://img-blog.csdnimg.cn/20181104172457217.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第八题"><a href="#第八题" class="headerlink" title="第八题"></a>第八题</h2><p>key又找不到了<br>分值: 350<br>小明这次可真找不到key去哪里了，你能帮他找到key吗？<br><img src="https://img-blog.csdnimg.cn/20181104182548679.png" alt="在这里插入图片描述"></p>
-<h2 id="第九题"><a href="#第九题" class="headerlink" title="第九题"></a>第九题</h2><p>冒充登陆用户<br>分值: 200<br>小明来到一个网站，还是想要key，但是却怎么逗登陆不了，你能帮他登陆吗？<img src="https://img-blog.csdnimg.cn/20181104182819634.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>key is: yescookieedit7823789KJ</p>
-<h2 id="第十题"><a href="#第十题" class="headerlink" title="第十题"></a>第十题</h2><p>比较数字大小<br>分值: 100<br>只要比服务器上的数字大就可以了！<br>说明：此题的html代码中，对输入框的最大输入长度进行了限制，我们只要取消这个限制即可。<br>解法：进入过关网址，打开开发人员工具中的查看器，将输入框的maxLength改为4以上的数值，再在文本框中输入值即可。<br><img src="https://img-blog.csdnimg.cn/20181104183656894.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第十一题"><a href="#第十一题" class="headerlink" title="第十一题"></a>第十一题</h2><p>说明:此题要求从本地访问。HTTP包中的X-Forwarded-For<br>字段是用来表示你IP地址和代理IP地址(如果有的话),<br>我们在请求包中加上此值改为127.0.0.1即可。<br><img src="https://img-blog.csdnimg.cn/20181106194531183.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第十二题"><a href="#第十二题" class="headerlink" title="第十二题"></a>第十二题</h2><p>说明：此题考察robots.txt作用。进入此网页的robots.txt<br>如下图:<br><img src="https://img-blog.csdnimg.cn/20181106194647162.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>此文件不让我们爬取/9fb7531fe95594603aff7e794ab2f5f里的文件，我们接下来就进入此文件夹,<br>网页显示：you find me,but I am not the login page. keep search.<br>我们就猜测key在login.php里，进入此目录下的login.php得到key<br><img src="https://img-blog.csdnimg.cn/20181106195754177.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>   <strong><em>ps:此关需要对http包有所了解，知道了http包内的内容后对解决此关有很大帮助！</em></strong></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/03/28/hello-world/" class="article-date">
-      <time datetime="2019-03-28T13:00:34.706Z" itemprop="datePublished">2019-03-28</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/28/hello-world/">Hello DROBP</a>
-    </h1>
-  
-
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-
+    <div><a style="border-right: 1px solid #fff; width: 49%" class="about site_url" href="/about">关于</a><a style="width: 50%" class="friends">友链</a></div>
 </div>
-      <footer id="footer">
-    <div class="outer">
-        <div id="footer-info">
-            <div class="footer-left">
-                &copy; 2019 DROBP
-            </div>
-            <div class="footer-right">
-                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/maochunguang" target="_blank">Blog</a> by tommy
-            </div>
+<input type="hidden" id="yelog_site_posts_number" value="4">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="back-title-list"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <form onkeydown="if(event.keyCode==13){return false;}">
+        <input class="search" type="text" placeholder="Search..." autocomplete="off" id="local-search-input">
+        <i class="cross"></i>
+        <span>
+            <label for="tagswitch">Tags:</label>
+            <input id="tagswitch" type="checkbox" style="display: none">
+            <i id="tagsWitchIcon"></i>
+        </span>
+    </form>
+    <div class="tags-list">
+    
+    <div class="clearfix"></div>
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a class href="/2019/03/28/hello-world/" data-tag data-author>
+            <span class="post-title" title="Hello DROBP">Hello DROBP</span>
+            <span class="post-date" title="2019-03-28 21:00:34">2019/03/28</span>
+        </a>
+        
+        <a class href="/2019/06/26/ARP/" data-tag data-author>
+            <span class="post-title" title></span>
+            <span class="post-date" title="2019-06-26 10:35:27">2019/06/26</span>
+        </a>
+        
+        <a class href="/2019/04/01/new 1/" data-tag data-author>
+            <span class="post-title" title="网络信息安全攻防学习平台-基础关">网络信息安全攻防学习平台-基础关</span>
+            <span class="post-date" title="2019-04-01 14:37:24">2019/04/01</span>
+        </a>
+        
+        <a class href="/2019/05/04/SDN/" data-tag data-author>
+            <span class="post-title" title></span>
+            <span class="post-date" title="2019-05-04 21:50:18">2019/05/04</span>
+        </a>
+        
+    </nav>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
         </div>
-        
-            <div class="visit">
-                
-                    <span id="busuanzi_container_site_pv" style="display:none">
-                        <span id="site-visit">极客到访数: 
-                            <span id="busuanzi_value_site_uv"></span>
-                        </span>
-                    </span>
-                
-                
-                    <span>, </span>
-                
-                
-                    <span id="busuanzi_container_page_pv" style="display:none">
-                        <span id="page-visit">本页阅读量: 
-                            <span id="busuanzi_value_page_pv"></span>
-                        </span>
-                    </span>
-                
-            </div>
-        
     </div>
-</footer>
-
-    </div>
+</aside>
+<div class="post index">
+    <div class="pjax">
+        <article class="index">
+            <div class="toc-ref">
     
-<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
-
-<script src="/js/main.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            var backgroundnum = 1;
-            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
-            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
-            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
-        })
-    </script>
-
-
-<!-- Google Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'xxxxx', 'auto');
-ga('send', 'pageview');
-
-</script>
-<!-- End Google Analytics -->
-
-
-
-	<script>
-	var _hmt = _hmt || [];
-	(function() {
-	  var hm = document.createElement("script");
-	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
-	  var s = document.getElementsByTagName("script")[0]; 
-	  s.parentNode.insertBefore(hm, s);
-	})();
-	</script>
-
-
-
-<div class="scroll" id="scroll">
-    <a href="#"><i class="fa fa-arrow-up"></i></a>
-    <a href="#comments"><i class="fa fa-comments-o"></i></a>
-    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-Blog"><span class="toc-text">Why Blog</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#对博客的理解"><span class="toc-text">对博客的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于叶落阁"><span class="toc-text">关于叶落阁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#博客平台"><span class="toc-text">博客平台</span></a></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
 </div>
-<script>
-    $(document).ready(function() {
-        if ($("#comments").length < 1) {
-            $("#scroll > a:nth-child(2)").hide();
-        };
-    })
-</script>
+            <h1 id="Why-Blog"><a href="#Why-Blog" class="headerlink" title="Why Blog"></a>Why Blog</h1><h2 id="对博客的理解"><a href="#对博客的理解" class="headerlink" title="对博客的理解"></a>对博客的理解</h2><p>喜欢写Blog的人，会经历三个阶段。</p>
+<blockquote>
+<p>第一阶段，刚接触Blog，觉得很新鲜，试着选择一个免费空间来写。</p>
+</blockquote>
+<blockquote>
+<p>第二阶段，发现免费空间限制太多，就自己购买域名和空间，搭建独立博客。</p>
+</blockquote>
+<blockquote>
+<p>第三阶段，觉得独立博客的管理太麻烦，最好在保留控制权的前提下，让别人来管，自己只负责写文章。</p>
+</blockquote>
+<p>我们每个人的在网络上产生的数据越来越多，这些信息是我们在互联网上存在过的痕迹，值得我们认真对待。但是它们被分散分布在各个网站上。很多时候我们很难将它们聚合在一起，而且各个网站的信息排布方式也没有办法自由控制，所以我们需要一个可以由自己主宰的空间——博客。</p>
+<p>通过博客，我们可以记录自己的生活和成长的轨迹。它不像 Twitter 那样碎片化，也不像 Facebook 那样关系化，它是私人的空间。</p>
+<h2 id="关于叶落阁"><a href="#关于叶落阁" class="headerlink" title="关于叶落阁"></a>关于叶落阁</h2><p><strong>叶落阁</strong> 是阿杰（杨玉杰）的个人站。</p>
+<p>到目前为止已经写了<code class="article_number"></code>篇文章， 共<code class="site_word_count"></code>字。</p>
+<p>本站访问人数：<code class="site_uv"></code>人次 ， 访问量：<code class="site_pv"></code>次</p>
+<h2 id="博客平台"><a href="#博客平台" class="headerlink" title="博客平台"></a>博客平台</h2><p>这个博客通过 <a href="https://hexo.io/">Hexo</a> 生成，部署在 <a href="https://pages.github.com/">GitHub Pages</a>，主题 <a href="https://github.com/yelog/hexo-theme-3-hexo">3-hexo</a> 已经在github上开源</p>
+<p>主要功能：</p>
+<ul>
+<li>搜索支持文章标题、标签(#标签)、作者(@作者)</li>
+<li>pad/手机等移动端适配</li>
+<li>页面全局快捷键 <a href="http://yelog.org/2017/03/24/3-hexo-shortcuts/">3-hexo快捷键说明</a></li>
+</ul>
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
+        </article>
+        
+        <p>
+            <a href="javascript:void(0)" class="dashang" onclick="dashangToggle()">赏</a>
+        </p>
+        
+        
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">©2016-2019 Yelog</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
 
-  <script language="javascript">
-    $(function() {
-        $("a[title]").each(function() {
-            var a = $(this);
-            var title = a.attr('title');
-            if (title == undefined || title == "") return;
-            a.data('title', title).removeAttr('title').hover(
-            function() {
-                var offset = a.offset();
-                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
-                    top: offset.top - a.outerHeight() - 15,
-                    left: offset.left + a.outerWidth()/2 + 1
-                }).fadeIn(function() {
-                    var pop = $(this);
-                    setTimeout(function() {
-                        pop.remove();
-                    }, pop.text().length * 800);
-                });
-            }, function() {
-                $("#anchortitlecontainer").remove();
-            });
-        });
-    });
-</script>
+    </div>
+    <div class="full-toc">
+        <button class="full"><span class="min "></span></button>
+<button class="post-toc-menu"><span class="post-toc-menu-icons"></span></button>
+<div class="post-toc"><span class="post-toc-title">目录</span>
+    <div class="post-toc-content">
+
+    </div>
+</div>
+<a class id="rocket" href="javascript:void(0)"></a>
+    </div>
+</div>
+<div class="acParent"></div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>喜欢就点赞,疼爱就打赏</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
+    </div>
+</div>
 
 
-  </div>
 </body>
+<script src="//cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
+
+<script src="/js/script.js?v=1.0.1"></script>
+<script>
+    var img_resize = 'default';
+    /*作者、标签的自动补全*/
+    $(function () {
+        $('.search').AutoComplete({
+            'data': [],
+            'itemHeight': 20,
+            'width': 418
+        }).AutoComplete('show');
+    })
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $(".post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().split('\n').length - 1, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: #fafafa;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    .post .pjax article .article-entry>ol, .post .pjax article .article-entry>ul, .post .pjax article>ol, .post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    .post .pjax article .article-entry li>ol, .post .pjax article .article-entry li>ul,.post .pjax article li>ol, .post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .post .pjax article .article-entry>ol>li, .post .pjax article .article-entry>ul>li,.post .pjax article>ol>li, .post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    .post .pjax article .article-entry li>ol>li, .post .pjax article .article-entry li>ul>li,.post .pjax article li>ol>li, .post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: url("https://i.loli.net/2019/07/22/5d3521411f3f169375.png");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
 </html>
