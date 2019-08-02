@@ -9,10 +9,10 @@
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
 <meta property="og:title" content="404">
-<meta property="og:url" content="http://yoursite.com/404.html">
+<meta property="og:url" content="https://DROBP.github.io/404.html">
 <meta property="og:site_name" content="DROBP">
 <meta property="og:description" content="页面未找到！">
-<meta property="og:locale" content="default">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-08-02T00:32:51.150Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="404">
@@ -111,6 +111,30 @@
 <ul>
     <li><div class="all active">全部文章<small>(3)</small></div></li>
     
+        
+            
+            <li><div data-rel="计算机网络">计算机网络<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="兴趣">兴趣<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="SDN">SDN<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
 </ul>
 <div class="left-bottom">
     <div class="menus">
@@ -161,17 +185,17 @@
     
     <nav id="title-list-nav">
         
-        <a class href="/2019/06/26/ARP/" data-tag data-author>
+        <a class="计算机网络 " href="/2019/06/26/ARP/" data-tag data-author>
             <span class="post-title" title="ARP">ARP</span>
             <span class="post-date" title="2019-06-26 10:35:27">2019/06/26</span>
         </a>
         
-        <a class href="/2019/04/01/new 1/" data-tag data-author>
+        <a class="兴趣 " href="/2019/04/01/网络安全/" data-tag data-author>
             <span class="post-title" title="网络信息安全攻防学习平台-基础关">网络信息安全攻防学习平台-基础关</span>
             <span class="post-date" title="2019-04-01 14:37:24">2019/04/01</span>
         </a>
         
-        <a class href="/2019/05/04/SDN/" data-tag data-author>
+        <a class="SDN " href="/2019/05/04/SDN/" data-tag data-author>
             <span class="post-title" title="SDN">SDN</span>
             <span class="post-date" title="2019-05-04 21:50:18">2019/05/04</span>
         </a>
@@ -196,11 +220,17 @@
         
         
         
+        <span class="book">
+            
+                <a href="javascript:" data-rel="SDN">SDN</a>
+            
+        </span>
+        
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-01 21:30:28">2019-05-04 21:50</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-02 17:13:11">2019-05-04 21:50</time>
         
     </div>
     <div class="article-meta">
@@ -389,9 +419,9 @@
 <p> <img src=".\8.png" alt="8.png"><br> 在SDN网络中：</p>
 <p> <img src=".\9.png" alt="9.png"></p>
 <p> 解耦带来的问题与挑战：</p>
-<pre><code>1. 控制平面的服务能力可能成为网路性能的瓶颈，而解决的办法之一就是在控制平面上布置多个分布式的控制器。
-2. 上述提到的多控制器之间如何交互路由信息，如何保持分布式网络状态节点的一致性。
-3. 由于控制平面在远端，控制平面的响应延迟，导致数据平面的可用性问题。
+<pre><code> 1. 控制平面的服务能力可能成为网路性能的瓶颈，而解决的办法之一就是在控制平面上布置多个分布式的控制器。
+ 2. 上述提到的多控制器之间如何交互路由信息，如何保持分布式网络状态节点的一致性。
+ 3. 由于控制平面在远端，控制平面的响应延迟，导致数据平面的可用性问题。
 </code></pre><p> 总体来说控制平面与数据平面的解耦，实现了网络的逻辑集中控制。从发展的角度来看解耦后两个平面可以独立完成体系结构与技术发展的冶进。有利于网络的技术创新技术发展。</p>
 </li>
 <li><p>抽象</p>
@@ -425,12 +455,12 @@
 </code></pre><p>##2.3实验<br>能够运用mininet创建网络拓扑结构，三种方式：<br>1.可视化工具<br>2.交互式命令<br>    命令行 如：sudo mn<br>    交互式命令 如：py net.addhost(‘h3’)<br>    基本命令：</p>
 <p>3.运用python脚本构建网络拓扑结构</p>
 <p>#3<br>数据平面<br>在传统网络设备中控制平面和数据平面在物理上是紧耦合的在逻辑上相互独立，运行于独立的处理器或板卡中。</p>
-<pre><code>数据平面的任务主要是执行网络的控制逻辑，如解析数据包头、转发数据包到某些端口，数据平面对数据包的处理主要通过查询由控制平面所生成的转发信息表来完成。传统网络数据平面中数据包的处理流程，数据包从入端口进入后主要经过拆封与解析转发策略匹配和转发调度等处理阶段然后被转发到相应的输出端口。传统网络数据平面中数据转发的特点：1.协议相关，只能处理某几种特定的协议的数据包（比如某一设备的数据平面只能对某几种特定的特殊协议的数据包进行解析）2.网络设备的功能模块在生产时就已经固定，只支持有限的用户配置不支持编程的自定义（比如二层表只支持MAC地址学习和查找处理，三层表只支持IP地址的学习与查找处理）
-针对上述数据平面存在的不足提出了一种理想的SDN数据平面架构：
-理想的SDN数据平面与传统数据平面是一致的。主要变换在于第一在该SDN数据平面中包处理流程中的所有模块包括解析、转发和调度都是可编程与协议无关的；第二传统网络设备中的二层或三层转发表被抽象成流表。如下图：
+<pre><code>    数据平面的任务主要是执行网络的控制逻辑，如解析数据包头、转发数据包到某些端口，数据平面对数据包的处理主要通过查询由控制平面所生成的转发信息表来完成。传统网络数据平面中数据包的处理流程，数据包从入端口进入后主要经过拆封与解析转发策略匹配和转发调度等处理阶段然后被转发到相应的输出端口。传统网络数据平面中数据转发的特点：1.协议相关，只能处理某几种特定的协议的数据包（比如某一设备的数据平面只能对某几种特定的特殊协议的数据包进行解析）2.网络设备的功能模块在生产时就已经固定，只支持有限的用户配置不支持编程的自定义（比如二层表只支持MAC地址学习和查找处理，三层表只支持IP地址的学习与查找处理）
+    针对上述数据平面存在的不足提出了一种理想的SDN数据平面架构：
+    理想的SDN数据平面与传统数据平面是一致的。主要变换在于第一在该SDN数据平面中包处理流程中的所有模块包括解析、转发和调度都是可编程与协议无关的；第二传统网络设备中的二层或三层转发表被抽象成流表。如下图：
 </code></pre><p><img src=".\20 架构.png" alt="20 架构.png"></p>
-<pre><code>上述这种理想的架构设计目的是为网络用户提供一种可以通过软件编程任意定义网络功能的方式。
-McKeown团队设计了一个可编程通用转发抽象模型（OpenFlow交换机模型），具体如下：
+<pre><code>    上述这种理想的架构设计目的是为网络用户提供一种可以通过软件编程任意定义网络功能的方式。
+    McKeown团队设计了一个可编程通用转发抽象模型（OpenFlow交换机模型），具体如下：
 </code></pre><p><img src=".\21 open.png" alt="21 open.png"></p>
 <pre><code>在该转发模型中OpenFlow交换机将传统网络数据平面中的各种查找表抽象成一种通用的流表结构，同时将数据转发处理抽象为通用的匹配-动作过程，每个流表可以实现用户定义的网络处理功能从而实现可编程的数据转发处理。
 
@@ -650,8 +680,8 @@ OpenFlow交换机转发模型是现有通用可编程数据平面的代表。目
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
     <p><span class="copy-title">发布时间:</span>2019-05-04, 21:50:18</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-01, 21:30:28</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/05/04/SDN/" title="SDN">http://yoursite.com/2019/05/04/SDN/</a>
+    <p><span class="copy-title">最后更新:</span>2019-08-02, 17:13:11</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/05/04/SDN/" title="SDN">https://DROBP.github.io/2019/05/04/SDN/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
