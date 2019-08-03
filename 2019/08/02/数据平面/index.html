@@ -109,7 +109,7 @@
 
 
 <ul>
-    <li><div class="all active">全部文章<small>(4)</small></div></li>
+    <li><div class="all active">全部文章<small>(5)</small></div></li>
     
         
             
@@ -121,7 +121,7 @@
     
         
             
-            <li><div data-rel="兴趣">兴趣<small>(1)</small></div>
+            <li><div data-rel="网络安全">网络安全<small>(1)</small></div>
                 
             </li>
             
@@ -145,7 +145,7 @@
     </div>
     <div><a style="border-right: 1px solid #fff; width: 49%" class="about site_url" href="/about">关于</a><a style="width: 50%" class="friends">友链</a></div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="4">
+<input type="hidden" id="yelog_site_posts_number" value="5">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -190,7 +190,12 @@
             <span class="post-date" title="2019-06-26 10:35:27">2019/06/26</span>
         </a>
         
-        <a class="兴趣 " href="/2019/04/01/网络安全/" data-tag data-author>
+        <a class href="/2019/08/03/南向接口/" data-tag data-author>
+            <span class="post-title" title="南向接口">南向接口</span>
+            <span class="post-date" title="2019-08-03 09:48:04">2019/08/03</span>
+        </a>
+        
+        <a class="网络安全 " href="/2019/04/01/网络安全/" data-tag data-author>
             <span class="post-title" title="网络信息安全攻防学习平台-基础关">网络信息安全攻防学习平台-基础关</span>
             <span class="post-date" title="2019-04-01 14:37:24">2019/04/01</span>
         </a>
@@ -235,7 +240,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-03 09:44:07">2019-08-02 21:40</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-03 09:52:02">2019-08-02 21:40</time>
         
     </div>
     <div class="article-meta">
@@ -290,7 +295,7 @@
 </code></pre><p><img src="/2019/08/02/数据平面/20 架构.jpg" alt="架构图"></p>
 <pre><code>    上述这种理想的架构设计目的是为网络用户提供一种可以通过软件编程任意定义网络功能的方式。
     McKeown团队设计了一个可编程通用转发抽象模型（OpenFlow交换机模型），具体如下：
-</code></pre><p><img src="/2019/08/02/数据平面/blog\source\_posts\数据平面\21 open.jpg" alt="21 open"></p>
+</code></pre><p><img src="/2019/08/02/数据平面/21 open.jpg" alt="21 open"></p>
 <pre><code>在该转发模型中OpenFlow交换机将传统网络数据平面中的各种查找表抽象成一种通用的流表结构，同时将数据转发处理抽象为通用的匹配-动作过程，每个流表可以实现用户定义的网络处理功能从而实现可编程的数据转发处理。
 
 OpenFlow交换机转发模型是现有通用可编程数据平面的代表。目前主流厂商的SDN物理交换机和主流的虚拟交换机（Open vSwitch）都实现了OpenFlow的支持。但是OpenFlow交换机模型并未实现协议无关的转发页也不支持对数据包解析进行编程，因此还无法达到理想的通用可编程转发模型的要求。
@@ -306,7 +311,7 @@ OpenFlow交换机转发模型是现有通用可编程数据平面的代表。目
 <p>由于OpenFlow和各个版本不兼容，因此ONF奖1.0和1.3版本作为长期支持的稳定版本<br>OpenFlow交换机架构的变换过程：</p>
 <p><img src="/2019/08/02/数据平面/17.jpg" alt="17"></p>
 <p>该架构是简单的单流表设计，数据包的匹配在这张流表中完成。这张流表就相当于承载了传统网络OSI模型中4到7层的大部分功能。随着越来越多样化的网络需求流表变得十分臃肿，流表规模的增加对硬件性能的要求越来越高。为解决这一问题OpenFlow1.1版本设计了多级流表+组表的交换机架构。</p>
-<p><img src="/2019/08/02/数据平面/blog\source\_posts\数据平面\18 1.1-1.4.jpg" alt="18 1.1-1.4"></p>
+<p><img src="/2019/08/02/数据平面/18 1.1-1.4.jpg" alt="18 1.1-1.4"></p>
 <p>上图是OpenFlow1.1到1.4版本一直沿用的多级流表+组表的交换机架构设计，多张流表串联起来形成了流水线，数据包的匹配在流水线的处理过程中完成。</p>
 <p><img src="/2019/08/02/数据平面/19V1.5.jpg" alt="19V1.5"></p>
 <p>上图是Openflow V1.5的架构，在该架构中流水线的处理包括向入向匹配和出口匹配两个阶段。</p>
@@ -358,7 +363,7 @@ OpenFlow交换机转发模型是现有通用可编程数据平面的代表。目
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
     <p><span class="copy-title">发布时间:</span>2019-08-02, 21:40:49</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-03, 09:44:07</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-03, 09:52:02</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/02/数据平面/" title="数据平面">https://DROBP.github.io/2019/08/02/数据平面/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
