@@ -113,6 +113,14 @@
     
         
             
+            <li><div data-rel="网络安全">网络安全<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
             <li><div data-rel="计算机网络">计算机网络<small>(1)</small></div>
                 
             </li>
@@ -121,15 +129,7 @@
     
         
             
-            <li><div data-rel="SDN">SDN<small>(2)</small></div>
-                
-            </li>
-            
-        
-    
-        
-            
-            <li><div data-rel="网络安全">网络安全<small>(1)</small></div>
+            <li><div data-rel="SDN">SDN<small>(3)</small></div>
                 
             </li>
             
@@ -185,14 +185,14 @@
     
     <nav id="title-list-nav">
         
+        <a class="网络安全 " href="/2019/04/01/网络安全/" data-tag data-author>
+            <span class="post-title" title="网络信息安全攻防学习平台-基础关">网络信息安全攻防学习平台-基础关</span>
+            <span class="post-date" title="2019-04-01 14:37:24">2019/04/01</span>
+        </a>
+        
         <a class="计算机网络 " href="/2019/06/26/ARP/" data-tag data-author>
             <span class="post-title" title="ARP">ARP</span>
             <span class="post-date" title="2019-06-26 10:35:27">2019/06/26</span>
-        </a>
-        
-        <a class href="/2019/08/03/南向接口/" data-tag data-author>
-            <span class="post-title" title="南向接口">南向接口</span>
-            <span class="post-date" title="2019-08-03 09:48:04">2019/08/03</span>
         </a>
         
         <a class="SDN " href="/2019/08/02/SDN概述/" data-tag data-author>
@@ -200,14 +200,14 @@
             <span class="post-date" title="2019-08-02 17:30:40">2019/08/02</span>
         </a>
         
-        <a class="网络安全 " href="/2019/04/01/网络安全/" data-tag data-author>
-            <span class="post-title" title="网络信息安全攻防学习平台-基础关">网络信息安全攻防学习平台-基础关</span>
-            <span class="post-date" title="2019-04-01 14:37:24">2019/04/01</span>
-        </a>
-        
         <a class="SDN " href="/2019/08/02/数据平面/" data-tag data-author>
             <span class="post-title" title="数据平面">数据平面</span>
             <span class="post-date" title="2019-08-02 21:40:49">2019/08/02</span>
+        </a>
+        
+        <a class="SDN " href="/2019/08/03/南向接口/" data-tag data-author>
+            <span class="post-title" title="南向接口">南向接口</span>
+            <span class="post-date" title="2019-08-03 09:48:04">2019/08/03</span>
         </a>
         
     </nav>
@@ -230,11 +230,17 @@
         
         
         
+        <span class="book">
+            
+                <a href="javascript:" data-rel="SDN">SDN</a>
+            
+        </span>
+        
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-03 09:48:04">2019-08-03 09:48</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-04 20:51:02">2019-08-03 09:48</time>
         
     </div>
     <div class="article-meta">
@@ -267,7 +273,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#南向接口"><span class="toc-text">南向接口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#南向接口协议概述"><span class="toc-text">南向接口协议概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenFlow协议"><span class="toc-text">OpenFlow协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OF-Config协议"><span class="toc-text">OF-Config协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NETCONF协议"><span class="toc-text">NETCONF协议</span></a></li></ol></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -282,7 +288,57 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="南向接口"><a href="#南向接口" class="headerlink" title="南向接口"></a>南向接口</h1><h2 id="南向接口协议概述"><a href="#南向接口协议概述" class="headerlink" title="南向接口协议概述"></a>南向接口协议概述</h2><p>什么是南向接口协议？<br>南向接口协议是为了实现控制平面的控制器（或者说网络操作系统）和数据平面的交换机之间的信息交互而设计的协议，简单来说南向接口协议就是控制器与交换机的通信协议。<br>南向接口协议主要完成什么任务呢？<br>不同的南向接口协议有不同的实现目标，从已经实现的南向接口协议来看。概括一下，南向接口协议的主要设计目标有以下几类：<br>    1.实现数据平面与控制平面的信息交互，向上收集交换机信息（比如交换机的特性、配置信息、工作状态等），    向下下发控制策略，指导数据平面的转发行为。<br>    2.实现网络的配置与管理<br>    3.面向流量工程而设计，如实现路径计算，包括传送链路的带宽与开销等属性、链路状态和拓扑信息等。<br>    简单介绍几个以实现南向接口协议</p>
+<p><strong>OpenFlow协议</strong>：OpenFlow是伴随着SDN一起出现的，应该说是最早标准化的南向接口协议。</p>
+<p><strong>OF-Config协议</strong>：用于OpenFlow交换机的配置与管理，它是OpenFlow的伴侣协议，负责OpenFlow交换机的管理与配置因此OF-Config是一种管理与配置协议。</p>
+<p><strong>NETCONF协议</strong>：最早是作为一种网管协议被提出来的，用于网络设备的配置与管理。再SDN兴起后被用来作为SDN的南向接口协议。（SDN控制器作为NETCONF的客户端，网络设备作为NETCONF的服务端）</p>
+<p><strong>XMPP协议</strong>：最初设计是用来设计构建大规模的即时通信系统游戏平台、协作空间以及语音和视频的会议系统等。</p>
+<p><strong>PCEP协议</strong>：部署在控制器中的路径计算单元（PCE）通过PCEP协议与部署再数据平面设备中的路径计算客户端（PCC）进行通信从而实现路径的计算。</p>
+<p><strong>OpFlex</strong>：面对SDN技术的加速落地思科公司推出了数据中心SDN解决方案，即应用为中心的基础设施ACI，OpFlex是ACI内部的策略控制协议。</p>
+<p><strong>OVSDB与I2RS</strong>协议等。</p>
+<h3 id="OpenFlow协议"><a href="#OpenFlow协议" class="headerlink" title="OpenFlow协议"></a>OpenFlow协议</h3><p>OpenFlow协议为控制器与交换机之间的通信提供了一种开放标准的方式，OpenFlow交换机通过安全通道与控制器进行信息交互。通道内转发的信息主要有三种类型：<br>1.controller-to-switch消息（由控制器发起，可能会要求交换机回复对应的消息）：该消息是由控制器发起，可能会要求交换机回复对应的消息，这种消息又分为以下几类</p>
+<p>（1）Features消息：在建立传输安全会话时控制器主动向交换机发送Feature_Request消息请求交换机的特性信    息，交换机通过Feature_Reply消息回复所支持的功能特性。<br>（2）Configuration消息：可以设置查询交换机的配置信息，交换机需应答查询请求。<br>（3）Modify-State消息：修改状态消息主要用于增加、修改、删除交换机的流表项组表项及端口状态<br>（4）Read-State消息：读取状态消息用于收集交换机的各种信息，包括配置信息、统计信息和功能特性。<br>（5）Send-Packet消息：控制器通过Packet-out消息向交换机指定端口发送数据包，一般用于相应Packet-in消息    的处理。Packet-out消息必须携带一个Buffer_id来定位缓存在交换机上的数据包<br>（6）Barrier：用于告知控制器该报文之前的动作均已执行，通常用于确保动作执行顺序保持策略的一致性。</p>
+<p>2.asynchronous消息：asynchronous时异步的意思，这类消息的触发不是由于控制器的请求，而是交换机主动发起的，用于告知控制器新数据包的到达和交换机的状态的改变。主要有以下几类：</p>
+<p>（1）Packet-in消息：如果数据包在流表中没有匹配项或者匹配的流表项中有指定端口为CONTROLLER的动作时    交换机发送Packer-in消息到控制器，如果交换机有足够的缓存用于存储发往控制器的数据包则packet-in消息只    需要将分组头中的控制信息发送给控制器，控制器在Packet-out消息中可以根据Buffer-id处理交换机缓存中对    应的数据包，如果交换机不支持缓存或者缓存容量不足则将整个数据包封装进Packet-in消息发送给控制器。<br>（2）Flow-Removed消息：交换机中的流表项由于超时或修改等原因被删除时会触发该消息。<br>（3）Port-status消息：当交换机的端口状态发生变化时比如Up或者Down的时候会发送Port-status消息给控制器。<br>（4）Error消息：交换机通过Error消息告知控制器发生的错误信息。</p>
+<ol start="3">
+<li>symmetric消息：symmetric是对称的意思，该消息是控制器或交换机任意一方发送，无需对方的许可或请求。主要的类型有：</li>
+</ol>
+<p>（1）Hello消息：是控制器和交换机双方通过握手消息Hello建立安全连接。<br>（2）Echo消息：双方均可主动发送Echo-Request消息给对方，接收者需要回复Echo-Reply消息，该消息用于测量延迟、带宽或用于保持活动连接。<br>（3）Vendor消息：为交换机提供额外的功能预留空间。</p>
+<p>OpenFlow消息格式：OpenFlow协议数据包由OpenFlow头部和OpenFlow消息体两部分组成。<br>1.OpenFlow头部是一个8字节的固定结构，该结构有四个字段：</p>
+<p>（1）verson：表示OpenFlow的协议版本号<br>（2）type：表示消息类型<br>（3）length：表数据包的长度<br>（4）xid：表示数据包的标识</p>
+<p>2.OpenFlow消息体：OpenFlow消息体与具体的消息类型有关，在OpenFlow中消息类型ofp_type是一个枚举类型。</p>
+<p>每个消息类型被定义成一个常数，比如OFPT_PACKETIN表示的Packet-in消息，类型对应的值是10，OFPT_PACKETOUT表示的是Packet-out消息类型，型对应的值是13.</p>
+<p>OpenFlow协议的主要通信流程：<br>1.首先是连接的建立：</p>
+<p><img src="/2019/08/03/南向接口/52 连接握手.png" alt="52 连接握手"></p>
+<p>控制器与OpenFlow交换机建立TLS隧道后，双方发送HELLO消息进行版本的协商，如果协议版本协商成功则连接建立否则发送ERROR消息描述失败原因并终止连接；协商完成后控制器发送FEATURES_REQUEST消息获取交换机的参数，交换机回复FEATURES_REPLY消息将交换机的详细参数告知控制器包括支持的buffer数目、流表以及Actions等；控制器发送SET_CONFIG消息向交换机下发配置参数；然后通过GET_CONFIG_REQUEST消息来请求交换机上传修改后的配置信息，交换机通过GET_CONFIG_REPLY响应请求；控制器与OpenFlow交换机之间发送PACKET_OUT PACKET_IN消息，通过PACKET_OUT中内置的LLDP包进行网络拓扑的探测；通过FLOW_MOD消息向控制器下发流表操作，比如增删改等。</p>
+<p><img src="/2019/08/03/南向接口/53 流程的实例.png" alt="53 流程的实例"></p>
+<h3 id="OF-Config协议"><a href="#OF-Config协议" class="headerlink" title="OF-Config协议"></a>OF-Config协议</h3><p>在OpenFlow协议的规范中，交换机与控制器进行通信前需要对其功能特性以及资源进行配置才能正常工作，而这些工作如何完成的呢？实际上是由专门的配置协议指导完成的。OF-Config协议就是一种OpenFlow交换机的配置协议，它是OpenFlow的伴侣协议，OF-Config协议也有多个版本<br>OF-Fonfig协议与OpenFlow协议版本对应关系</p>
+<p><img src="/2019/08/03/南向接口/54 OF-Fonfig协议与OpenFlow协议版本对应关系.png" alt="54 OF-Fonfig协议与OpenFlow协议版本对应关系"></p>
+<p>下面讲解OpenFlow协议与OF-Config协议的主要区别。OpenFlow协议的设计动机是实现控制器与OpenFlow交换机之间的信息交互，控制器通过OpenFlow协议对OpenFlow交换机流表的转发进行指导。OF-Config协议设计的动机是实现OpenFlow交换机的远端配置，OF配置点通过OF-Config协议完成OpenFlow交换机的配置与管理工作，OF-Config协议实现中将各组件从逻辑上进行抽象，OF-Config中的各组件及关系如下图所示，一个OpenFlow交换机相当于一个物理或虚拟的网元设备可以由一个或多个OpenFlow逻辑交换机构成，逻辑交换机就相当于前面提到的数据路径Datapath，每一个OpenFlow逻辑交换机都被分配了一定的资源，比如端口、队列等。发送OF-Config消息到OpenFlow交换机的服务称为OpenFlow配置点。</p>
+<p>那么OF-Config协议实现了那些管理配置功能呢？下面以1.1版本为例，从OpenFlow交换机的配置、操作运维和管理三个方面分别简绍OF-Config协议的设计需求。</p>
+<p>第一方面是配置需求，包括控制器的连接设置，交换机再连接到控制之前有三个参数需要提前设置，包括控制器IP地址、控制器端口和传输协议；第二是多控制器的设置，OF-Config协议提供交换机同时连接到多个控制器的参数配置；第三是OpenFlow的逻辑交换机，OF-Config协议须支持与OpenFlow逻辑交换机相关的各种资源配置，比如端口和队列等资源的配置；第四是连接中断设置，当交换机与控制器失去连接时可以进入两种可选的模式，失败安全模式或者失败独立模式，OF-Config协议支持预先配置交换机连接中断后进入的模式；第五是加密设置，协议提供交换机与控制器安全连接的证书配置；第六是队列的设置，OF-Config协议提供队列参数的配置，包括最小速率、最大速率以及自定义速率；第七是端口设置，OpenFlow协议本身实现了部分端口参数的配置，但十分有限，而端口配置是网络配置中必不可少的一步，因而OF-Config协议提供了更全面的端口配置功能，包括4种属性配置，禁止接收、禁止转发、禁止Packet-in以及管理状态，同时可以对端口速率、双工模式、铜介质、光纤介质自动协商暂停以及非对称暂停等参数进行配置，此外在数据中心等场景的网络虚拟化中，OF-Config协议还支持逻辑端口的配置，目前版本仅支持IPinGRE、VxLAN以及NVGRE等几种类型的隧道，今后的版本可能会支持更多类型的隧道；第八是能力发现，OpenFlow协议为逻辑交换机定义了多种能力特征，比如多种action类型，OF-Config协议支持发现这些能力的特征，另外OF-Config协议提供了对Datapath ID的设置。</p>
+<p>第二方面是操作运维的需求，为满足OpenFlow交换机的实际运维需求OF-Config1.1版本的协议必须支持以下几种场景。第一就是支持OpenFlow交换机被多个OpenFlow服配置点的进行配置；第二是支持一个OpenFlow配置点管理多个OpenFlow的交换机；第三是支持一个OpenFlow逻辑交换机被多个控制器进行控制；第四是支持配置OpenFlow交换机的端口和队列；第五支持OpenFlow逻辑交换机的能力发现；第六是支持配置隧道的。</p>
+<p>第三方面是管理需求，OpenFlow交换机的管理需求有很多。概括来讲主要是安全性、可靠性以及可扩展性等方面的需求，比如支持完整私有以及认证、支持交换机的与配置点两端的双向认证、支持配置请求和应答的可靠传输等。</p>
+<p>接下来我们讲一下，我们讲一下这个协议的数据模型，OF-Config协议的数据模型。</p>
+<p>OF-Config的数据模型是由XML语言定义的，数据模型由类和类的属性构成。其数据模型的顶级类图如图所示：</p>
+<p><img src="/2019/08/03/南向接口/65.png" alt="65"></p>
+<p>该模型的核心类是OpenFlow交换机，通过OpenFlow服务配置点对其进行配置，该交换机包含了一系列的资源，在OF-Config1.1版本中，资源类型包括OpenFlow端口、队列、证书、流表等。未来版本中可能会加入更多类型的资源，每个OpenFlow交换机包含多个OpenFlow逻辑交换机实例，每个OpenFlow逻辑交换机可以指定一组控制器，并且使用可使用各类资源。</p>
+<p>数据模型中有多种标识符，多数以XML ID标识，这些ID都是由字符串定义的唯一标识利用XML定义的数据模型，具有很好的可读性和可扩展性，同时也方便软件的实现。以OpenFlow交换机数据模型为例。UML图描述了它的数据模型，其中ID元素是交换机的唯一标识，converse是它的版本号，分别实现了配置点多资源和逻辑交换机的配置。</p>
+<p>下图这个图是控制控制器的数据模型以及xml配置的例子，这个例子中定义了控制器的ID、角色、连接IP地址、端口号、逻辑交换机的IP端口号、协议类型、并且定义了连接状状态信息包括当前的连接状态当前使用的OpenFlow版本号，以及控制器支持的所有OpenFlow版本号等参数。</p>
+<p><img src="/2019/08/03/南向接口/68.png" alt="68"></p>
+<p>OF-Config的数据内容是如何传输的呢？<br>OF-Config采用了目前比较成熟的管理配置协议，NETCONF协议来传输其内容,NETCONF由RFC 6241进行定义，关于NETCONF协议的具体内容下节简绍。</p>
+<h3 id="NETCONF协议"><a href="#NETCONF协议" class="headerlink" title="NETCONF协议"></a>NETCONF协议</h3><p>NETCONF协议是SDN南向接口协议中应用非常广泛的一个协议，</p>
+<p>最早是作为网管协议被提出来的，说起网管协议，大家都知道SNMP，但是SNMP的优势在于网络设备的检测，在大规模的网管应用中有很大的不足，这是针对SNMP的不足提出了网络配置协议NETCONF，它提供了一套管理网络设备的机制通过NETCONF协议，用户可以增加、修改、删除网络设备的配置，获取网络设备的配置和状态信息。与SNMP相比NETCONF协议有那些优点呢？主要有以下四个方面的优点：<br>1.NETCONF提供保护锁定机制，防止多用户操作产生冲突。<br>2.NETCONF可以针对整个系统的配置数据可直接进行操作，且定义了过滤功能。<br>3.扩展性好：协议模型分层定义，各层之间相互独立，当协议的某一层进行扩展时能够最大限度不影响到上层协议；协议采用XML编码，使得协议在管理能力上和系统兼容性方面也具有一定的可扩展性。<br>4.利用现有的安全协议（SSH、TLS等）提供安全保证，并不与具体的安全协议绑定，在使用中NETCONF要比SNMP更灵活。</p>
+<p>除了以上的优点外，NETCONF还有几个新的特点，在该协议中区分配置数据和状态数据，分别提供不同的操作进行数据的增删该查。配置数据是指对网络设备进行配置的数据，如创建Vlan的数据。状态数据反映了设备状态的数据，如端口状态、端口的Up/Down等。<br>NETCONF协议有三个标准概念配置数据库，candidate（可选）、running和startup（可选）。<br>running数据库代表目前在设备上运行的配置，这个配置数据库一般提供持久化操作的指令。例如思科交换机可以通过copy命令将当前的running配置保存到starup配置，用于设备重启后的配置恢复。<br>NETCONF可以支持candidate，就相当于多了一个练手的闲置数据库，你可以通过&lt; edit-config &gt;操作在candidate配置数据库上进行反复配置，直到得到想要的结果。然后用&lt; commit &gt;操作将candidate的配置覆盖running配置数据库，可以通过&lt; copy-config &gt;操作将running配置覆盖startup配置数据库，在设备重新启动后能够恢复运行的配置。</p>
+<p>NETCONF协议模型采用分层的的定义具有很好的扩展性，那么给协议模型包括那些层呢？<br>NETCONF协议采用客户端/服务器结构，客户端和服务器之间通过NETCONF协议进行通信，协议在逻辑上可以分为4层，自下往上分别时安全传输层、消息层、操作层、内容层。<br>安全传输层为NETCONF的连接提供可靠的序列号发送机制，提供了认证、数据完整性和安全性保障。安全传输层是承载在SSH TLS等协议基础上的，当一个安全连接建立后，客户端与服务器会通过hello消息进行一次NETCONF消息交互。</p>
+<p>消息层采用远程过程调用协议RPC的协通讯机制，RPC是一种通过网络从远程计算机程序上请求服务而不需要了解底层网络技术的协议，NETCONF协议使用&lt; RPC &gt;、&lt; RPC reply &gt;元素来提供独立于承载协议的NETCONF请求与响应，完成对设备的配置和管理，在交换过hello消息后，NETCONF客户端向服务端发送&lt; RPC &gt;消息，对服务端的设备进行配置管理，服务端对每个&lt; RPC &gt;消息请求发送&lt; RPC-reply &gt;进行回应。</p>
+<p>NETCONF协议在核心的核心在于操作层，操作层定义了一个底层操作的集合，用于配置和获取设备信息，而设备信息一般存放在数据库中，所以定义的操作提供了对数据库信息的获取、配置、复制和删除等功能，协议提供了基本操作如下表所示：</p>
+<p><img src="/2019/08/03/南向接口/71 基本操作.png" alt="71 基本操作"></p>
+<p>内容层提供了网络管理所设计的配置数据，使用YANG语言进行建模。配置数据主要涉及到我们前面讲的running、candidate、starup数据库，YANG是一种建模语言，我们这里不做展开。简单说一下它的主要特点，YANG采用层级的一个树形结构进行建模，通过YANG建立的模型可以直接映射到xml，具有可读性好、易学习以及可复用可扩展的特点。</p>
+<p>下面看一下具体的NETCONF协议操作例子，第1个是&lt; get-config &gt;的RPC请求与响应，控制器通过该RPC请求获取交换机的配置信息从请求的xml配置我们可以看出，RPC标签表示消息层的RPC请求，&lt; get-config &gt;标签代表操作层的操作，running标签说明操作的对象是running数据库。</p>
+<p>同样，从RPC响应xml我们可以看出，获取交换机的datapathid，所连接的控制器的角色、IP和端口号等信息。</p>
+<p>前面是我们介绍的NETCONF协议，NETCONF协议虽然是多个SDN控制器支持的南向接口协议之一，但是它无法指导交换机进行数据转发，所以它的定位和OF-Config、OVSDB协议类似是一种网络设备的管理与配置协议。</p>
+
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
     </div>
@@ -299,7 +355,7 @@
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
     <p><span class="copy-title">发布时间:</span>2019-08-03, 09:48:04</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-03, 09:48:04</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-04, 20:51:02</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/03/南向接口/" title="南向接口">https://DROBP.github.io/2019/08/03/南向接口/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。

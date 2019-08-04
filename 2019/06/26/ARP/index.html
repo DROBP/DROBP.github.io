@@ -113,6 +113,14 @@
     
         
             
+            <li><div data-rel="网络安全">网络安全<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
             <li><div data-rel="计算机网络">计算机网络<small>(1)</small></div>
                 
             </li>
@@ -121,15 +129,7 @@
     
         
             
-            <li><div data-rel="SDN">SDN<small>(2)</small></div>
-                
-            </li>
-            
-        
-    
-        
-            
-            <li><div data-rel="网络安全">网络安全<small>(1)</small></div>
+            <li><div data-rel="SDN">SDN<small>(3)</small></div>
                 
             </li>
             
@@ -185,14 +185,14 @@
     
     <nav id="title-list-nav">
         
+        <a class="网络安全 " href="/2019/04/01/网络安全/" data-tag data-author>
+            <span class="post-title" title="网络信息安全攻防学习平台-基础关">网络信息安全攻防学习平台-基础关</span>
+            <span class="post-date" title="2019-04-01 14:37:24">2019/04/01</span>
+        </a>
+        
         <a class="计算机网络 " href="/2019/06/26/ARP/" data-tag data-author>
             <span class="post-title" title="ARP">ARP</span>
             <span class="post-date" title="2019-06-26 10:35:27">2019/06/26</span>
-        </a>
-        
-        <a class href="/2019/08/03/南向接口/" data-tag data-author>
-            <span class="post-title" title="南向接口">南向接口</span>
-            <span class="post-date" title="2019-08-03 09:48:04">2019/08/03</span>
         </a>
         
         <a class="SDN " href="/2019/08/02/SDN概述/" data-tag data-author>
@@ -200,14 +200,14 @@
             <span class="post-date" title="2019-08-02 17:30:40">2019/08/02</span>
         </a>
         
-        <a class="网络安全 " href="/2019/04/01/网络安全/" data-tag data-author>
-            <span class="post-title" title="网络信息安全攻防学习平台-基础关">网络信息安全攻防学习平台-基础关</span>
-            <span class="post-date" title="2019-04-01 14:37:24">2019/04/01</span>
-        </a>
-        
         <a class="SDN " href="/2019/08/02/数据平面/" data-tag data-author>
             <span class="post-title" title="数据平面">数据平面</span>
             <span class="post-date" title="2019-08-02 21:40:49">2019/08/02</span>
+        </a>
+        
+        <a class="SDN " href="/2019/08/03/南向接口/" data-tag data-author>
+            <span class="post-title" title="南向接口">南向接口</span>
+            <span class="post-date" title="2019-08-03 09:48:04">2019/08/03</span>
         </a>
         
     </nav>
@@ -240,7 +240,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-02 17:12:02">2019-06-26 10:35</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-04 10:41:48">2019-06-26 10:35</time>
         
     </div>
     <div class="article-meta">
@@ -292,7 +292,7 @@
 <pre><code>所谓的不完整表项就是在以太网对一个不存在的主机发出ARP请求时，在本地保留的只有ip地址没有MAC地址的表项。
 </code></pre><p>Windows实现中没有被使用的ARP表项老化时间为2分钟，正在使用的ARP表项老化时间10分钟。<br>    在表项正在使用时，超时值就应该启动，但是大多数的从伯克利系统演变而来的系统没有这样做——它们每次都是在访问表项进重设超时值。</p>
 <p>路由器ARP老化时间可以设置，时间范围一般时1-1440分钟之间，缺省为20分钟。</p>
-<pre><code>没有UNIX中的完整表项和不完整表项的概念，也不存在Windows中区分表项是否被上层协议所正在使用，只是固定一个老化时间，时间到了，表项就老化，正在使用的表项也一样被老化。
+<pre><code>UNIX中没有的完整表项和不完整表项的概念，也不存在Windows中区分表项是否被上层协议所正在使用，只是固定一个老化时间，时间到了，表项就老化，正在使用的表项也一样被老化。
 </code></pre><p>免费ARP（用于检测ip地址是否冲突）</p>
 <p>路由优先级</p>
 <p>路由协议的优先级（管理距离AD）一般为一个0到255直接的数字，数字越大则优先级越低。</p>
@@ -320,7 +320,7 @@
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
     <p><span class="copy-title">发布时间:</span>2019-06-26, 10:35:27</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-02, 17:12:02</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-04, 10:41:48</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/06/26/ARP/" title="ARP">https://DROBP.github.io/2019/06/26/ARP/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
