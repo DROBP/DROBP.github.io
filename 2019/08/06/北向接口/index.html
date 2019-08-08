@@ -109,11 +109,11 @@
 
 
 <ul>
-    <li><div class="all active">全部文章<small>(8)</small></div></li>
+    <li><div class="all active">全部文章<small>(9)</small></div></li>
     
         
             
-            <li><div data-rel="计算机网络">计算机网络<small>(1)</small></div>
+            <li><div data-rel="计算机网络">计算机网络<small>(2)</small></div>
                 
             </li>
             
@@ -145,7 +145,7 @@
     </div>
     <div><a style="border-right: 1px solid #fff; width: 49%" class="about site_url" href="/about">关于</a><a style="width: 50%" class="friends">友链</a></div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="8">
+<input type="hidden" id="yelog_site_posts_number" value="9">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -190,19 +190,14 @@
             <span class="post-date" title="2019-06-26 10:35:27">2019/06/26</span>
         </a>
         
+        <a class="计算机网络 " href="/2019/08/08/VLAN介绍/" data-tag data-author>
+            <span class="post-title" title="VLAN介绍">VLAN介绍</span>
+            <span class="post-date" title="2019-08-08 19:50:50">2019/08/08</span>
+        </a>
+        
         <a class="网络安全 " href="/2019/04/01/网络安全/" data-tag data-author>
             <span class="post-title" title="网络信息安全攻防学习平台-基础关">网络信息安全攻防学习平台-基础关</span>
             <span class="post-date" title="2019-04-01 14:37:24">2019/04/01</span>
-        </a>
-        
-        <a class="SDN " href="/2019/08/02/SDN概述/" data-tag data-author>
-            <span class="post-title" title="SDN概述">SDN概述</span>
-            <span class="post-date" title="2019-08-02 17:30:40">2019/08/02</span>
-        </a>
-        
-        <a class="SDN " href="/2019/08/02/数据平面/" data-tag data-author>
-            <span class="post-title" title="数据平面">数据平面</span>
-            <span class="post-date" title="2019-08-02 21:40:49">2019/08/02</span>
         </a>
         
         <a class="SDN " href="/2019/08/06/北向接口/" data-tag data-author>
@@ -213,6 +208,16 @@
         <a class="SDN " href="/2019/08/05/控制平面/" data-tag data-author>
             <span class="post-title" title="控制平面">控制平面</span>
             <span class="post-date" title="2019-08-05 21:53:30">2019/08/05</span>
+        </a>
+        
+        <a class="SDN " href="/2019/08/02/SDN概述/" data-tag data-author>
+            <span class="post-title" title="SDN概述">SDN概述</span>
+            <span class="post-date" title="2019-08-02 17:30:40">2019/08/02</span>
+        </a>
+        
+        <a class="SDN " href="/2019/08/02/数据平面/" data-tag data-author>
+            <span class="post-title" title="数据平面">数据平面</span>
+            <span class="post-date" title="2019-08-02 21:40:49">2019/08/02</span>
         </a>
         
         <a class="SDN " href="/2019/08/07/SDN实战/" data-tag data-author>
@@ -255,7 +260,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-07 17:46:27">2019-08-06 16:31</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-07 20:15:18">2019-08-06 16:31</time>
         
     </div>
     <div class="article-meta">
@@ -295,16 +300,15 @@
     .left-col .switch-area {
         display: none;
     }
-    .toc-level-3 i,
-    .toc-level-3 ol {
+    .toc-level-5 i,
+    .toc-level-5 ol {
         display: none !important;
     }
 </style>
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>北向接口</p>
-<h2 id="北向接口概述"><a href="#北向接口概述" class="headerlink" title="北向接口概述"></a>北向接口概述</h2><h3 id="什么是北向接口呢？"><a href="#什么是北向接口呢？" class="headerlink" title="什么是北向接口呢？"></a><strong>什么是北向接口呢？</strong></h3><p>北向接口是应用平面与控制平面之间的接口（NBI），通过控制器向上层业务应用开放的接口，为上层业务应用和资源管理系统提供灵活的网络资源抽象。</p>
+        <h2 id="北向接口概述"><a href="#北向接口概述" class="headerlink" title="北向接口概述"></a>北向接口概述</h2><h3 id="什么是北向接口呢？"><a href="#什么是北向接口呢？" class="headerlink" title="什么是北向接口呢？"></a><strong>什么是北向接口呢？</strong></h3><p>北向接口是应用平面与控制平面之间的接口（NBI），通过控制器向上层业务应用开放的接口，为上层业务应用和资源管理系统提供灵活的网络资源抽象。</p>
 <p>由于上层业务应用的多样性，SDN北向接口的设计需要充分考虑各种需求，同时北向接口的设计还需要满足合理性和开放性的要求。因此设计标准难以统一，目前尚未形成业界公认的标准。目前，很多家标准化组织致力于SDN的标准化工作，ONF是NBI-WG是最早定义SDN北向接口的工作组，在工作组的目标文件中提出SDN北向接口应该给出不同层次的抽象及接口范围；国际互联网研究工作组IRTF也创意也成立了研究工作组SDNRG，提出了SDN的层次化架构在管理和控制层面上给出了网络服务抽象层，也就是北下接口为应用、服务、控制和管理提供接入；IETF也成立了SFC工作组，目标是确立各网络功能服务整合的体系结构以及对外的接口，SFC的对控制接口是SDN北向接口的重要组成部分。</p>
 <p>尽管SDN北向接口未形成统一的标准，但从北向接口的技术发展阶段来看，主要有两种类型接口，功能型北向接口和基于意图的北向。</p>
 <p>功能型北向接口主要思想是自下而上看网络，重点在网络资源抽象及控制能力的开放，包括拓扑、二层虚拟专用网、三层虚拟专用网等；而基于意图的北向接口主要是思想是自上而下看网络，关注应用或服务的需求同具体的网络技术无关。</p>
@@ -382,7 +386,7 @@
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
     <p><span class="copy-title">发布时间:</span>2019-08-06, 16:31:35</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-07, 17:46:27</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-07, 20:15:18</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/06/北向接口/" title="北向接口">https://DROBP.github.io/2019/08/06/北向接口/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
