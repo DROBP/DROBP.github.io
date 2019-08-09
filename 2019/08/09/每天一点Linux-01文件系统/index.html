@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>网络信息安全攻防学习平台-基础关 | DROBP</title>
+  <title>每天一点Linux-01文件系统 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="网络信息安全攻防学习平台-基础关 | DROBP">
+  <meta name="description" content="每天一点Linux-01文件系统 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -255,9 +255,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-网络安全" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-每天一点Linux-01文件系统" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">网络信息安全攻防学习平台-基础关</h1>
+        <h1 class="article-title">每天一点Linux-01文件系统</h1>
     
     <div class="article-meta">
         
@@ -265,7 +265,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="网络安全">网络安全</a>
+                <a href="javascript:" data-rel="Linux">Linux</a>
             
         </span>
         
@@ -273,7 +273,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-03 09:50:27">2019-04-01 14:37</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-09 21:55:27">2019-08-09 21:01</time>
         
     </div>
     <div class="article-meta">
@@ -306,7 +306,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一题"><span class="toc-text">第一题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二题"><span class="toc-text">第二题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三题"><span class="toc-text">第三题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四题"><span class="toc-text">第四题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第五题"><span class="toc-text">第五题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第六题"><span class="toc-text">第六题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第七题"><span class="toc-text">第七题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第八题"><span class="toc-text">第八题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第九题"><span class="toc-text">第九题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十题"><span class="toc-text">第十题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十一题"><span class="toc-text">第十一题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十二题"><span class="toc-text">第十二题</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux文件系统"><span class="toc-text">Linux文件系统</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -321,21 +321,46 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>游戏地址【<a href="http://hackinglab.cn/ShowQues.php?type=bases】" target="_blank" rel="noopener">http://hackinglab.cn/ShowQues.php?type=bases】</a></p>
-<h2 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h2><p>key在哪里？<br>这类题时最简单的，一般只需在浏览器内打开开发者选项（键盘F12）即可。<br><img src="https://img-blog.csdnimg.cn/20181102105210914.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="开发者选项后的界面！"></p>
-<h2 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h2><p><img src="https://img-blog.csdnimg.cn/20181102105502672.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>此题加密方法为rot13，百度rot13在线解密即可得到key</p>
-<h2 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h2><p>我们看到此题的密文以符号结尾，判断其为base64加密后的密文，复制密文到百度在线解码（需要多解几次）后得到key<br><img src="https://img-blog.csdnimg.cn/20181102105956650.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h2><p>题中说时MD5加密，我们去百度MD5解密即可得到key<br><img src="https://img-blog.csdnimg.cn/20181102110202282.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> </p>
-<h2 id="第五题"><a href="#第五题" class="headerlink" title="第五题"></a>第五题</h2><p><em>种族歧视<br>分值: 300<br>小明同学今天访问了一个网站，竟然不允许中国人访问！太坑了，于是小明同学决心一定要进去一探究竟！</em><br><img src="https://img-blog.csdnimg.cn/20181104155141132.png" alt="在这里插入图片描述"><br>如图即可的到key：key is: <em>(TU687jksf6&amp;</em></p>
-<h2 id="第六题"><a href="#第六题" class="headerlink" title="第六题"></a>第六题</h2><p>HAHA浏览器<br>分值: 200<br>据说信息安全小组最近出了一款新的浏览器，叫HAHA浏览器，有些题目必须通过HAHA浏览器才能答对。小明同学坚决不要装HAHA浏览器，怕有后门，但是如何才能过这个需要安装HAHA浏览器才能过的题目呢？<img src="https://img-blog.csdnimg.cn/20181104164543243.png" alt="在这里插入图片描述"><br>恭喜您，成功安装HAHA浏览器！key is: meiyouHAHAliulanqi</p>
-<h2 id="第七题"><a href="#第七题" class="headerlink" title="第七题"></a>第七题</h2><p>key究竟在哪里呢？<br>分值: 200<br>上一次小明同学轻松找到了key，感觉这么简单的题目多无聊，于是有了找key的加强版，那么key这次会藏在哪里呢？<img src="https://img-blog.csdnimg.cn/20181104172457217.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第八题"><a href="#第八题" class="headerlink" title="第八题"></a>第八题</h2><p>key又找不到了<br>分值: 350<br>小明这次可真找不到key去哪里了，你能帮他找到key吗？<br><img src="https://img-blog.csdnimg.cn/20181104182548679.png" alt="在这里插入图片描述"></p>
-<h2 id="第九题"><a href="#第九题" class="headerlink" title="第九题"></a>第九题</h2><p>冒充登陆用户<br>分值: 200<br>小明来到一个网站，还是想要key，但是却怎么逗登陆不了，你能帮他登陆吗？<img src="https://img-blog.csdnimg.cn/20181104182819634.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>key is: yescookieedit7823789KJ</p>
-<h2 id="第十题"><a href="#第十题" class="headerlink" title="第十题"></a>第十题</h2><p>比较数字大小<br>分值: 100<br>只要比服务器上的数字大就可以了！<br>说明：此题的html代码中，对输入框的最大输入长度进行了限制，我们只要取消这个限制即可。<br>解法：进入过关网址，打开开发人员工具中的查看器，将输入框的maxLength改为4以上的数值，再在文本框中输入值即可。<br><img src="https://img-blog.csdnimg.cn/20181104183656894.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第十一题"><a href="#第十一题" class="headerlink" title="第十一题"></a>第十一题</h2><p>说明:此题要求从本地访问。HTTP包中的X-Forwarded-For<br>字段是用来表示你IP地址和代理IP地址(如果有的话),<br>我们在请求包中加上此值改为127.0.0.1即可。<br><img src="https://img-blog.csdnimg.cn/20181106194531183.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第十二题"><a href="#第十二题" class="headerlink" title="第十二题"></a>第十二题</h2><p>说明：此题考察robots.txt作用。进入此网页的robots.txt<br>如下图:<br><img src="https://img-blog.csdnimg.cn/20181106194647162.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>此文件不让我们爬取/9fb7531fe95594603aff7e794ab2f5f里的文件，我们接下来就进入此文件夹,<br>网页显示：you find me,but I am not the login page. keep search.<br>我们就猜测key在login.php里，进入此目录下的login.php得到key<br><img src="https://img-blog.csdnimg.cn/20181106195754177.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>   <strong><em>ps:此关需要对http包有所了解，知道了http包内的内容后对解决此关有很大帮助！</em></strong></p>
+        <h1 id="Linux文件系统"><a href="#Linux文件系统" class="headerlink" title="Linux文件系统"></a>Linux文件系统</h1><p>Windows:     以多根的方式组织文件  C:\   D:\   E:\<br>Linux:           以单根的方式组织文件  /</p>
+<p>/目录结构： FSH (Filesystem Hierarchy Standard)</p>
+<pre><code class="python">[root@yang ~]# ls /
+bin     dev   lib          media  net   root     srv  usr
+boot    etc   lib64       misc   opt   sbin     sys  var
+cgroup  home  lost+found  mnt    proc  selinux  tmp
+</code></pre>
+<p>利用BASH Shell对文件进行管理</p>
+<ul>
+<li><strong>bin 二进制文件，存放这Linux常用操作命令的执行文件</strong></li>
+<li><strong>dev 设备目录</strong></li>
+<li>home 相当于windows的c盘下的用户文件夹</li>
+<li><strong>lib64 64的库文件</strong></li>
+<li>media 媒体文件</li>
+<li>mnt 外设目录（插u盘硬盘）</li>
+<li>opt 第三方软件安装目录（安装qq等）</li>
+<li>root root用户的home</li>
+<li>usr 用户共享目录（相当于windows中c盘的Program Files,系统内置软件都装在这个文件夹中）</li>
+<li><strong>boot 内核启动目录</strong></li>
+<li>etc 配置文件目录</li>
+<li><strong>lib 库目录</strong></li>
+<li>lost+found 丢失目录</li>
+<li>sbin 超级管理员的目录</li>
+<li>tmp 临时目录（重启后会清空）</li>
+<li><strong>var 变量目录</strong></li>
+<li><strong>proc 虚拟的文件系统，反应出来的时内核，进程信息或是实时状态</strong></li>
+<li>selinux Linux安全</li>
+</ul>
+<p><strong>挂载</strong>的意义是将一个设备与一个目录关联起来，这个目录可以很深也可以很浅。一个磁盘可被挂载到多个目录下。</p>
+<p>Linux是一个单根结构，windows是一个多根结构。</p>
+<p>如何确定文件在那个磁盘中存放：</p>
+<ul>
+<li>例如新建一个文件为：/boot/dirl/file1</li>
+</ul>
+<ol>
+<li>先查看此文件的父亲（/boot/dirl/）是否为挂载点（可以通过df命令查看挂载点信息），如果是即该文件占用父亲挂载点相对应的文件系统（设备）的空间。如果不是则进行第二部。</li>
+<li>向上继续推一层即/boot是否为挂载点，是则进行对比找到文件系统（设备），如果不是继续向上推直到是为止（直到根目录 <strong>/</strong>）。</li>
+</ol>
+<p>当你向根下的文件内创建文件时提示空间不够，但是你发现根下空间充足，错误可能是因为该目录挂载设备与根目录挂载设备不同。</p>
+<p><strong>挂载会遮盖录下的原有数据，所以一般会选择空目录进行挂载。</strong></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -349,12 +374,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>网络信息安全攻防学习平台-基础关</p>
+    <p><span class="copy-title">文章标题:</span>每天一点Linux-01文件系统</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-04-01, 14:37:24</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-03, 09:50:27</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/04/01/网络安全/" title="网络信息安全攻防学习平台-基础关">https://DROBP.github.io/2019/04/01/网络安全/</a>
+    <p><span class="copy-title">发布时间:</span>2019-08-09, 21:01:36</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-09, 21:55:27</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/09/每天一点Linux-01文件系统/" title="每天一点Linux-01文件系统">https://DROBP.github.io/2019/08/09/每天一点Linux-01文件系统/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
