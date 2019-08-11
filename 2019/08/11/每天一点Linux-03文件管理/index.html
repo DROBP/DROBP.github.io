@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>北向接口 | DROBP</title>
+  <title>每天一点Linux-03文件管理 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="北向接口 | DROBP">
+  <meta name="description" content="每天一点Linux-03文件管理 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -265,25 +265,19 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-北向接口" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-每天一点Linux-03文件管理" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">北向接口</h1>
+        <h1 class="article-title">每天一点Linux-03文件管理</h1>
     
     <div class="article-meta">
         
         
-        
-        <span class="book">
-            
-                <a href="javascript:" data-rel="SDN">SDN</a>
-            
-        </span>
         
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-07 20:15:18">2019-08-06 16:31</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-11 22:22:15">2019-08-11 17:36</time>
         
     </div>
     <div class="article-meta">
@@ -316,7 +310,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#北向接口概述"><span class="toc-text">北向接口概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是北向接口呢？"><span class="toc-text">什么是北向接口呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#REST-API"><span class="toc-text">REST API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#REST-API的设计规范"><span class="toc-text">REST API的设计规范</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-文件管理之：cd-改变目录（change-directory）"><span class="toc-text">1. 文件管理之：cd 改变目录（change directory）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-文件管理之：创建-复制-移动-删除"><span class="toc-text">2.文件管理之：创建/复制/移动/删除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建"><span class="toc-text">创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制-cp"><span class="toc-text">复制 cp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移动-mv"><span class="toc-text">移动 mv</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-rm"><span class="toc-text">删除 rm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-文件管理之：查看文件内容"><span class="toc-text">3.文件管理之：查看文件内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-文件管理之：修改文件内容"><span class="toc-text">4.文件管理之：修改文件内容</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -331,67 +325,92 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="北向接口概述"><a href="#北向接口概述" class="headerlink" title="北向接口概述"></a>北向接口概述</h2><h3 id="什么是北向接口呢？"><a href="#什么是北向接口呢？" class="headerlink" title="什么是北向接口呢？"></a><strong>什么是北向接口呢？</strong></h3><p>北向接口是应用平面与控制平面之间的接口（NBI），通过控制器向上层业务应用开放的接口，为上层业务应用和资源管理系统提供灵活的网络资源抽象。</p>
-<p>由于上层业务应用的多样性，SDN北向接口的设计需要充分考虑各种需求，同时北向接口的设计还需要满足合理性和开放性的要求。因此设计标准难以统一，目前尚未形成业界公认的标准。目前，很多家标准化组织致力于SDN的标准化工作，ONF是NBI-WG是最早定义SDN北向接口的工作组，在工作组的目标文件中提出SDN北向接口应该给出不同层次的抽象及接口范围；国际互联网研究工作组IRTF也创意也成立了研究工作组SDNRG，提出了SDN的层次化架构在管理和控制层面上给出了网络服务抽象层，也就是北下接口为应用、服务、控制和管理提供接入；IETF也成立了SFC工作组，目标是确立各网络功能服务整合的体系结构以及对外的接口，SFC的对控制接口是SDN北向接口的重要组成部分。</p>
-<p>尽管SDN北向接口未形成统一的标准，但从北向接口的技术发展阶段来看，主要有两种类型接口，功能型北向接口和基于意图的北向。</p>
-<p>功能型北向接口主要思想是自下而上看网络，重点在网络资源抽象及控制能力的开放，包括拓扑、二层虚拟专用网、三层虚拟专用网等；而基于意图的北向接口主要是思想是自上而下看网络，关注应用或服务的需求同具体的网络技术无关。</p>
-<p>结合网络模型分析两者的关系，<strong>功能型北向接口对应了网络功能模型和网管模型，关注的是我能做什么？</strong>面向具体的网络功能，接口与网络技术方案相关。基于意图的北向接口对应了网络业务业务模型，关注的是我要什么？主要用于描述SDNn网络使用者的需求，主要包括连接服、资源需求、访问控制、流处理和策略逻辑等内容。</p>
-<p><strong>基于意图的北向接口，提出了一种与网络实现技术无关的北向接口，是一种新的设计思想，它自顶向下的从需求视角对网络对象和能力进行抽象并通过声明式的表达，体现使用者的意图，想做什么，而不是如何去做。</strong>那么这些意图该如何进行表达呢？下图是一个意图的业务模型描述方式是用户在某一个上下文环境中基于意图的表达，意图可以由对象和操作或者对象和结果组成，其中对象主要包括面向用户的节点、连接和流信息；操作用于描述用户期望的行为，可以用某个条件下做某个动作同时遵守某种约束的模式来描述，比如在满足带宽时延等网络条件下在匹配哪些节点不可互通等限制下执行标记优先级实现转发的操作；结果描述的是用户希望达到的状态，包括期待结果和避免结果两类，可以用期望达到某一状态或者避免达到某一状态的子句进行描述，比如预期保证带宽利用率大于80%，或者避免端到端的时延大于100毫秒等。</p>
-<p>下面对基于意图的描述举个例子，<em>比如需要描述企业多分之站点之间基于意图的需求，第一个意图是各分支站点可以访问总部站点的网络数据库但不可以访问总部站点的用户数据库。该意图可以由目标和操作组成，目标包括各分支、总部网络数据库和总部用户数据库，操作可以包括，可以访问和不可以访问两类。第二个意图是各分支站点间的带宽利用率保持大于80%，该意图可以有目标和结构组成，目标即各站点间的带宽资源，结果为期待带宽利用率大于80%。</em></p>
-<p><strong>以上我们介绍了两种类型的SDN北向接口，那么目前阶段SDN北向接口的主流实现方式有哪些呢？</strong></p>
-<p>从已经实现的SDN控制器来看，目前北向接口的实现以REST API为主实现REST API的控制器有RYU、Floodlight、Opendaylight等。其他实现技术还包括RPC、Java API、CORBA、SOAP等。</p>
-<p>REST API可以说已经成为SD北向接口的主要标准，除了在SDN领域在web开发云计算领域中的很多应用也使用了RESTful的设计思想，那么到底是什么是REST API呢？下一讲进行简绍。</p>
-<h3 id="REST-API"><a href="#REST-API" class="headerlink" title="REST API"></a>REST API</h3><p>这一讲我们介绍什么是REST API，前面我们讲到REST API是北向接口的主流设计方式。API大家都知道，是应用程序编程接口，是预先定好的函数供应用程序和开发人员访问调用的什么样的API才是REST API呢？回答这个问题之前，我们需要先了解一下什么是REST，REST的英文全称是Representational State Transfer翻译成中文是”表述化状态转移”。REST 指的是一组架构约束条件和原则，而满足REST约束条件和原则的设计规范或者架构风格我们称之为RESTful，遵循RESTful设计的API就是REST API。大家想一下REST的提出的动机是什么呢？或者说API设计为什么需要RESTful呢？ RESTful并不是专门为SDN提出的，而是针对WEB应用中HTTP使用的一些问题提出的，长期以来在外部应用中HTTP协议的使用很不规范，非常随意甚至很混乱。由此可见，URL的设计缺乏规范性，同时还有一些其他的问题，比如HTTP的动词使用不当，HTTP的返回状态码使用不规范等。RESTful就是解决WEB应用中的HTTP上的上述问题。如果RESTful设计，上面的例子可以写成以下的形式，一个HTTP动作加上一个URL的形式，显的非常规范简洁。</p>
-<p>理解了什么是REST API，我们再介绍一下在Fieding博士提出的REST设计中有几个重要的概念。</p>
-<p><strong>第一个是资源</strong>，资源是信息（信息包括所有数据或功能）的抽象，在WEB中的实例是，一个超文本引用所指向的目标，比如在普通的博客应用中，资源可能是包括了用户、博文或者评论等。而如果在SDN中，这里资源可能是链路、交换机、流表等。资源是一个非常重要的概念，REST是面向资源的设计。</p>
-<p><strong>第二个概念是资源标识符</strong>，它标识组件之间交互涉及的特定资源。在WEB中的实例就是URI，包括URL和URN两种形式。这里区分一下，URI和URL是有区别的，URI是统一资源标识符，URL是统一资源定位符，URL是URI的一个子集或者说是一种具体的实现，对于REST API来说一个资源一般对应一个唯一的URI, 简单的来说就是REST API通过URI来暴露资源，因此URI的设计合理性和规范性十分重要。</p>
-<p><strong>第3个概念是表述</strong>，一个表述来捕获一个资源当前或预期的状态，在WEB中的表述如html文档、JPEG图片等。</p>
-<p><strong>第4个概念是元数据</strong>，元数据是描述数据的数据，分为表述元数据和资源数据元数据，在web中比如媒体类型、最后修改时间、原链接等。</p>
-<p>理解了这些重要的概念，那么REST的约束条件和原则有哪些呢？REST中有5个重要的约束，包括客户服务器、无状态、缓存、统一接口，分成系统、此外还有一个可选约束按需代码。</p>
-<p>下面具体介绍一下这些约束：</p>
-<ol>
-<li><p>客户服务器约束实现解耦，通过客户端用户接口和服务器数据存储的分离提高了用户端的便捷性，也提高了服务端的可以伸缩性。由于实现了解耦能够允许客户端和服务器端分组优化，彼此之间不受影响。</p>
-</li>
-<li><p>无状态约束，要求来自客户端的每一个请求必须包含服务端处理该请求所需要的所有信息，由于每个请求都被单独考虑，因此提高了可见性和可靠性，同时由于服务端的是无状态的，能够很方便的实现水平扩展，提高了可扩展性。</p>
-</li>
-<li><p>我们重点解释一下什么是无状态，无状态是相对于有状态而言的，什么是有状态呢？我们平时访问的很多网站都是有状态的，比如某同学张三要查询成绩，他访问的流程可能是这样的首先打开教务系统，然后进入成绩查询页面，然后再输入用户名密码进行登录，最后查询到成绩，在该流程中后面的每一个状态都依赖于前面的状态，没有一个URL可以直接查询到成绩。而在RESTful的架构中，可以通过类似下面的URL查询，这种查询方式可以直接定位到服务器的资源，不依赖于服务器的会话状态，因此是无状态的。</p>
-</li>
-<li><p>缓存，要求一个请求的响应中的数据标记为是否可缓冲。如果可以客户端可以重用相同请求的响应数据，这样做的好处是减少了服务端和客户端之间的交互次数，提高了效率。</p>
-</li>
-<li><p>统一接口，强调组件之间要有一个统一的接口，也就是说客户和服务器之间的通信方法必须是统一化的，例如使用标准的HTTP动作，GET、POST、PUT、DELETE等。</p>
-</li>
-<li><p>分层系统，分成用于限制组件的行为，将架构分为若干等级的层，允许服务器和客户端之间的中间层，例如反向代理、API网关等，代替服务器对客户端的请求进行回应，而对于客户端来说都是透明的，它只关心收到的HTTP响应而并不关心与它通信的组件是谁，这提高了系统的可扩展性，不过也增加了系统的复杂性。</p>
-</li>
-</ol>
-<h3 id="REST-API的设计规范"><a href="#REST-API的设计规范" class="headerlink" title="REST API的设计规范"></a>REST API的设计规范</h3><p>这一讲我们介绍REST API的设计规范，前面我们介绍了REST API。我们知道REST API是基于HTTP协议进行设计的，一个REST API请求可以表示为HTTP动词+URI的形式，其中HTTP动词描述操作，URI标识资源。</p>
-<p>在REST API中比较常用的HTTP动词有以下6个，<strong>HEAD、GET、POST、PATCH、PUT、DELETE</strong>。HEAD用于获取某个资源的头部信息；GET用于获取资源；POST用于创建资源；PATCH用于更新资源的部分属性，比较少用；PUT用于更新资源；DELETE用于删除资源。</p>
-<p><img src="/2019/08/06/北向接口/117.png" alt="117.png"></p>
-<p>资源的原型主要有以下几种，文档，集合仓库和控制器，文档是资源的单一表现形式，可以理解为一个对象或者数据库中的一条记录；集合可以理解为资源的一个容器，我们可以像集合李添加资源，比如添加文档；仓库是客户端管理的一个资源库，客户端可以向仓库中新增资源或者删除资源，也可以从仓库中获取资源；控制器资源模型，可以执行一个方法，支持参数输入，结果返回。</p>
-<p>在RESTful设计中，URI需要遵循一定的命名规范规范。其中资源的命名规范如下，文档类型的资源用名词单数命名；集合类型的和仓库类型的资源用名词复数命名；控制器类型的资源用包含动词的词语命名。</p>
-<p>另外在URI设计中，有些字段可以是变量在实际中进行按需替换，例如下面的这个URL中花括号中的leagueId、 teamId、plyerId都是变量。</p>
-<p>URI的格式规范主要包括以下几点，关于分隔符”/“的使用，分隔符一般用于对资源层级的划分，在REST API中，”/“不应该出现在URL末尾；URL中尽量使用连字符（”-“）来代替下划线（”_”）的使用，连字符一般用于用来分割URI中出现的字符串来提高URI的可读性，比如下面的这个URI。</p>
-<p>URI中统一使用小写字母，URI中不要包含文件或脚本的扩展名，例如不要出现.php或者.json之类的后缀名。</p>
-<p>还有一个非常重要的是，增删改查的操作不要体现在URI中，比如对ID为123的用户进行相关操作，看下面哪些是正确的RESTful设计，很明显按照我们前面讲的URI设计规范，前面的4个在URI中都出现了删除操作，因此是错误的设计，后面三个是正确的，这样设计写的简介规范，可读性也很好。</p>
-<p>再讲一下URL的过滤，URL使用query字段作为查询的参数补充，以标示一个唯一的资源。query可以作为过滤条件使用，例如下面的请求中，通过设置role等于admin来获取角色，为管理员的所有用户。</p>
-<p>另外还可以作为资源列表分页标示来使用，例如下面的请求中，通过设置packageSize和 pageStarIndex，获取指定页的用户。</p>
-<p>RESTful设计中，还需要正确使用HTTP的响应状态码。REST API相关的响应状态码包括以下四类：<strong>2</strong>开头的表示操作成功、<strong>3</strong>开头的表示重定向资源位置发生了变化、<strong>4</strong>开头的表示客户端错误、<strong>5</strong>开头的表示服务端错误。</p>
-<p>下面一些常用状态码的介绍：</p>
+        <p>首先，Linux 中文件的拥有者可以把文件的访问属性设成 3 种不同的访问权限：可读（r）、可写（w）和可 执行（x）。文件又有 3 个不同的用户级别：文件拥有者（u）、所属的用户组（g）和系统里的其他用户（o） 。<br> 第一个字符显示文件的类型。 </p>
 <ul>
-<li><p>200用于一般性的成功返还，不可用于请求错误返还</p>
-</li>
-<li><p>201表示资源被创建</p>
-</li>
-<li><p>400用于客户端一般性错误返回，其他4开头的错误也可以使用400，具体返回的错误信息可以放在body中，401表示在访问一个需要认证的资源时，认证错误，404表示找不到URL对应的资源，500是服务器处理请求时发生了意外。</p>
-</li>
+<li>“-”表示普通文件。 </li>
+<li>“d”表示目录文件。 </li>
+<li>“l”表示链接文件。 </li>
+<li>“c”表示字符设备。 </li>
+<li>“b”表示块设备。 </li>
+<li>“p”表示命名管道，比如 FIFO 文件（First In First Out，先进先出）。</li>
+<li>“f”表示堆栈文件，比如 LIFO 文件（Last In First Out，后进先出）。</li>
+<li>“s”表示套接字。 </li>
+<li>第一个字符之后有三个三位字符组：  </li>
+<li>第一个三位字符组表示文件拥有者（u）对该文件的权限。  </li>
+<li>第二个三位字符组表示文件用户组（g）对该文件的权限。  </li>
+<li>第三个三位字符组表示系统其他用户（o）对该文件的权限。</li>
+<li>若该用户组对此没有权限，一般显示“-”字符。 </li>
 </ul>
-<p>RESTful设计中还包括了元数据的设计，可以在HTTP开头设计元数据字段，HTTP头部的Conten-Type表示body的数据格式，比如Content-Type设置为application/json, 表示类型是application数据格式是json；Content-Length表示body数据体的大小；Last-Modified表示资源最后被修改的时间戳，另外还有很多其他的字段。</p>
-<p>前面我们介绍了REST API的主要设计规范，REST API的应用已经非常广泛，在许多的SDN北向接口中都设计了REST API，比如Floodlight、Ryu、ODL等。</p>
-<p>下面以Floodlight为例简绍实际sSDN控制器中REST API的设计。Floodlight的北向IPA 对外提供了4个模块，分别是OpenFlow流表、防火墙、访问控制列表ACL以及多租户网络虚拟化。</p>
-<p>下面是ACL模块的API，包括查询所有的ACL规则、添加ACL规则、删除一条ACL、删除所有ACL。</p>
-<p><img src="/2019/08/06/北向接口/130ACL模块的API.png" alt="130ACL模块的API"></p>
-<p>在以上的API设计中（上图红色字体），当涉及到使用POST动词创建一条ACL或者是使用DELETE动词删除某条ACL时，还需要再Json中带上需要传输的数据，例如以curl为例，通过这条命令，就能创建一条源地址是10.0.0.1目的地址是10.0.0.2动作动作为deny的ACL规则了。</p>
-<p><img src="/2019/08/06/北向接口/131.png" alt="131.png"></p>
-<p>下一篇：SDN实战</p>
+<p>绝对路径：以/开头的都是绝对路径    /home/yang/file1</p>
+<p>相对路径：相对于当前目录开始  a.txt  ./a.txt   ../yang/a.txt    .代表当前目录    ..代表上一层目录</p>
+<p>文件管理:</p>
+<h2 id="1-文件管理之：cd-改变目录（change-directory）"><a href="#1-文件管理之：cd-改变目录（change-directory）" class="headerlink" title="1. 文件管理之：cd 改变目录（change directory）"></a>1. 文件管理之：cd 改变目录（change directory）</h2><p>cd 直接回字家</p>
+<p>cd - 返回上一次目录</p>
+<p>cd                  绝对路径    cd /home/alice     cd ~alice</p>
+<p>cd                  相对路径    cd Desktop/abc    cd ..   cd .</p>
+<p>cd 专用：<br>cd -                  返回上次目录    </p>
+<p>cd                      直接回家</p>
+<h2 id="2-文件管理之：创建-复制-移动-删除"><a href="#2-文件管理之：创建-复制-移动-删除" class="headerlink" title="2.文件管理之：创建/复制/移动/删除"></a>2.文件管理之：创建/复制/移动/删除</h2><h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><p>文件 touch     </p>
+<p>touch file1.txt                             //无则创建，有则修改时间</p>
+<p>touch file3 file4</p>
+<p>touch /home/file10.txt</p>
+<p>touch /home/file5 file6</p>
+<p>touch /home/{zhuzhu,gougou}</p>
+<p>touch file{1..20}</p>
+<p>touch file{a..c}</p>
+<p>touch yang{a,b,c}                      //{}集合，等价touch yanga yangb yangc</p>
+<p>目录 mkdir</p>
+<p>mkdir dir1</p>
+<p>mkdir /home/dir2 /home/dir3</p>
+<p>mkdir /home/{dir4,dir5}</p>
+<p>mkdir -v /home/{dir6,dir7}</p>
+<p>mkdir -v /hoem/dir8/111/22</p>
+<p>mkdir -pv /hoem/dir8/111/222    //包括其父母的创建，不会有任何消息输出</p>
+<p>mkdir -pv /home/{yang/{dir1,111},ecs-ea9d}</p>
+<h3 id="复制-cp"><a href="#复制-cp" class="headerlink" title="复制 cp"></a>复制 cp</h3><p>Usage: cp [OPTION]… [-T] SOURCE DEST</p>
+<p>cd</p>
+<p>mkdir /home/dir{1,2}</p>
+<p>cp -v install.log /home/dir1</p>
+<p>cp -v install.log /home/dir1/yang.txt</p>
+<p>cp -rv /etc /home/dir1</p>
+<p>cp -v install.log /home/dir90       //没有/home/dir90</p>
+<p>cp -v install.log /home/dir2</p>
+<p>cp -v anaconda-ks.cfg !$</p>
+<p>cp -rv /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/passwd /etc/grub.conf /home/dir2            //将多个文件拷贝到同一个目录</p>
+<p>cp -rv /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/passwd /etc/grub.conf /etc/hosts .</p>
+<p>cp -r /etc /tmp</p>
+<p>cp -rf /etc /tmp</p>
+<p>\cp -r /etc /tmp</p>
+<p>[yang@ecs-ea9d ~]# type -a cp<br>cp is aliased to `cp -i’<br>cp is /bin/cp</p>
+<h3 id="移动-mv"><a href="#移动-mv" class="headerlink" title="移动 mv"></a>移动 mv</h3><p>Usage: mv [OPTION]… [-T] SOURCE DEST</p>
+<p>mv file1 /home/dir3               将file2移动到/home/dir3</p>
+<p>mv file2 /home/dir3/file20      将file2移动到/home/dir3，并改名为file20</p>
+<p>mv file4 file5                          将file4重命名为file5，当前位置的移动就是<strong>重命名</strong></p>
+<h3 id="删除-rm"><a href="#删除-rm" class="headerlink" title="删除 rm"></a>删除 rm</h3><p>示例1：删除/home/dir1       </p>
+<p>cd /home</p>
+<p>rm -rf dir1  #对于普通用户来说有无<strong>f</strong>无差别     </p>
+<p><strong>-r 递归</strong><br><strong>-f force强制</strong><br><strong>-v 详细过程</strong></p>
+<p><strong>*不会删除隐藏文件</strong></p>
+<h2 id="3-文件管理之：查看文件内容"><a href="#3-文件管理之：查看文件内容" class="headerlink" title="3.文件管理之：查看文件内容"></a>3.文件管理之：查看文件内容</h2><p>==文本文件（普通的文本文件，不包含二进制文件等）  (cat tac less more head tail tailf grep …)<br>/bin/date<br>/etc/hosts<br>/etc/sysconfig/network<br>/etc/sysconfig/network-scripts/ifcfg-eth0<br>/etc/passwd<br>/etc/shadow<br>/etc/group<br>/etc/grub2.cfg<br>/etc/resolv.conf<br>/etc/profile                            //设置系统环境变量<br>/etc/bashrc                           //影响bash shell环境<br>/var/log/messages                   //系统主日志文件<br>/var/log/secure                     //跟安全相关的日志如ssh登录，本地登录…</p>
+<p>cat<br><strong>-n  显示行号</strong><br><strong>-A  包括控制字符（换行符/制表符）</strong><br>     linux $<br>     Windows ^M$</p>
+<p>less  more head  tail  tailf</p>
+<p>grep 针对文件内容进行过滤</p>
+<p>grep ‘yang’ /etc/passwd</p>
+<p>grep ‘^yang’ /etc/passwd</p>
+<p>grep ‘bash$’ /etc/passwd</p>
+<p>grep ‘failure’ /var/log/secure</p>
+<p><strong>总结：</strong></p>
+<ul>
+<li><strong>cat 一般查看内容较短的文件</strong></li>
+<li><strong>less 一般会分页显示，使用上下键来进行前后查看，还可用/来进行搜索，按q键退出</strong></li>
+<li><strong>more 与less都可分页显示，但是more只能向下翻不能向上翻</strong></li>
+<li><strong>head 用来查看文件的头行（head -n 10 用来查看文件的前10行）</strong></li>
+<li><strong>tail 用来查看文件的末行（tail -n 10 用来查看文件的后10行，一般用来查看更新文件，tail -f 可以动态查看文件，当文件有变化是，更新查看）</strong></li>
+</ul>
+<p>每个文件都有一个文件索引编号，当使用文件编辑器修改文件时会修改原来文件的索引编号。</p>
+<h2 id="4-文件管理之：修改文件内容"><a href="#4-文件管理之：修改文件内容" class="headerlink" title="4.文件管理之：修改文件内容"></a>4.文件管理之：修改文件内容</h2><p>文件编辑器 gedit<br>文件编辑器 vi, vim, nano </p>
+<p><strong>vi</strong></p>
+<p>三种模式：<br>1.命令模式（vim刚进入时的模式）<br>    命令模式转换输入模式<br>        a（after）在光标后输入<br>        i  在光标前输入<br>        o在下一行模式<br>2.输入模式（insert）<br>    输入模式到命令模式<br>        ESC<br>        保存：在模式为末行模式下<br>            qw保存并退出（vim）<br>3.末行模式<br>    命令模式到末行模式：<br>    shift+：</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -405,12 +424,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>北向接口</p>
+    <p><span class="copy-title">文章标题:</span>每天一点Linux-03文件管理</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-06, 16:31:35</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-07, 20:15:18</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/06/北向接口/" title="北向接口">https://DROBP.github.io/2019/08/06/北向接口/</a>
+    <p><span class="copy-title">发布时间:</span>2019-08-11, 17:36:41</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-11, 22:22:15</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/11/每天一点Linux-03文件管理/" title="每天一点Linux-03文件管理">https://DROBP.github.io/2019/08/11/每天一点Linux-03文件管理/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
