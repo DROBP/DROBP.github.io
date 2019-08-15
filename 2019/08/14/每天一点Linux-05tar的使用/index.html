@@ -203,6 +203,16 @@
             <span class="post-date" title="2019-08-08 19:50:50">2019/08/08</span>
         </a>
         
+        <a class="Linux " href="/2019/08/09/每天一点Linux-01文件系统/" data-tag data-author>
+            <span class="post-title" title="每天一点Linux-01文件系统">每天一点Linux-01文件系统</span>
+            <span class="post-date" title="2019-08-09 21:01:36">2019/08/09</span>
+        </a>
+        
+        <a class="Linux " href="/2019/08/10/每天一点Linux-02bash使用技巧/" data-tag data-author>
+            <span class="post-title" title="每天一点Linux-02bash使用技巧">每天一点Linux-02bash使用技巧</span>
+            <span class="post-date" title="2019-08-10 22:47:01">2019/08/10</span>
+        </a>
+        
         <a class="Linux " href="/2019/08/11/每天一点Linux-03文件管理/" data-tag data-author>
             <span class="post-title" title="每天一点Linux-03文件管理">每天一点Linux-03文件管理</span>
             <span class="post-date" title="2019-08-11 17:36:41">2019/08/11</span>
@@ -218,9 +228,9 @@
             <span class="post-date" title="2019-08-14 19:08:44">2019/08/14</span>
         </a>
         
-        <a class="Linux " href="/2019/08/09/每天一点Linux-01文件系统/" data-tag data-author>
-            <span class="post-title" title="每天一点Linux-01文件系统">每天一点Linux-01文件系统</span>
-            <span class="post-date" title="2019-08-09 21:01:36">2019/08/09</span>
+        <a class="Linux " href="/2019/08/12/每天一点Linux-04vi编辑器/" data-tag data-author>
+            <span class="post-title" title="每天一点Linux-04vi编辑器">每天一点Linux-04vi编辑器</span>
+            <span class="post-date" title="2019-08-12 10:05:14">2019/08/12</span>
         </a>
         
         <a class="Linux " href="/2019/08/15/每天一点Linux-07文件权限/" data-tag data-author>
@@ -231,16 +241,6 @@
         <a class="网络安全 " href="/2019/04/01/网络安全/" data-tag data-author>
             <span class="post-title" title="网络信息安全攻防学习平台-基础关">网络信息安全攻防学习平台-基础关</span>
             <span class="post-date" title="2019-04-01 14:37:24">2019/04/01</span>
-        </a>
-        
-        <a class="Linux " href="/2019/08/10/每天一点Linux-02bash使用技巧/" data-tag data-author>
-            <span class="post-title" title="每天一点Linux-02bash使用技巧">每天一点Linux-02bash使用技巧</span>
-            <span class="post-date" title="2019-08-10 22:47:01">2019/08/10</span>
-        </a>
-        
-        <a class="Linux " href="/2019/08/12/每天一点Linux-04vi编辑器/" data-tag data-author>
-            <span class="post-title" title="每天一点Linux-04vi编辑器">每天一点Linux-04vi编辑器</span>
-            <span class="post-date" title="2019-08-12 10:05:14">2019/08/12</span>
         </a>
         
         <a class="SDN " href="/2019/08/02/SDN概述/" data-tag data-author>
@@ -303,7 +303,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-14 16:22:05">2019-08-14 16:21</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-15 19:45:24">2019-08-14 16:21</time>
         
     </div>
     <div class="article-meta">
@@ -357,8 +357,10 @@
 <p>linux软件下没有rar包，在Linux处理rar包时一般将rar包在windows上减压后上传或者直接打包问zip包。</p>
 <h2 id="打包，压缩"><a href="#打包，压缩" class="headerlink" title="打包，压缩"></a>打包，压缩</h2><p>以下是将etc文件夹分别使用不同的压缩算法进行打包并为压缩包进行命名，压缩算法由上至下压缩越能力变强。（以下对压缩包的命名只是一个命名没有特殊意义）</p>
 <p>[root@ecs-ea9d  ~]# tar -czf etc1.tar.gz /etc                            //-z 调用gzip<br>[root@ecs-ea9d  ~]# tar -cjf etc2.tar.bz2 /etc                          //-j  调用bzip2<br>[root@ecs-ea9d  ~]# tar -cJf etc3.tar.xz /etc                            //-J  调用xz<br>[root@ecs-ea9d  ~]# ll -h etc*<br>-rw-r–r–. 1 root root 8.7M 3月  12 00:08 etc1.tar.gz<br>-rw-r–r–. 1 root root 7.5M 3月  12 00:08 etc2.tar.bz2<br>-rw-r–r–. 1 root root 4.8M 3月  12 00:09 etc3.tar.xz</p>
+<p><strong>cf</strong></p>
 <h2 id="解压，解包"><a href="#解压，解包" class="headerlink" title="解压，解包"></a>解压，解包</h2><p><strong>默认减压到当前目录</strong></p>
 <p>[root@ecs-ea9d  ~]# tar -tf sys.tar.xz<br>[root@ecs-ea9d  ~]# tar -xzvf etc1.tar.gz<br>[root@ecs-ea9d  ~]# tar -xvf etc1.tar.gz                                    //<strong>无需指定解压工具，tar会自动判断</strong><br>[root@ecs-ea9d  ~]# tar -xvf etc2.tar.bz2  -C /tmp                  //-C重定向到//tmp目录<br>[root@ecs-ea9d  ~]# tar xf etc3.tar.xz</p>
+<p><strong>xf</strong></p>
 <h2 id="解压zip"><a href="#解压zip" class="headerlink" title="解压zip"></a>解压zip</h2><p>[root@ecs-ea9d ~]# unzip xxx.zip</p>
 <h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><h3 id="案例1：mysql物理备份及恢复"><a href="#案例1：mysql物理备份及恢复" class="headerlink" title="案例1：mysql物理备份及恢复"></a>案例1：mysql物理备份及恢复</h3><p>[root@localhost ~]# tar -cJf /backup/mysql.tar.xz /var/lib/mysql<br>[root@localhost ~]# tar -xf /backup/mysql.tar.xz -C /</p>
 <p>从根开始打包（解压到根下即可），解包时只需要在前面加<strong>/</strong>即可</p>
@@ -387,7 +389,7 @@
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
     <p><span class="copy-title">发布时间:</span>2019-08-14, 16:21:22</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-14, 16:22:05</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-15, 19:45:24</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/14/每天一点Linux-05tar的使用/" title="每天一点Linux-05tar的使用">https://DROBP.github.io/2019/08/14/每天一点Linux-05tar的使用/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。

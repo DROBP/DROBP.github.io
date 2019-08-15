@@ -203,6 +203,16 @@
             <span class="post-date" title="2019-08-08 19:50:50">2019/08/08</span>
         </a>
         
+        <a class="Linux " href="/2019/08/09/每天一点Linux-01文件系统/" data-tag data-author>
+            <span class="post-title" title="每天一点Linux-01文件系统">每天一点Linux-01文件系统</span>
+            <span class="post-date" title="2019-08-09 21:01:36">2019/08/09</span>
+        </a>
+        
+        <a class="Linux " href="/2019/08/10/每天一点Linux-02bash使用技巧/" data-tag data-author>
+            <span class="post-title" title="每天一点Linux-02bash使用技巧">每天一点Linux-02bash使用技巧</span>
+            <span class="post-date" title="2019-08-10 22:47:01">2019/08/10</span>
+        </a>
+        
         <a class="Linux " href="/2019/08/11/每天一点Linux-03文件管理/" data-tag data-author>
             <span class="post-title" title="每天一点Linux-03文件管理">每天一点Linux-03文件管理</span>
             <span class="post-date" title="2019-08-11 17:36:41">2019/08/11</span>
@@ -218,9 +228,9 @@
             <span class="post-date" title="2019-08-14 19:08:44">2019/08/14</span>
         </a>
         
-        <a class="Linux " href="/2019/08/09/每天一点Linux-01文件系统/" data-tag data-author>
-            <span class="post-title" title="每天一点Linux-01文件系统">每天一点Linux-01文件系统</span>
-            <span class="post-date" title="2019-08-09 21:01:36">2019/08/09</span>
+        <a class="Linux " href="/2019/08/12/每天一点Linux-04vi编辑器/" data-tag data-author>
+            <span class="post-title" title="每天一点Linux-04vi编辑器">每天一点Linux-04vi编辑器</span>
+            <span class="post-date" title="2019-08-12 10:05:14">2019/08/12</span>
         </a>
         
         <a class="Linux " href="/2019/08/15/每天一点Linux-07文件权限/" data-tag data-author>
@@ -231,16 +241,6 @@
         <a class="网络安全 " href="/2019/04/01/网络安全/" data-tag data-author>
             <span class="post-title" title="网络信息安全攻防学习平台-基础关">网络信息安全攻防学习平台-基础关</span>
             <span class="post-date" title="2019-04-01 14:37:24">2019/04/01</span>
-        </a>
-        
-        <a class="Linux " href="/2019/08/10/每天一点Linux-02bash使用技巧/" data-tag data-author>
-            <span class="post-title" title="每天一点Linux-02bash使用技巧">每天一点Linux-02bash使用技巧</span>
-            <span class="post-date" title="2019-08-10 22:47:01">2019/08/10</span>
-        </a>
-        
-        <a class="Linux " href="/2019/08/12/每天一点Linux-04vi编辑器/" data-tag data-author>
-            <span class="post-title" title="每天一点Linux-04vi编辑器">每天一点Linux-04vi编辑器</span>
-            <span class="post-date" title="2019-08-12 10:05:14">2019/08/12</span>
         </a>
         
         <a class="SDN " href="/2019/08/02/SDN概述/" data-tag data-author>
@@ -303,7 +303,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-12 10:12:55">2019-08-12 10:05</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-15 19:34:45">2019-08-12 10:05</time>
         
     </div>
     <div class="article-meta">
@@ -358,17 +358,17 @@
 <p>​    G    跳到最后一行</p>
 <p>​    3G    跳到第3行</p>
 <p>​    /string    快速定位到包含string（n N来翻找）</p>
-<p>​    /^d    搜索以d开头的行</p>
+<p>​    /d    搜索以d开头的行</p>
 <p>​    /txt$    搜索以txt结尾的行</p>
-<h3 id="b-文本编辑"><a href="#b-文本编辑" class="headerlink" title="b.文本编辑"></a>b.文本编辑</h3><p>​    y    复制   yy  3yy  ygg  yG</p>
-<p>​    d    删除   dd  3dd  dgg  dG</p>
+<h3 id="b-文本编辑"><a href="#b-文本编辑" class="headerlink" title="b.文本编辑"></a>b.文本编辑</h3><p>​    y    复制   yy（复制光标当前行）  3yy（复制当前光标下面的三行）  ygg（从第一行复制到当前光标行）  yG（从当前行复制到最后一行）</p>
+<p>​    d    删除   dd（删除当前行）  3dd（删除包括当前光标内的下三行）  dgg（删除包括当前光标以上的所有行） dG（删除包括当前光标以下的所有行）</p>
 <p>​    p    粘贴</p>
 <p>​    x    删除光标所在的字符</p>
 <p>​    D    从光标处删除到行尾</p>
 <p>​    u    undo撤销</p>
 <p>​    ^r    redo重做</p>
 <p>​    r    可以用来修改一个字符</p>
-<h3 id="c-进入其他模式"><a href="#c-进入其他模式" class="headerlink" title="c.进入其他模式"></a>c.进入其他模式</h3><p>​    a    进入插入模式（）</p>
+<h3 id="c-进入其他模式"><a href="#c-进入其他模式" class="headerlink" title="c.进入其他模式"></a>c.进入其他模式</h3><p>​    a    进入插入模式</p>
 <p>​    <strong>i    进入插入模式</strong></p>
 <p>​    <strong>o    进入插入模式（other 另起一行）</strong></p>
 <p>​    <strong>A    进入插入模式（跳到行尾）</strong></p>
@@ -377,7 +377,7 @@
 <p>​    ^v    进入可视块模式</p>
 <p>​    V    进入可视行模式</p>
 <p>​    R    进入替换模式</p>
-<h2 id="2-插入模式"><a href="#2-插入模式" class="headerlink" title="2.插入模式"></a>2.插入模式</h2><p>​    可视块模式：<br>​        块插入（在指定块前加入字符）：  选择块，I   在块前插入字符， ESC<br>​        块替换：                                       选择块，r   输入替换的字符<br>​        块删除：                                       选择块，d | x<br>​        块复制：                                       选择块，y</p>
+<h2 id="2-插入模式"><a href="#2-插入模式" class="headerlink" title="2.插入模式"></a>2.插入模式</h2><p>​    可视块模式：（^v    进入可视块模式）<br>​        块插入（在指定块前加入字符）：  选择块，I   在块前插入字符， ESC<br>​        块替换：                                       选择块，r   输入替换的字符<br>​        块删除：                                       选择块，d | x<br>​        块复制：                                       选择块，y</p>
 <h2 id="3-扩展命令模式（末行模式）"><a href="#3-扩展命令模式（末行模式）" class="headerlink" title="3.扩展命令模式（末行模式）"></a>3.扩展命令模式（末行模式）</h2><h3 id="a-保存退出"><a href="#a-保存退出" class="headerlink" title="a. 保存退出"></a>a. 保存退出</h3><p>​        :10    进入第10行<br>​        :w      保存<br>​        :q      退出<br>​        :wq     保存并退出<br>​        :w!     强制保存<br>​        :q!     不保存并退出<br>​        :wq!    强制保存退出<br>​        :x        保存并退出   ZZ</p>
 <p>​        X    用来给文件设置密码</p>
 <h3 id="b-查找替换"><a href="#b-查找替换" class="headerlink" title="b. 查找替换"></a>b. 查找替换</h3><p>​    :范围 s/old/new/选项<br>​    :1,5 s/root/yang/                      从1－5行的root 替换为yang<br>​    :5,$ s/root/yang/                     $表示最后一行<br>​    :1,$ s/root/yang/g                    =     :% s/root/yang/g    %表示全文  g表示全局<br>​    :% s#/dev/sda#/var/ccc#g<br>​    :,8 s/root/yang/                        从当前行到第8行<br>​    :4,9 s/^#//                              4-9行的开头#替换为空<br>​    :5,10 s/.<em>/#&amp;/                        5-10前加入#字符  （.</em>整行   &amp;引用查找的内容）</p>
@@ -412,7 +412,7 @@
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
     <p><span class="copy-title">发布时间:</span>2019-08-12, 10:05:14</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-12, 10:12:55</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-15, 19:34:45</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/12/每天一点Linux-04vi编辑器/" title="每天一点Linux-04vi编辑器">https://DROBP.github.io/2019/08/12/每天一点Linux-04vi编辑器/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
