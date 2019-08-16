@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-06用户管理 | DROBP</title>
+  <title>每天一点Linux-08文件权限ACL | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-06用户管理 | DROBP">
+  <meta name="description" content="每天一点Linux-08文件权限ACL | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -290,9 +290,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-06用户管理" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-每天一点Linux-08文件基本权限" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-06用户管理</h1>
+        <h1 class="article-title">每天一点Linux-08文件权限ACL</h1>
     
     <div class="article-meta">
         
@@ -308,7 +308,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-14 19:17:18">2019-08-14 19:08</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-16 23:09:01">2019-08-16 23:06</time>
         
     </div>
     <div class="article-meta">
@@ -341,7 +341,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#用户管理"><span class="toc-text">用户管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#用户-组基本概念"><span class="toc-text">用户/组基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#给普通用户提权"><span class="toc-text">给普通用户提权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户-组管理"><span class="toc-text">用户/组管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展知识"><span class="toc-text">扩展知识</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本权限ACL（FACL）"><span class="toc-text">基本权限ACL（FACL）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL基本用法"><span class="toc-text">ACL基本用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-setuid的作用"><span class="toc-text">1.setuid的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-setgid的作用"><span class="toc-text">2.setgid的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-sticky-bid的作用"><span class="toc-text">3.sticky bid的作用</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -356,75 +356,49 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h1><h2 id="用户-组基本概念"><a href="#用户-组基本概念" class="headerlink" title="用户/组基本概念"></a>用户/组基本概念</h2><p>为什么要有用户和组<em>（逻辑概念）</em>？</p>
-<p><strong>Users and groups：</strong></p>
-<ul>
-<li><strong>Every process (running program) on the system runs as a particular user.</strong></li>
-<li><strong>Every file is owned by a particular user.</strong> </li>
-<li><strong>Access to files and directories are restricted by user.</strong> </li>
-<li><strong>The user associated with a running process determines the files and directories accessible to that process.</strong></li>
-</ul>
-<p>查看当前登录的用户信息：</p>
-<pre><code class="python">[yang@ecs-ea9d media]$ id
-uid=1001(yang) gid=1001(yang) groups=1001(yang),10(wheel)
-</code></pre>
-<p>uid是用户在系统中的唯一标识；gid是用户所属组（主组）的id，ps：一个用户可以属于多个组，但必有一个主组。groups是用户的主组与附加组。</p>
-<p>查看文件的owner:</p>
-<pre><code class="python">[yang@ecs-ea9d media]$ ll /home/
-total 4
-drwxr-xr-x 7 yang yang 4096 Aug 12 11:03 yang
-</code></pre>
-<p>和用户相关的一些文件</p>
-<ul>
-<li>/etc/passwd 所有用户信息（用户名：密码占位符：uid：gid：描述：home：shell ）</li>
-<li>/etc/shadow  用来存放密码（用户名：加密后的密码：密码最近修改时间（1970.01.01后的天数）：密码最短修改时间：密码最长修改时间：密码过期预警天数：密码过期的宽恕时间：账号失效日期：保留）$id $salt $encrypted</li>
-<li>/etc/group 用来存放组的信息（组名：组密码占位符：gid：组成员）</li>
-</ul>
-<p>加密算法$id：<br>$1:  MD5<br>$5:  SHA-256<br>$6:  SHA-512</p>
-<p>[root@ecs-ea9d ~]# man 5 passwd<br>[root@ecs-ea9d ~]# man 5 shadow<br>[root@ecs-ea9d ~]# man 5 group<br>[root@ecs-ea9d ~]# man 3 crypt</p>
-<p>系统约定（不是不可变的）： RHEL6<br>uid: 0             特权用户<br>uid: 1~499     系统用户<br>uid: 500+          普通用户</p>
-<p><strong>The root user</strong></p>
-<ul>
-<li>uid is 0</li>
-<li>all power</li>
-<li>This user has the power to override normal privileges on the file system</li>
-<li>installing or removing software and to manage system files and directorie</li>
-<li>Most devices can only be controlled by root</li>
-</ul>
-<h2 id="给普通用户提权"><a href="#给普通用户提权" class="headerlink" title="给普通用户提权"></a>给普通用户提权</h2><ol>
-<li><p>切换用户</p>
-<p>[yang@ecs-ea9d ~]$ su<br>Password: </p>
-</li>
-<li><p>以root身份授权普通用户</p>
-<p>[root@ecs-ea9d ~]# vim /etc/sudoers<br><strong>%wheel  ALL=(ALL)       NOPASSWD: ALL  取消注释</strong></p>
-<p>[yang@ecs-ea9d ~]$ sudo useradd gougou10  -G wheel<br>[yang@ecs-ea9d ~]$ id gougou10<br>uid=505(gougou10) gid=505(gougou10) 组=505(gougou10)</p>
-</li>
-</ol>
-<h2 id="用户-组管理"><a href="#用户-组管理" class="headerlink" title="用户/组管理"></a>用户/组管理</h2><p>​    groupadd：创建组</p>
-<p>​    groupdel：删除组</p>
-<p>​    useradd：创建用户</p>
-<p>​    userdel：删除用户</p>
-<p>​    usermod：修改用户</p>
-<p>​    passwd：设置/修改密码</p>
-<p>​    chage：修改用户密码有效期限</p>
-<p>用户组：<br>[root@ecs-ea9d ~]# groupadd hr<br>[root@ecs-ea9d ~]# groupadd sale<br>[root@ecs-ea9d ~]# groupadd it<br>[root@ecs-ea9d ~]# groupadd fd<br>[root@ecs-ea9d ~]# groupadd market<br>[root@ecs-ea9d ~]# groupadd net01 -g 2000                    //添加组net01，并指定gid 2000<br>[root@ecs-ea9d ~]# grep ‘net01’ /etc/group                    //查看/etc/group中组net01信息<br>[root@ecs-ea9d ~]# groupdel net01                                //删除组net01</p>
-<p>用户：<br>useradd creates users<br>＝＝创建用户 未指定选项＝＝<br>[root@ecs-ea9d ~]# useradd user01<br>. 未指定该用户的主组<br>. 未指定该用户的附加组<br>. 未指定用户的HOME<br>. 未指定用户的SHELL<br>. 未指定用户的UID…</p>
-<p>[root@ecs-ea9d ~]# id user01<br>uid=507(user01) gid=512(user01) groups=512(user01)</p>
-<p>[root@ecs-ea9d ~]# ls /var/spool/mail/user01<br>/var/spool/mail/user01</p>
-<p><strong>小结：</strong><br><strong>如果创建一个用户时，未指定任何选项，系统会创建一个和用户名相同的组作为用户的Primary Group.</strong></p>
-<p>＝＝创建用户 指定选项＝＝<br>[root@ecs-ea9d ~]# useradd user02 -u 503                        //创建用户usr02，指定uid<br>[root@ecs-ea9d ~]# useradd user03 -d /aaa                    //创建用户user03 指定家目录<br>[root@ecs-ea9d ~]# useradd user05 -s /sbin/nologin         //创建用户并指定shell<br>[root@ecs-ea9d ~]# useradd user07 -G hr,it,fd                //创建用户，指定附加组<br>[root@ecs-ea9d ~]# useradd user10 -u 4000 -s /sbin/nologin</p>
-<p>userdel deletes users<br>＝＝删除用户＝＝<br>[root@ecs-ea9d ~]# userdel user10                                //删除用户user10，但不删除用户家目录和mail spool<br>[root@ecs-ea9d ~]# ll -d /home/user10/<br>drwx—— 3 506 510 4096 09-01 21:14 /home/user10/<br>[root@ecs-ea9d ~]# ll /var/spool/mail/user10<br>-rw-rw—- 1 506 mail 0 09-01 21:14 /var/spool/mail/user10</p>
-<p>[root@ecs-ea9d ~]# userdel -r user2                               //删除用户user2，同时删除用户家目录和mail spool</p>
-<p>＝＝用户密码＝＝<br>[root@ecs-ea9d ~]# passwd alice<br>[zhuzhu@ecs-ea9d ~]$ passwd</p>
-<p>usermod modifies existing users<br>＝＝组成员管理＝＝<br>注意：只针对已存在的用户<br>[root@ecs-ea9d ~]# usermod -G hr niuniu2                     //覆盖原有的附加组<br>[root@ecs-ea9d ~]# usermod -G fd,it niuniu2<br>[root@ecs-ea9d ~]# usermod -aG hr niuniu2                   //增加新的附加组</p>
-<p>＝＝其它选项管理＝＝<br>[root@ecs-ea9d ~]# usermod -s /sbin/nologin niuniu2</p>
-<h2 id="扩展知识"><a href="#扩展知识" class="headerlink" title="扩展知识"></a>扩展知识</h2><p>useradd创建用户时，参照的文件…<br>[root@ecs-ea9d ~]# vim /etc/login.defs<br>MAIL_DIR        /var/spool/mail<br>PASS_MAX_DAYS       30<br>PASS_MIN_DAYS        0<br>PASS_MIN_LEN          5<br>PASS_WARN_AGE      7<br>CREATE_HOME          yes<br>ENCRYPT_METHOD   SHA512</p>
-<p>[root@ecs-ea9d ~]# vim /etc/default/useradd<br>SHELL=/sbin/nologin</p>
-<p>Password aging</p>
-<p>chage -m 0 -M 90 -W 7 -I 14 username      </p>
-<p>chage -d 0 username       will force a password update on next login.<br>chage -l username           will list a username’s current settings.<br>chage -E YYYY-MM-DD     will expire an account on a specific day.    </p>
-<p>手动创建用户示例：<br>[root@ecs-ea9d~]# useradd maomao100<br>[root@ecs-ea9d~]# echo 123456 |passwd –stdin maomao100<br>[root@ecs-ea9d~]# chage -d 0 maomao100                               //强制用户在下一次登录时修改密码</p>
-<p>将多个用户加入到指定的组：<br>[root@ecs-ea9d~]# gpasswd -a jack wheel                                //usermod -aG hr zhuzhu<br>[root@ecs-ea9d~]# gpasswd -M zhuzhu,maomao100 hr<br>[root@ecs-ea9d~]# gpasswd -d zhuzhu hr</p>
+        <h1 id="基本权限ACL（FACL）"><a href="#基本权限ACL（FACL）" class="headerlink" title="基本权限ACL（FACL）"></a>基本权限ACL（FACL）</h1><p>文件权限管理之： ACL设置基本权限(r、w、x)<br>UGO设置基本权限：  只能一个用户，一个组和其他人<br>ACL 设置基本权限：  r,w,x</p>
+<h2 id="ACL基本用法"><a href="#ACL基本用法" class="headerlink" title="ACL基本用法"></a>ACL基本用法</h2><p>设置：<br>[root@ecs-ea9d ~]# touch /home/test.txt<br>[root@ecs-ea9d ~]# ll /home/test.txt<br>-rw-r–r– 1 root root 0 10-26 13:59 /home/test.txt</p>
+<p>[root@ecs-ea9d ~]# getfacl /home/test.txt<br>[root@ecs-ea9d ~]# setfacl -m u:alice:rw /home/test.txt            //增加用户alice权限<br>[root@ecs-ea9d ~]# setfacl -m u:jack:- /home/test.txt             //增加用户jack权限<br>[root@ecs-ea9d ~]# setfacl -m o::rw /home/test.txt</p>
+<p>查看/删除：<br>[root@ecs-ea9d ~]# ll /home/test.txt<br>-rw-rw-r–+ 1 root root 0 10-26 13:59 /home/test.txt<br>[root@ecs-ea9d ~]# getfacl /home/test.txt</p>
+<p>[root@ecs-ea9d ~]# setfacl -m g:hr:r /home/test.txt<br>[root@ecs-ea9d ~]# setfacl -x g:hr /home/test.txt                     //删除组hr的acl权限<br>[root@ecs-ea9d ~]# setfacl -b /home/test.txt                              //删除所有acl权限</p>
+<p>=查看帮助=<br>[root@ecs-ea9d ~]# man setfacl<br>/EXAMPLES<br>[root@ecs-ea9d ~]# getfacl file1 |setfacl  –set-file=- file2       //复制file1的ACL权限给file2</p>
+<p>＝ACL高级用法＝<br>mask：<br><strong>用于临时降低用户或组（除属主和其他人）的权限</strong><br><strong>建议：为了方便管理文件权限，其他人的权限置为空</strong><br>[root@ecs-ea9d ~]# setfacl -m m::— /home/file100.txt</p>
+<p>default: 继承（默认）<br><strong>要求： 希望alice能够对/home以及以后在/home下新建的文件有读、写、执行权限</strong></p>
+<p>思路：<br>步骤一： 赋予alice对/home读、写、执行权限<br>[root@ecs-ea9d ~]# setfacl -m u:alice:rwx /home</p>
+<p>步骤二： 赋予alice对以后在/home下新建的文件有读、写、执行权限 （使alice的权限继承）<br>[root@ecs-ea9d ~]# setfacl -m d:u:alice:rwx /home</p>
+<p>高级权限 suid,sgid,sticky</p>
+<p>文件权限管理之：高级权限</p>
+<p>问题1： 为什么会失败！<br>[root@ecs-ea9d ~]# ll /root/install.log<br>-rw-r–r–. 1 root root 46571 6月   1 23:37 /root/install.log<br>[alice@ecs-ea9d ~]$ cat /root/install.log<br>cat: /root/install.log: 权限不够</p>
+<p>分析：<br>alice           /usr/bin/cat (alice)            /root/install.log<br>alice           /usr/bin/passwd (root)      /etc/shadow</p>
+<p>高级权限的类型<br>suid         4<br>sgid          2<br>sticky       1   粘滞位</p>
+<p>设置特殊权限<br>a、字符<br>chmod u+s file<br>chmod g+s file<br>chmod g+s dir<br>chmod o+t dir</p>
+<p>b、数字<br>chmod 4777 file<br>chmod 7777 file<br>chmod 2770 dir<br>chmod 3770 dir</p>
+<h2 id="1-setuid的作用"><a href="#1-setuid的作用" class="headerlink" title="1.setuid的作用"></a>1.setuid的作用</h2><p>jack用户执行命令passwd jack；修改自己的密码成功,修改密码其实就是修改/etc/passwd这个文件,查看/etc/passwd这个文件的权限;发现其他人没有写权限，但是passwd jack执行成功，其原因就在于passwd这个命令的权限是rwsrw—-,其中’s’的作用就是:让执行命令的人具有和该命令拥有者相同的权限</p>
+<p>注:当原来权限有x时，再给文件设置setuid，此时x位变为小写的s,当没有x权限时，此时x位变为S.</p>
+<p>操作方法</p>
+<p>chmod u+s xxx</p>
+<p>chmod 4765 xxx</p>
+<p>示例1：suid   普通用户通过suid提权     &lt;针对文件&gt;<br>在进程文件（二进制，可执行）上增加suid权限<br>[root@ecs-ea9d ~]# chmod u+s /bin/cat<br>[root@ecs-ea9d ~]# chmod u+s /bin/rm</p>
+<p>[alice@ecs-ea9d ~]$ cat /root/install.log</p>
+<p>普通用户可以修改密码：<br>alice           /usr/bin/passwd      /etc/shadow</p>
+<p>[alice@ecs-ea9d ~]$ ll /etc/shadow<br>———- 1 root root 1487 6月   4 13:43 /etc/shadow</p>
+<p>[alice@ecs-ea9d ~]$ ll /usr/bin/passwd<br>-rwsr-xr-x. 1 root root 30768 2月  17 2012 /usr/bin/passwd</p>
+<p>[alice@ecs-ea9d ~]$ passwd<br>更改用户 alice 的密码 。<br>为 alice 更改 STRESS 密码。<br>（当前）UNIX 密码：</p>
+<p>[root@ecs-ea9d ~]# ps aux |grep passwd</p>
+<p>root      3674  0.0  0.0 165764  1884 pts/1    S+   14:34   0:00 passwd</p>
+<h2 id="2-setgid的作用"><a href="#2-setgid的作用" class="headerlink" title="2.setgid的作用"></a>2.setgid的作用</h2><p>   当用户以root身份登录系统并创建一个目录dir时,此时目录所有者和所属组是root,root;切换到另外一个用户jack,进入dir目录并创建文件，此时创建的文件所属者所属组都是jack,jack;当想要在dir目录创建的所有文件的所属组都是root时,可以以root身份登录给dir目录,执行命令chmod g+s dir或者chmod 2765,之后任何用户登录系统在目录dir中创建的文件的所属组默认都是root.</p>
+<p>总结： 目录有s权限， 任何用户在此目录下创建的文件都具有和该目录所属的组相同的组</p>
+<p>示例2：sticky 用户只能删除自己的文件  &lt;针对目录&gt;<br>[root@ecs-ea9d ~]# mkdir /home/dir1<br>[root@ecs-ea9d ~]# chmod 777 /home/dir1<br>测试：user1在/home/dir1建立文件, user2尝试删除！</p>
+<p>[root@ecs-ea9d ~]# chmod o+t /home/dir1<br>[root@ecs-ea9d ~]# ll -d /home/dir1<br>rwxrwxrwt 2 root root 4096 09-02 02:26 /home/dir1</p>
+<h2 id="3-sticky-bid的作用"><a href="#3-sticky-bid的作用" class="headerlink" title="3.sticky bid的作用"></a>3.sticky bid的作用</h2><p>应用场景:超级管理员创建了两用户a,b；超级管理员创建了一个目录dir,a用户登录系统在dir目录中创建文件a.txt;b用户登录系统创建文件b.txt，现在需要a不能删除b创建的文件即使b.txt(即使文件other为w)，同理b也是如此.</p>
+<p>(正常情况下a用户和b用户是可以删除对方创建的文件)</p>
+<p>要想做到a用户可以添加文件并且只能删除自己创建的文件,b用户也如此</p>
+<p>可以执行命令 chmod o+t dir 或者 chmod 1765 dir</p>
+<p>示例3：sgid 新建文件继承目录属组   &lt;针对目录&gt;<br>[root@ecs-ea9d ~]# mkdir /home/hr<br>[root@ecs-ea9d ~]# chgrp hr /home/hr/<br>[root@ecs-ea9d ~]# chmod g+s /home/hr<br>[root@ecs-ea9d ~]# ll -d /home/hr/<br>drwxr-sr-x. 2 root hr 4096 Dec  5 16:03 /home/hr/</p>
+<p>[root@ecs-ea9d ~]# touch /home/hr/file9<br>[root@ecs-ea9d ~]# ll /home/hr/<br>-rw-r–r–. 1 root hr   0 Dec  5 16:03 file9</p>
+<p>============================================================================</p>
+<p>小知识：注意以下目录的正确权限，否则会导致程序不能正常运行<br>[root@ecs-ea9d ~]# ll -d /tmp /var/tmp/<br>drwxrwxrwt 14 root root 4096 07-26 10:15 /tmp</p>
+<p>drwxrwxrwt  2 root root 4096 07-24 19:02 /var/tmp/</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -438,12 +412,12 @@ drwxr-xr-x 7 yang yang 4096 Aug 12 11:03 yang
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-06用户管理</p>
+    <p><span class="copy-title">文章标题:</span>每天一点Linux-08文件权限ACL</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-14, 19:08:44</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-14, 19:17:18</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/14/每天一点Linux-06用户管理/" title="每天一点Linux-06用户管理">https://DROBP.github.io/2019/08/14/每天一点Linux-06用户管理/</a>
+    <p><span class="copy-title">发布时间:</span>2019-08-16, 23:06:27</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-16, 23:09:01</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/16/每天一点Linux-08文件基本权限/" title="每天一点Linux-08文件权限ACL">https://DROBP.github.io/2019/08/16/每天一点Linux-08文件基本权限/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
