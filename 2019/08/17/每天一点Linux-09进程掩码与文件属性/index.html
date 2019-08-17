@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-08文件权限ACL | DROBP</title>
+  <title>每天一点Linux-09进程掩码与文件属性 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-08文件权限ACL | DROBP">
+  <meta name="description" content="每天一点Linux-09进程掩码与文件属性 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -295,9 +295,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-08文件基本权限" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-每天一点Linux-09进程掩码与文件属性" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-08文件权限ACL</h1>
+        <h1 class="article-title">每天一点Linux-09进程掩码与文件属性</h1>
     
     <div class="article-meta">
         
@@ -313,7 +313,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-16 23:09:01">2019-08-16 23:06</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-17 20:09:00">2019-08-17 20:07</time>
         
     </div>
     <div class="article-meta">
@@ -346,7 +346,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本权限ACL（FACL）"><span class="toc-text">基本权限ACL（FACL）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL基本用法"><span class="toc-text">ACL基本用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-setuid的作用"><span class="toc-text">1.setuid的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-setgid的作用"><span class="toc-text">2.setgid的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-sticky-bid的作用"><span class="toc-text">3.sticky bid的作用</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#进程掩码-mask-umask"><span class="toc-text">进程掩码 mask umask</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件属性-chattr"><span class="toc-text">文件属性 chattr</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -361,49 +361,25 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="基本权限ACL（FACL）"><a href="#基本权限ACL（FACL）" class="headerlink" title="基本权限ACL（FACL）"></a>基本权限ACL（FACL）</h1><p>文件权限管理之： ACL设置基本权限(r、w、x)<br>UGO设置基本权限：  只能一个用户，一个组和其他人<br>ACL 设置基本权限：  r,w,x</p>
-<h2 id="ACL基本用法"><a href="#ACL基本用法" class="headerlink" title="ACL基本用法"></a>ACL基本用法</h2><p>设置：<br>[root@ecs-ea9d ~]# touch /home/test.txt<br>[root@ecs-ea9d ~]# ll /home/test.txt<br>-rw-r–r– 1 root root 0 10-26 13:59 /home/test.txt</p>
-<p>[root@ecs-ea9d ~]# getfacl /home/test.txt<br>[root@ecs-ea9d ~]# setfacl -m u:alice:rw /home/test.txt            //增加用户alice权限<br>[root@ecs-ea9d ~]# setfacl -m u:jack:- /home/test.txt             //增加用户jack权限<br>[root@ecs-ea9d ~]# setfacl -m o::rw /home/test.txt</p>
-<p>查看/删除：<br>[root@ecs-ea9d ~]# ll /home/test.txt<br>-rw-rw-r–+ 1 root root 0 10-26 13:59 /home/test.txt<br>[root@ecs-ea9d ~]# getfacl /home/test.txt</p>
-<p>[root@ecs-ea9d ~]# setfacl -m g:hr:r /home/test.txt<br>[root@ecs-ea9d ~]# setfacl -x g:hr /home/test.txt                     //删除组hr的acl权限<br>[root@ecs-ea9d ~]# setfacl -b /home/test.txt                              //删除所有acl权限</p>
-<p>=查看帮助=<br>[root@ecs-ea9d ~]# man setfacl<br>/EXAMPLES<br>[root@ecs-ea9d ~]# getfacl file1 |setfacl  –set-file=- file2       //复制file1的ACL权限给file2</p>
-<p>＝ACL高级用法＝<br>mask：<br><strong>用于临时降低用户或组（除属主和其他人）的权限</strong><br><strong>建议：为了方便管理文件权限，其他人的权限置为空</strong><br>[root@ecs-ea9d ~]# setfacl -m m::— /home/file100.txt</p>
-<p>default: 继承（默认）<br><strong>要求： 希望alice能够对/home以及以后在/home下新建的文件有读、写、执行权限</strong></p>
-<p>思路：<br>步骤一： 赋予alice对/home读、写、执行权限<br>[root@ecs-ea9d ~]# setfacl -m u:alice:rwx /home</p>
-<p>步骤二： 赋予alice对以后在/home下新建的文件有读、写、执行权限 （使alice的权限继承）<br>[root@ecs-ea9d ~]# setfacl -m d:u:alice:rwx /home</p>
-<p>高级权限 suid,sgid,sticky</p>
-<p>文件权限管理之：高级权限</p>
-<p>问题1： 为什么会失败！<br>[root@ecs-ea9d ~]# ll /root/install.log<br>-rw-r–r–. 1 root root 46571 6月   1 23:37 /root/install.log<br>[alice@ecs-ea9d ~]$ cat /root/install.log<br>cat: /root/install.log: 权限不够</p>
-<p>分析：<br>alice           /usr/bin/cat (alice)            /root/install.log<br>alice           /usr/bin/passwd (root)      /etc/shadow</p>
-<p>高级权限的类型<br>suid         4<br>sgid          2<br>sticky       1   粘滞位</p>
-<p>设置特殊权限<br>a、字符<br>chmod u+s file<br>chmod g+s file<br>chmod g+s dir<br>chmod o+t dir</p>
-<p>b、数字<br>chmod 4777 file<br>chmod 7777 file<br>chmod 2770 dir<br>chmod 3770 dir</p>
-<h2 id="1-setuid的作用"><a href="#1-setuid的作用" class="headerlink" title="1.setuid的作用"></a>1.setuid的作用</h2><p>jack用户执行命令passwd jack；修改自己的密码成功,修改密码其实就是修改/etc/passwd这个文件,查看/etc/passwd这个文件的权限;发现其他人没有写权限，但是passwd jack执行成功，其原因就在于passwd这个命令的权限是rwsrw—-,其中’s’的作用就是:让执行命令的人具有和该命令拥有者相同的权限</p>
-<p>注:当原来权限有x时，再给文件设置setuid，此时x位变为小写的s,当没有x权限时，此时x位变为S.</p>
-<p>操作方法</p>
-<p>chmod u+s xxx</p>
-<p>chmod 4765 xxx</p>
-<p>示例1：suid   普通用户通过suid提权     &lt;针对文件&gt;<br>在进程文件（二进制，可执行）上增加suid权限<br>[root@ecs-ea9d ~]# chmod u+s /bin/cat<br>[root@ecs-ea9d ~]# chmod u+s /bin/rm</p>
-<p>[alice@ecs-ea9d ~]$ cat /root/install.log</p>
-<p>普通用户可以修改密码：<br>alice           /usr/bin/passwd      /etc/shadow</p>
-<p>[alice@ecs-ea9d ~]$ ll /etc/shadow<br>———- 1 root root 1487 6月   4 13:43 /etc/shadow</p>
-<p>[alice@ecs-ea9d ~]$ ll /usr/bin/passwd<br>-rwsr-xr-x. 1 root root 30768 2月  17 2012 /usr/bin/passwd</p>
-<p>[alice@ecs-ea9d ~]$ passwd<br>更改用户 alice 的密码 。<br>为 alice 更改 STRESS 密码。<br>（当前）UNIX 密码：</p>
-<p>[root@ecs-ea9d ~]# ps aux |grep passwd</p>
-<p>root      3674  0.0  0.0 165764  1884 pts/1    S+   14:34   0:00 passwd</p>
-<h2 id="2-setgid的作用"><a href="#2-setgid的作用" class="headerlink" title="2.setgid的作用"></a>2.setgid的作用</h2><p>   当用户以root身份登录系统并创建一个目录dir时,此时目录所有者和所属组是root,root;切换到另外一个用户jack,进入dir目录并创建文件，此时创建的文件所属者所属组都是jack,jack;当想要在dir目录创建的所有文件的所属组都是root时,可以以root身份登录给dir目录,执行命令chmod g+s dir或者chmod 2765,之后任何用户登录系统在目录dir中创建的文件的所属组默认都是root.</p>
-<p>总结： 目录有s权限， 任何用户在此目录下创建的文件都具有和该目录所属的组相同的组</p>
-<p>示例2：sticky 用户只能删除自己的文件  &lt;针对目录&gt;<br>[root@ecs-ea9d ~]# mkdir /home/dir1<br>[root@ecs-ea9d ~]# chmod 777 /home/dir1<br>测试：user1在/home/dir1建立文件, user2尝试删除！</p>
-<p>[root@ecs-ea9d ~]# chmod o+t /home/dir1<br>[root@ecs-ea9d ~]# ll -d /home/dir1<br>rwxrwxrwt 2 root root 4096 09-02 02:26 /home/dir1</p>
-<h2 id="3-sticky-bid的作用"><a href="#3-sticky-bid的作用" class="headerlink" title="3.sticky bid的作用"></a>3.sticky bid的作用</h2><p>应用场景:超级管理员创建了两用户a,b；超级管理员创建了一个目录dir,a用户登录系统在dir目录中创建文件a.txt;b用户登录系统创建文件b.txt，现在需要a不能删除b创建的文件即使b.txt(即使文件other为w)，同理b也是如此.</p>
-<p>(正常情况下a用户和b用户是可以删除对方创建的文件)</p>
-<p>要想做到a用户可以添加文件并且只能删除自己创建的文件,b用户也如此</p>
-<p>可以执行命令 chmod o+t dir 或者 chmod 1765 dir</p>
-<p>示例3：sgid 新建文件继承目录属组   &lt;针对目录&gt;<br>[root@ecs-ea9d ~]# mkdir /home/hr<br>[root@ecs-ea9d ~]# chgrp hr /home/hr/<br>[root@ecs-ea9d ~]# chmod g+s /home/hr<br>[root@ecs-ea9d ~]# ll -d /home/hr/<br>drwxr-sr-x. 2 root hr 4096 Dec  5 16:03 /home/hr/</p>
-<p>[root@ecs-ea9d ~]# touch /home/hr/file9<br>[root@ecs-ea9d ~]# ll /home/hr/<br>-rw-r–r–. 1 root hr   0 Dec  5 16:03 file9</p>
-<p>============================================================================</p>
-<p>小知识：注意以下目录的正确权限，否则会导致程序不能正常运行<br>[root@ecs-ea9d ~]# ll -d /tmp /var/tmp/<br>drwxrwxrwt 14 root root 4096 07-26 10:15 /tmp</p>
-<p>drwxrwxrwt  2 root root 4096 07-24 19:02 /var/tmp/</p>
+        <h1 id="进程掩码-mask-umask"><a href="#进程掩码-mask-umask" class="headerlink" title="进程掩码 mask umask"></a>进程掩码 mask umask</h1><p>文件权限管理之： 进程umask（每个进程都有自己的umask值）<br>进程   新建文件、目录的默认权限会受到umask的影响，<strong>umask表示要减掉的权限</strong></p>
+<p>一般用户的umask的值为0002，root用户的umask值为0022</p>
+<p>shell （vim,touch）      =======umask======&gt;    新文件或目录权限<br>vsftpd                           =======umask======&gt;    新文件或目录权限<br>samba                          =======umask======&gt;    新文件或目录权限<br>useradd                        =======umask======&gt;    用户HOME</p>
+<p><strong>示例1: 在shell进程中创建文件</strong><br><strong>[root@ecs-ea9d ~]# umask                                     //查看当前用户的umask权限</strong><br><strong>0022     （x：用户：组：其他用户）</strong><br><strong>[root@ecs-ea9d ~]# touch file800</strong><br><strong>[root@ecs-ea9d ~]# mkdir dir800</strong><br><strong>[root@ecs-ea9d ~]# ll -d dir800 file800</strong><br><strong>drwxr-xr-x. 2 root root 4096 3月  11 19:40 dir800</strong><br><strong>-rw-r–r–. 1 root root    0 3月  11 19:40 file800</strong></p>
+<p>示例2：修改shell umask值（临时）<br>[root@ecs-ea9d ~]# umask 000<br>[root@ecs-ea9d ~]# mkdir dir900<br>[root@ecs-ea9d ~]# touch file900<br>[root@ecs-ea9d ~]# ll -d dir900 file900<br>drwxrwxrwx. 2 root root 4096 3月  11 19:44 dir900<br>-rw-rw-rw-. 1 root root    0 3月  11 19:44 file900</p>
+<p>示例3：修改shell umask值（永久）<br>[root@ecs-ea9d ~]# vim /etc/profile<br>if [ $UID -gt 199 ] &amp;&amp; [ “id -gn” = “id -un” ]; then<br>    umask 002<br>else<br>    umask 022<br>fi<br>[root@ecs-ea9d ~]# source /etc/profile       //立即在当前shell中生效</p>
+<p>示例4：通过umask决定新建用户HOME目录的权限<br>[root@ecs-ea9d ~]# vim /etc/login.defs<br>UMASK           077<br>[root@ecs-ea9d ~]# useradd gougou<br>[root@ecs-ea9d ~]# ll -d /home/gougou/<br>drwx——. 4 gougou gougou 4096 3月  11 19:50 /home/gougou/</p>
+<p>[root@ecs-ea9d ~]# vim /etc/login.defs<br>UMASK           000<br>[root@ecs-ea9d ~]# useradd yangyang<br>[root@ecs-ea9d ~]# ll -d /home/yangyang/<br>drwxrwxrwx. 4 yangyang yangyang 4096 3月  11 19:53 /home/yangyang/</p>
+<p>示例5：例如vsftpd进程 /etc/vsftpd/vsftpd.conf 【了解】<br>anon_umask＝007<br>local_umask＝000</p>
+<h1 id="文件属性-chattr"><a href="#文件属性-chattr" class="headerlink" title="文件属性 chattr"></a>文件属性 chattr</h1><p>文件权限管理之： 文件属性（attribute）<br>注：设置文件<strong>属性</strong>，针对所有用户，包括root，属性高于权限，只能root用户操作 </p>
+<p><strong>a属性可以对文件进行追加，但不允许删除</strong></p>
+<p><strong>i属性不允许对文件有任何形式修改</strong></p>
+<p>A（atime）属性不会更新对文件访问时间</p>
+<p>[root@ecs-ea9d ~]# touch file100 file200 file300<br>[root@ecs-ea9d ~]# lsattr file100 file200 file300<br>————-e- file100<br>————-e- file200<br>————-e- file300</p>
+<p>[root@ecs-ea9d ~]# man chattr<br>[root@ecs-ea9d ~]# chattr +a file100<br>[root@ecs-ea9d ~]# chattr +i file200<br>[root@ecs-ea9d ~]# chattr +A file300</p>
+<p>[root@ecs-ea9d ~]# lsattr file100 file200 file300<br>—–a——-e- file100<br>—-i——–e- file200<br>——-A—–e- file300</p>
+<p>[root@ecs-ea9d ~]# echo 111 &gt; file100                    //以覆盖的方式写入<br>bash: file100: Operation not permitted<br>[root@ecs-ea9d ~]# rm -rf file100<br>rm: cannot remove `file100’: Operation not permitted<br>[root@ecs-ea9d ~]# echo 111 &gt;&gt; file100                //以追加的方式写入，例如日志文件</p>
+<p>[root@ecs-ea9d ~]# echo 111 &gt; file200<br>bash: file200: Permission denied<br>[root@instructor ~]# echo 111 &gt;&gt; file200<br>bash: file200: Permission denied<br>[root@ecs-ea9d ~]# rm -rf file200<br>rm: cannot remove `file200’: Operation not permitted</p>
+<p>[root@ecs-ea9d ~]# chattr -a file100<br>[root@ecs-ea9d ~]# chattr -i file200<br>[root@ecs-ea9d ~]# chattr -A file300</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -417,12 +393,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-08文件权限ACL</p>
+    <p><span class="copy-title">文章标题:</span>每天一点Linux-09进程掩码与文件属性</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-16, 23:06:27</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-16, 23:09:01</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/16/每天一点Linux-08文件基本权限/" title="每天一点Linux-08文件权限ACL">https://DROBP.github.io/2019/08/16/每天一点Linux-08文件基本权限/</a>
+    <p><span class="copy-title">发布时间:</span>2019-08-17, 20:07:22</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-17, 20:09:00</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/17/每天一点Linux-09进程掩码与文件属性/" title="每天一点Linux-09进程掩码与文件属性">https://DROBP.github.io/2019/08/17/每天一点Linux-09进程掩码与文件属性/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
