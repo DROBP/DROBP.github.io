@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>VLAN介绍 | DROBP</title>
+  <title>每天一点Linux-10关于进程 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="VLAN介绍 | DROBP">
+  <meta name="description" content="每天一点Linux-10关于进程 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -300,9 +300,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-VLAN介绍" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-每天一点Linux-10关于进程" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">VLAN介绍</h1>
+        <h1 class="article-title">每天一点Linux-10关于进程</h1>
     
     <div class="article-meta">
         
@@ -310,7 +310,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="计算机网络">计算机网络</a>
+                <a href="javascript:" data-rel="Linux">Linux</a>
             
         </span>
         
@@ -318,7 +318,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-08 20:14:59">2019-08-08 19:50</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-18 12:03:32">2019-08-18 12:01</time>
         
     </div>
     <div class="article-meta">
@@ -351,7 +351,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#VLAN"><span class="toc-text">VLAN</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#VALN的作用"><span class="toc-text">VALN的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实验"><span class="toc-text">实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#不同交换机上的相同VLAN通信"><span class="toc-text">不同交换机上的相同VLAN通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VLAN数据帧的传播"><span class="toc-text">VLAN数据帧的传播</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现同一VLAN在不同交换机的通信"><span class="toc-text">实现同一VLAN在不同交换机的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现不同vlan间的通信"><span class="toc-text">实现不同vlan间的通信</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#关于进程"><span class="toc-text">关于进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是进程？"><span class="toc-text">什么是进程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程的生命周期"><span class="toc-text">进程的生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程状态"><span class="toc-text">进程状态</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#查看进程-process"><span class="toc-text">查看进程 process</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#静态查看进程-ps"><span class="toc-text">静态查看进程 ps</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态查看进程-top"><span class="toc-text">动态查看进程 top</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命令："><span class="toc-text">命令：</span></a></li></ol></li></ol></li>
     
 <style>
     .left-col .switch-btn,
@@ -366,71 +366,81 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="VLAN"><a href="#VLAN" class="headerlink" title="VLAN"></a>VLAN</h1><p>虚拟局域网VLAN(Virtual LAN)</p>
-<h2 id="VALN的作用"><a href="#VALN的作用" class="headerlink" title="VALN的作用"></a>VALN的作用</h2><p>VLAN技术——一种专为隔离二层广播报文设计的虚拟局域网技术；vlan可以分组设备，增强局域网的安全性（业务隔离）。（减少网络广播，增强网络的利用率）</p>
-<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><h3 id="不同交换机上的相同VLAN通信"><a href="#不同交换机上的相同VLAN通信" class="headerlink" title="不同交换机上的相同VLAN通信"></a>不同交换机上的相同VLAN通信</h3><p>交换机端口种类的简绍：</p>
-<ol>
-<li>Access:Access端口一般是指那些连接不支持VLAN技术的终端设备的端口，这些端口接收到的数据帧不包含VLAN标签。而向外发送数据帧时，必须保证数据帧中也不包含VLAN标签。一般接主机或路由器。</li>
-<li>Trunk：Trunk端口一般是指那些连接支持VLAN技术的网络设备（如交换机）的端口，这些端口接收到数据帧一般都会包含VALN标签，而向外发送数据帧时，必须保证接收端能够区分不同VLAN的数据帧，故常常需要添加VLAN标签。一般用于交换机之间的连接。</li>
-<li><p>Hybird：Hybird端口属于Access和Trunk的混合模式，工作在Hybrid模式下的端口可以属于多个VLAN，可以接收和发送多个VLAN的报文，可以用于交换机之间的连接，也可以用于连接用户的计算机。<br>Hybird端口和Trunk端口的不同之处在于Hybird端口允许多个VLAN的报文不带标签，而Trunk端口只允许<font color="#A52A2A" size="4" face="黑体">默认（需要在交换机的端口设置）</font>VLAN的报文通过。</p>
-<p> 所有端口默认为Access类型的端口</p>
-<h3 id="VLAN数据帧的传播"><a href="#VLAN数据帧的传播" class="headerlink" title="VLAN数据帧的传播"></a>VLAN数据帧的传播</h3><p><img src="https://img-blog.csdnimg.cn/20190423194450147.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-</li>
-</ol>
-<pre><code>实验拓扑图：
-</code></pre><p><img src="https://img-blog.csdnimg.cn/20190418203741285.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>LSW1的操作：</p>
-<pre><code class="unicode">&lt;Huawei&gt;undo terminal monitor 
-Info: Current terminal monitor is off   //关闭日志更新（小编觉得这个有点烦）
-sysname  //进入系统模式
-[Huawei]vlan batch 2 3  //创建valn 2和vlan 3
-Info: This operation may take a few seconds. Please wait for a moment...done.  
-[Huawei-Ethernet0/0/1]port link-type access  //将端口类型设置为access
-[Huawei-Ethernet0/0/1]port default vlan 2  //将端口 E0/0/1划分为vlan1
-</code></pre>
-<p><em>其他vlan的划分与上述操作相同</em><br>配置完成后输入display vlan查看个vlan与各交换机个端口的关系</p>
-<pre><code class="unicode">[Huawei]display vlan
-The total number of vlans is : 3
---------------------------------------------------------------------------------
-U: Up;         D: Down;         TG: Tagged;         UT: Untagged;
-MP: Vlan-mapping;               ST: Vlan-stacking;
-#: ProtocolTransparent-vlan;    *: Management-vlan;
---------------------------------------------------------------------------------
-
-VID  Type    Ports                                                          
---------------------------------------------------------------------------------
-1    common  UT:Eth0/0/3(U)     Eth0/0/4(D)     Eth0/0/5(D)     Eth0/0/6(D)     
-                Eth0/0/7(D)     Eth0/0/8(D)     Eth0/0/9(D)     Eth0/0/10(D)    
-                Eth0/0/11(D)    Eth0/0/12(D)    Eth0/0/13(D)    Eth0/0/14(D)    
-                Eth0/0/15(D)    Eth0/0/16(D)    Eth0/0/17(D)    Eth0/0/18(D)    
-                Eth0/0/19(D)    Eth0/0/20(D)    Eth0/0/21(D)    Eth0/0/22(D)    
-                GE0/0/1(D)      GE0/0/2(D)                                      
-
-2    common  UT:Eth0/0/1(U)                                                     
-
-3    common  UT:Eth0/0/2(U)                                                     
-
-
-VID  Status  Property      MAC-LRN Statistics Description      
---------------------------------------------------------------------------------
-
-1    enable  default       enable  disable    VLAN 0001                         
-2    enable  default       enable  disable    VLAN 0002                         
-3    enable  default       enable  disable    VLAN 0003                         
-</code></pre>
-<p>在主机上配置好图片中的IP地址<br>PC1pingPC2：Destination host unreachable<br>PC1pingPC3：Destination host unreachable<br>PC1pingPC4：Destination host unreachable<br>PC2pingPC3：Destination host unreachable<br>PC2pingPC4：Destination host unreachable<br>PC3pingPC4：Destination host unreachable<br>这时候网络内所有主机两两都不能互相通信（相同vlan不是能通信吗？），到底是哪里出了问题呢？回顾上述交换机端口的类型以及作用。</p>
+        <h1 id="关于进程"><a href="#关于进程" class="headerlink" title="关于进程"></a>关于进程</h1><p>What is a process?  什么是进程<br>Process life cycle   进程的生命周期<br>Process states  进程状态</p>
+<h3 id="什么是进程？"><a href="#什么是进程？" class="headerlink" title="什么是进程？"></a>什么是进程？</h3><p>进程是已启动的可执行程序的运行实例，进程有以下组成部分：</p>
 <ul>
-<li>交换机LSW1的Ethernet 0/0/1与Ethernet 0/0/2端口的类型为Access模式</li>
-<li>交换机LSW2的Ethernet 0/0/1与Ethernet 0/0/2端口的类型为Access模式</li>
+<li>已分配内存的地址空间；</li>
+<li>安全属性，包括所有权凭据和特权；</li>
+<li>程序代码的一个或多个执行线程；</li>
+<li>进程状态。</li>
 </ul>
-<p>当PC1pingPC2的时候数据帧通过LSW1的E0/0/1口，进入交换机后被贴上vlan2的标签，当这个数据帧到达LSW1的E0/0/2口时，此口不识别带有vlan的数据帧，所以不会通过导致两台计算机不能通信。<br>当PC1pingPC3的时候数据帧通过LSW1的E0/0/1口，进入交换机后被贴上vlan2的标签，当这个数据帧到达LSW1的E0/0/3口时，此口不识别带有vlan的数据帧，所以不会通过导致两台计算机不能通信。</p>
-<h2 id="实现同一VLAN在不同交换机的通信"><a href="#实现同一VLAN在不同交换机的通信" class="headerlink" title="实现同一VLAN在不同交换机的通信"></a>实现同一VLAN在不同交换机的通信</h2><p>上面提到的三种交换机端口的Trunk类型，将LSW1与LSW2的E0/0/3的端口设置为Trunk，并允许vlan2和vlan3通过此端口即可实现同一vlan在不同交换机的通信。</p>
-<pre><code class="unicode">[Huawei]interface Ethernet0/0/3  //进入端口E0/0/3
-[Huawei-Ethernet0/0/3]port link-type trunk  //将端口的类型设置为trunk
-[Huawei-Ethernet0/0/3]port trunk allow-pass vlan 2 to 3  //允许vlan2和vlan3通过此端口
+<p>程序： 二进制文件，<strong>静态</strong> /bin/date, /usr/sbin/httpd，/usr/sbin/sshd, /usr/local/nginx/sbin/ngix<br>进程： 是程序运行的过程， <strong>动态</strong>，有生命周期及运行状态。</p>
+<h3 id="进程的生命周期"><a href="#进程的生命周期" class="headerlink" title="进程的生命周期"></a>进程的生命周期</h3><p>父进程复制自己的地址空间（fork）创建一个新的（子）进程结构。每个新进程分配一个唯一的进程 ID （PID），满足跟踪安全性之需。PID 和 父进程 ID （PPID）是子进程环境的元素，任何进程都可以创建子进程，所有进程都是第一个系统进程的后代：<br>Centos5/6:  init<br>Centos7:     systemd</p>
+<p>子进程继承父进程的安全性身份、过去和当前的文件描述符、端口和资源特权、环境变量，以及程序代码。随后，子进程可能exec自己的程序代码。<strong>通常，父进程在子进程运行期间处于睡眠（sleeping）状态。当子进程完成时发出（exit）信号请求，在退出时，子进程已经关闭或丢弃了其资源环境，剩余的部分称之为僵停（僵尸Zombie）。父进程在子进程退出时收到信号而被唤醒，清理剩余的结构，然后继续执行其自己的程序代码。</strong></p>
+<h3 id="进程状态"><a href="#进程状态" class="headerlink" title="进程状态"></a>进程状态</h3><p>在多任务处理操作系统中，每个CPU（或核心）在一个时间点上只能处理一个进程。在进程运行时，它对CPU 时间和资源分配的要求会不断变化，从而为进程分配一个状态，它随着环境要求而改变。</p>
+<p><img src="/2019/08/18/每天一点Linux-10关于进程/blog\source\_posts\每天一点Linux-10关于进程\1.png" alt="1"></p>
+<h1 id="查看进程-process"><a href="#查看进程-process" class="headerlink" title="查看进程 process"></a>查看进程 process</h1><p>了解如进程的：<br>• PID,PPID<br>• 当前的进程状态<br>• 内存的分配情况<br>• CPU和已花费的实际时间<br>• 用户UID，它决定进程的特权</p>
+<h2 id="静态查看进程-ps"><a href="#静态查看进程-ps" class="headerlink" title="静态查看进程 ps"></a>静态查看进程 ps</h2><p>注：ps -aux (unix)不同于 ps aux (BSD)</p>
+<pre><code class="uncode">[yang@ecs-ea9d ~]$ ps aux |less
+
+USER PID %CPU %MEM VSZ    RSS  TTY STAT START  TIME  COMMAND
+root 1   0.0  0.0  125216 3676  ?   Ss  15:13  0:00  /usr/lib/systemd/systemd--switch
+root 2   0.0  0.0    0     0    ?   S   15:13  0:00  [kthreadd]
 </code></pre>
-<p>在LSW2上进行相同操作。<br>这时PC1可以与PC3通信。<br>过程：PC1发送数据帧——&gt;通过LSW1的E0/0/1——&gt;进入交换机贴上vlan2标签——&gt;通过LSW1的E0/0/3口，此端口类型为trunk已设置允许vlan2和vlan3通过——&gt;到达LSW2的E0/0/3口同样——&gt;进入交换机拆掉vlan2的标签——&gt;将数据帧从LSW的E0/0/1口发出——&gt;PC3接收消息。<br>PC3回复    PC1消息的步骤与上述相同，流程相反。<br>PC2与PC4通信过程相同。</p>
-<h2 id="实现不同vlan间的通信"><a href="#实现不同vlan间的通信" class="headerlink" title="实现不同vlan间的通信"></a>实现不同vlan间的通信</h2><p>配置三层交换机的vlanif实现三层交换机的路由功能，实现不同vlan间的通信。</p>
-<p><strong>经典案例：单臂路由</strong></p>
+<p>systemd:Centos7中的初始进程</p>
+<ul>
+<li>USER:     运行进程的用户</li>
+<li>PID：     进程ID</li>
+<li>%CPU:  CPU占用率</li>
+<li>%MEM: 内存占用率</li>
+<li>VSZ：    占用虚拟内存</li>
+<li>RSS:      占用实际内存 驻留内存</li>
+<li>TTY：     进程运行的终端</li>
+<li>STAT：    进程状态     man ps (/STATE)            <ul>
+<li>R     运行</li>
+<li>S     可中断睡眠 Sleep</li>
+<li>D    不可中断睡眠</li>
+<li>T     停止的进程 </li>
+<li>Z     僵尸进程</li>
+<li>X    死掉的进程</li>
+<li>S<strong>s</strong>      s进程的领导者，父进程</li>
+<li>S<strong>&lt;</strong>     &lt;优先级较高的进程</li>
+<li>S<strong>N</strong>    N优先级较低的进程</li>
+<li>R<strong>+</strong>    +表示是前台的进程组</li>
+<li>S<strong>l</strong>      以线程的方式运行    </li>
+</ul>
+</li>
+<li>START:    进程的启动时间</li>
+<li>TIME：   进程占用CPU的总时间</li>
+<li>COMMAND： 进程文件，进程名</li>
+</ul>
+<p>[yang@ecs-ea9d ~]$ ps aux –sort %cpu |less        //按照cpu使用情况排序，升序<br>[yang@ecs-ea9d ~]$ ps aux –sort -%cpu |lessq    //按照cpu使用情况排序，降序<br>[yang@ecs-ea9d ~]$ ps aux –sort rss |less            //按照内存使用情况排序，升序<br>[yang@ecs-ea9d ~]$ ps aux –sort -rss |less           //按照内存使用情况排序，降序</p>
+<p>httpd：帮助查看进程父子关系</p>
+<p>​        [yang@ecs-ea9d ~]$ sudo yum -y install httpd<br>​        [yang@ecs-ea9d ~]$ sudo systemctl start httpd<br>​        [yangt@ecs-ea9d ~]# ps auxf |grep httpd</p>
+<p>[yang@ecs-ea9d ~]$ ps -ef</p>
+<pre><code class="unicode">UID  PID PPID C  STIME  TTY  TIME      CMD
+root 1   0    0  08:47  ?    00:00:00  /usr/lib/systemd/systemd --switched-root --system 
+</code></pre>
+<p>//自定义显示字段<br>[yang@ecs-ea9d ~]$ ps axo user,pid,ppid,%mem,command<br>[yang@ecs-ea9d ~]$ ps axo user,pid,ppid,%mem,command |grep httpd<br>[yang@ecs-ea9d ~]$ ps axo user,pid,ppid,%mem,%cpu,command –sort -%cpu |less</p>
+<p>//查看指定进程的PID<br><strong>[yang@ecs-ea9d ~]$ cat /run/sshd.pid</strong><br>777<br>[yang@ecs-ea9d ~]$ ps aux |grep sshd<br>[yang@ecs-ea9d ~]$ pgrep -l sshd<br>[yang@ecs-ea9d ~]$ pgrep sshd<br>[yang@ecs-ea9d ~]$ pidof sshd</p>
+<p>//查看进程树<br>[yang@ecs-ea9d ~]$ pstree</p>
+<h2 id="动态查看进程-top"><a href="#动态查看进程-top" class="headerlink" title="动态查看进程 top"></a>动态查看进程 top</h2><p>默认每三秒动态更新一次，也可以回车进行</p>
+<p>[yang@ecs-ea9d ~]$ top<br>[yang@ecs-ea9d ~]$ top -d 1<br>[yang@ecs-ea9d ~]$ top -d 1 -p 10126                        查看指定进程的动态信息<br>[yang@ecs-ea9d ~]$ top -d 1 -p 10126,1<br>[yang@ecs-ea9d ~]$ top -d 1 -u apache                    查看指定用户的进程<br>[yang@ecs-ea9d ~]$ top -d 1 -b -n 2 &gt; top.txt             将2次top信息写入到文件</p>
+<p>第一部分：系统整体统计信息</p>
+<p>load average: 0.86, 0.56, 0.78      系统最近 1分钟，5分钟，15分钟<strong>平均负载</strong></p>
+<p>第二部分：进程信息</p>
+<h3 id="命令："><a href="#命令：" class="headerlink" title="命令："></a>命令：</h3><ul>
+<li>h或? 帮助</li>
+<li>M    按内存的使用排序</li>
+<li>P    按CPU使用排序</li>
+<li>N    以PID的大小排序</li>
+<li><strong>R    对排序进行反转</strong></li>
+<li>f    自定义显示字段</li>
+<li>&lt;    向前,   &gt;  向后</li>
+<li>W   保存top环境设置</li>
+<li>1    显示所有CPU的负载</li>
+<li>z    彩色**</li>
+</ul>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -444,12 +454,12 @@ VID  Status  Property      MAC-LRN Statistics Description
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>VLAN介绍</p>
+    <p><span class="copy-title">文章标题:</span>每天一点Linux-10关于进程</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-08, 19:50:50</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-08, 20:14:59</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/08/VLAN介绍/" title="VLAN介绍">https://DROBP.github.io/2019/08/08/VLAN介绍/</a>
+    <p><span class="copy-title">发布时间:</span>2019-08-18, 12:01:20</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-18, 12:03:32</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/18/每天一点Linux-10关于进程/" title="每天一点Linux-10关于进程">https://DROBP.github.io/2019/08/18/每天一点Linux-10关于进程/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
