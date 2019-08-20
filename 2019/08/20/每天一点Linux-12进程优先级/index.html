@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>ARP | DROBP</title>
+  <title>每天一点Linux-12进程优先级 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="ARP | DROBP">
+  <meta name="description" content="每天一点Linux-12进程优先级 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -310,9 +310,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-ARP" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-每天一点Linux-12进程优先级" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">ARP</h1>
+        <h1 class="article-title">每天一点Linux-12进程优先级</h1>
     
     <div class="article-meta">
         
@@ -320,7 +320,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="计算机网络">计算机网络</a>
+                <a href="javascript:" data-rel="Linux">Linux</a>
             
         </span>
         
@@ -328,7 +328,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-04 10:41:48">2019-06-26 10:35</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-20 23:51:11">2019-08-20 23:49</time>
         
     </div>
     <div class="article-meta">
@@ -361,7 +361,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#进程优先级"><span class="toc-text">进程优先级</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-进程调度及多任务"><span class="toc-text">Linux 进程调度及多任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相对优先级-nice"><span class="toc-text">相对优先级 nice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看进程的nice级别"><span class="toc-text">查看进程的nice级别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动具有不同nice级别的进程"><span class="toc-text">启动具有不同nice级别的进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更改现有进程的nice级别"><span class="toc-text">更改现有进程的nice级别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#作业控制"><span class="toc-text">作业控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#示例1"><span class="toc-text">示例1:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#示例2：如何管理远程主机"><span class="toc-text">示例2：如何管理远程主机</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#proc-文件系统"><span class="toc-text">proc 文件系统</span></a></li>
     
 <style>
     .left-col .switch-btn,
@@ -376,21 +376,45 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>ARP<br>UNIX实现中完整表项的生存时间为20分钟，不完整表项的生存时间为3分钟。</p>
-<pre><code>所谓的不完整表项就是在以太网对一个不存在的主机发出ARP请求时，在本地保留的只有ip地址没有MAC地址的表项。
-</code></pre><p>Windows实现中没有被使用的ARP表项老化时间为2分钟，正在使用的ARP表项老化时间10分钟。<br>    在表项正在使用时，超时值就应该启动，但是大多数的从伯克利系统演变而来的系统没有这样做——它们每次都是在访问表项进重设超时值。</p>
-<p>路由器ARP老化时间可以设置，时间范围一般时1-1440分钟之间，缺省为20分钟。</p>
-<pre><code>UNIX中没有的完整表项和不完整表项的概念，也不存在Windows中区分表项是否被上层协议所正在使用，只是固定一个老化时间，时间到了，表项就老化，正在使用的表项也一样被老化。
-</code></pre><p>免费ARP（用于检测ip地址是否冲突）</p>
-<p>路由优先级</p>
-<p>路由协议的优先级（管理距离AD）一般为一个0到255直接的数字，数字越大则优先级越低。</p>
-<p>优先级：直连路由&gt;静态路由&gt;动态路由</p>
-<p>路由的优先级的概念是优先级高的新路由协议可替代优先级低的同信宿路由。</p>
-<p>Metric是某一个路由协议（相同路由协议）判别到达目的网络的最佳方法。当一路由协议有多条路径到达某一网络时，路由协议必须判断其中哪一条是最佳并把它放到路由表中，路由协议会给每条路径计算出一个数，这个数就是度量值，通常这个值是没有单位的，度量值越小这条路径越佳。</p>
-<p>度量值（Metric）指明了路径的优先权，而管理距离（AD）指明了 发现路由方式的优先权；metric是针对同一种路由协议而言，对不同的路由协议，由于代表的 含义不同，比较不同协议的metric是无意义的。所以要在两条不同协 议的同信宿路由中作出选择，只能比较路由协议的优先级；相反，preference是针对不同路由协议而言，同协议的路由的 preference优先级是一般情况下一样的，这时metric是在两条同信宿 路由中作出选择的标准。</p>
-<p><strong>总结：同种协议管理距离一样 ，所以比较metric ，不同协议比较管 理距离越小越优先 </strong></p>
-<p>AH协议号51，只用于验证</p>
-<p>ESP协议号50，加密</p>
+        <h1 id="进程优先级"><a href="#进程优先级" class="headerlink" title="进程优先级"></a>进程优先级</h1><h2 id="Linux-进程调度及多任务"><a href="#Linux-进程调度及多任务" class="headerlink" title="Linux 进程调度及多任务"></a>Linux 进程调度及多任务</h2><p>每个CPU（或CPU核心）在一个时间点上只能处理一个进程，通过时间片技术，Linux实际能够运行的进程（和线程数）可以超出实际可用的CPU及核心数量。Linux内核<strong>进程调度程序</strong>将多个进程在CPU核心上快速切换，<strong>从而</strong>给用户多个进程在同时运行的印象。</p>
+<h2 id="相对优先级-nice"><a href="#相对优先级-nice" class="headerlink" title="相对优先级 nice"></a>相对优先级 nice</h2><p>由于不是每个进程都与其他进程同样重要，可告知<strong>进程调度程序</strong>为不同的进程使用不同的<strong>调度策略</strong>。常规系统上运行的大多数进程所使用的调度策略为 <strong>SCHED_OTHER</strong> (也称为SCHED_NORMAL)，但还有其它一些调度策略用于不同的目的。</p>
+<p>SCHED_OTHER 调度策略运行的进程的<strong>相对优先级</strong>称为进程的 nice 值，可以有40种不同级别的nice值。</p>
+<p>nice 值越高：   表示优先级越低，例如+19，该进程容易将CPU 使用量让给其他进程。<br>nice 值越低：   表示优先级越高，例如-20，该进程更不倾向于让出CPU。</p>
+<h2 id="查看进程的nice级别"><a href="#查看进程的nice级别" class="headerlink" title="查看进程的nice级别"></a>查看进程的nice级别</h2><ol>
+<li>使用top查看nice级别<br>NI:  实际nice级别<br>PR: 将nice级别显示为映射到更大优先级队列，-20映射到0，+19映射到39</li>
+<li>使用ps查看nice级别<br>[yang@ecs-ea9d ~]$ ps axo pid,command,nice –sort=-nice<br>[yang@ecs-ea9d ~]$ ps axo pid,command,nice,cls –sort=-nice<br>TS 表示该进程使用的调度策略为SCHED_OTHER</li>
+</ol>
+<h2 id="启动具有不同nice级别的进程"><a href="#启动具有不同nice级别的进程" class="headerlink" title="启动具有不同nice级别的进程"></a>启动具有不同nice级别的进程</h2><p><strong>启动进程时，通常会继承父进程的 nice级别，默认为0。</strong><br>[root@ecs-ea9d ~]# nice -n -5 sleep 6000 &amp; </p>
+<p>以自定义字段显示nice值：</p>
+<p>[root@ecs-ea9d ~]# ps axo command,pid,nice |grep sleep</p>
+<p>[root@ecs-ea9d ~]# nice -n -20 systemctl start httpd<br>[root@ecs-ea9d ~]# ps axo pid,command,nice,cls |grep httpd<br>11116 /usr/sbin/httpd             -20  TS<br>11119 /usr/sbin/httpd             -20  TS<br>11120 /usr/sbin/httpd             -20  TS<br>11121 /usr/sbin/httpd             -20  TS<br>11122 /usr/sbin/httpd             -20  TS<br>11123 /usr/sbin/httpd             -20  TS<br>11124 /usr/sbin/httpd             -20  TS<br>11125 /usr/sbin/httpd             -20  TS<br>11126 /usr/sbin/httpd             -20  TS(当是FF（fifo）时优先级高)</p>
+<h2 id="更改现有进程的nice级别"><a href="#更改现有进程的nice级别" class="headerlink" title="更改现有进程的nice级别"></a>更改现有进程的nice级别</h2><ol>
+<li>使用top更改nice级别<br>r    调整进程的优先级（Nice Level） （-20高）  －－－0－－－ （19低）</li>
+<li>使用shell更改nice级别<br>[root@ecs-ea9d ~]# sleep 7000 &amp;<br>[3] 10089<br>[root@ecs-ea9d ~]# renice -20 10089<br>10089: old priority 0, new priority -20</li>
+</ol>
+<p><strong>在top中输入r进行renice值设置</strong></p>
+<h1 id="作业控制"><a href="#作业控制" class="headerlink" title="作业控制"></a>作业控制</h1><p>作业控制是一个命令行功能，允许一个shell 实例来运行和管理多个命令。<br>如果没有作业控制，父进程fork()一个子进程后，将sleeping，直到子进程退出。<br>使用作业控制，可以选择性暂停，恢复，以及异步运行命令，让 shell 可以在子进程运行期间返回接受其他命令。</p>
+<p>foreground, background, and controlling terminal</p>
+<p><strong>foreground</strong>: 前台进程是在终端中运行的命令，该终端为进程的控制终端。前台进程接收键盘产生的输入和信号，并允许从终端读取或写入到终端。<br><strong>background</strong>: 后台进程没有控制终端，它不需要终端的交互。</p>
+<h3 id="示例1"><a href="#示例1" class="headerlink" title="示例1:"></a>示例1:</h3><p>[yang@ecs-ea9d ~]$ sleep 3000 &amp;                        //运行程序（时），让其在后台执行<br>[yang@ecs-ea9d ~]$ sleep 4000                            //<strong>^Z</strong>,将前台的程序挂起（暂停）到后台<br>^Z</p>
+<p>[2]+  Stopped             sleep 4000</p>
+<p>[yang@ecs-ea9d ~]$ ps aux |grep sleep<br>root      8895  0.0  0.0 100900   556 pts/0    S    12:13   0:00 sleep 3000<br>root      8896  0.0  0.0 100900   556 pts/0    T    12:13   0:00 sleep 4000</p>
+<p>[yang@ecs-ea9d ~]$ jobs                                     //查看后台作业<br>[1]-  Running                sleep 3000 &amp;<br>[2]+ Stopped               sleep 4000</p>
+<p>[yang@ecs-ea9d ~]$ bg %2                                //<strong>让作业2在后台运行，不加作业号默认为最近放后台的作业</strong><br>[yang@ecs-ea9d ~]$ fg %1                                //<strong>将作业1调回到前台，不加作业号默认为最近放后台的作业</strong></p>
+<p>[yang@ecs-ea9d ~]$ kill %1                                //kill %1，终止作业号为1的进程</p>
+<p>自己运行的作业，只能自己更改，管理员也无法通过作业号对作业更改但管理员可以将进程杀死。</p>
+<p>[yang@ecs-ea9d ~]$ (while :; do date; sleep 2; done) &amp;  //进程在后台运行，但输出依然在当前终端</p>
+<p>[yang@ecs-ea9d ~]$ (while :; do date; sleep 2; done) &amp;&gt;/dev/null &amp;</p>
+<h3 id="示例2：如何管理远程主机"><a href="#示例2：如何管理远程主机" class="headerlink" title="示例2：如何管理远程主机"></a>示例2：如何管理远程主机</h3><p>[yang@ecs-ea9d ~]$ ssh 172.16.50.240<br>[root@www ~]# yum -y install screen<br>[root@www ~]# screen -S install_apache     //选择要保存会话</p>
+<p>断网后，重新连接<br>[root@www ~]# screen -list<br>There are screens on:<br>    28958.install_nginx    (Detached)<br>    29013.install_apache    (Detached)<br>2 Sockets in /var/run/screen/S-root.</p>
+<p>[root@www ~]# screen -r 29013      //可以回到29013会话</p>
+<h1 id="proc-文件系统"><a href="#proc-文件系统" class="headerlink" title="proc 文件系统"></a>proc 文件系统</h1><p>虚拟文件系统： 内核、进程运行的状态信息<br>[yang@ecs-ea9d ~]$ du -sh /proc<br>0       /proc</p>
+<p>/proc/cpuinfo<br>[yang@ecs-ea9d ~]$ grep ‘processor’ /proc/cpuinfo         //逻辑cpu的个数<br>processor       : 0<br>processor       : 1<br>[yang@ecs-ea9d ~]$ grep ‘physical id’ /proc/cpuinfo         //物理cpu的个数<br>physical id     : 0<br>physical id     : 0<br>==flags<br>lm（64位）<br>vmx 支持虚拟化 Intel<br>svm 支持虚拟化 AMD<br>[yang@ecs-ea9d ~]$ egrep ‘lm|vmx|svm’ /proc/cpuinfo<br>flags           : fpu vme de clflush dts acpi lm constant_tsc pni monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr lahf_lm<br>flags           : fpu vme de clflush dts acpi lm constant_tsc pni monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr lahf_lm</p>
+<p>[yang@ecs-ea9d ~]$ lscpu<br>Architecture:               x86_64<br>CPU op-mode(s):         32-bit, 64-bit<br>CPU(s):                       4<br>On-line CPU(s) list:      0-3<br>Thread(s) per core:     2<br>Core(s) per socket:     2<br>Socket(s):                  1<br>Virtualization:             VT-x<br>L1d cache:                 32K<br>L1i cache:                  32K<br>L2 cache:                   256K<br>L3 cache:                   3072K<br>NUMA node0 CPU(s):   0-3</p>
+<p>/proc/meminfo<br>[yang@ecs-ea9d ~]$ less /proc/meminfo<br>[yang@ecs-ea9d ~]$ free -m<br>                     total        used        free      shared  buff/cache   available<br>Mem:           7950         704        6540         100         705        6908<br>Swap:           2047           0        2047</p>
+<p>/proc/cmdline       //内核启动参数<br>[yang@ecs-ea9d ~]$ cat /proc/cmdline<br>BOOT_IMAGE=/vmlinuz-3.10.0-327.el7.x86_64 root=UUID=9b17ab4e-cd93-4f84-bd1e-7241a0baac9b ro rhgb quiet LANG=zh_CN.UTF-8</p>
+<p>uptime<br>[yang@ecs-ea9d ~]$ uptime<br> 17:20:58 up  8:33,  3 users,  load average: 0.43, 0.36, 0.36</p>
+<p>[yang@ecs-ea9d ~]$ cat /proc/sys/net/ipv4/ip_forward<br>1</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -404,12 +428,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>ARP</p>
+    <p><span class="copy-title">文章标题:</span>每天一点Linux-12进程优先级</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-06-26, 10:35:27</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-04, 10:41:48</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/06/26/ARP/" title="ARP">https://DROBP.github.io/2019/06/26/ARP/</a>
+    <p><span class="copy-title">发布时间:</span>2019-08-20, 23:49:15</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-20, 23:51:11</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/20/每天一点Linux-12进程优先级/" title="每天一点Linux-12进程优先级">https://DROBP.github.io/2019/08/20/每天一点Linux-12进程优先级/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
