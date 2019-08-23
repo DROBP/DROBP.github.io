@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-06用户管理 | DROBP</title>
+  <title>每天一点Linux-15参数传递 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-06用户管理 | DROBP">
+  <meta name="description" content="每天一点Linux-15参数传递 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -325,9 +325,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-06用户管理" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-每天一点Linux-15参数传递" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-06用户管理</h1>
+        <h1 class="article-title">每天一点Linux-15参数传递</h1>
     
     <div class="article-meta">
         
@@ -343,7 +343,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-14 19:17:18">2019-08-14 19:08</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-23 14:40:50">2019-08-23 14:37</time>
         
     </div>
     <div class="article-meta">
@@ -376,7 +376,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#用户管理"><span class="toc-text">用户管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#用户-组基本概念"><span class="toc-text">用户/组基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#给普通用户提权"><span class="toc-text">给普通用户提权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户-组管理"><span class="toc-text">用户/组管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展知识"><span class="toc-text">扩展知识</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#参数传递-Xargs"><span class="toc-text">参数传递 Xargs</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -391,75 +391,16 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h1><h2 id="用户-组基本概念"><a href="#用户-组基本概念" class="headerlink" title="用户/组基本概念"></a>用户/组基本概念</h2><p>为什么要有用户和组<em>（逻辑概念）</em>？</p>
-<p><strong>Users and groups：</strong></p>
-<ul>
-<li><strong>Every process (running program) on the system runs as a particular user.</strong></li>
-<li><strong>Every file is owned by a particular user.</strong> </li>
-<li><strong>Access to files and directories are restricted by user.</strong> </li>
-<li><strong>The user associated with a running process determines the files and directories accessible to that process.</strong></li>
-</ul>
-<p>查看当前登录的用户信息：</p>
-<pre><code class="python">[yang@ecs-ea9d media]$ id
-uid=1001(yang) gid=1001(yang) groups=1001(yang),10(wheel)
-</code></pre>
-<p>uid是用户在系统中的唯一标识；gid是用户所属组（主组）的id，ps：一个用户可以属于多个组，但必有一个主组。groups是用户的主组与附加组。</p>
-<p>查看文件的owner:</p>
-<pre><code class="python">[yang@ecs-ea9d media]$ ll /home/
-total 4
-drwxr-xr-x 7 yang yang 4096 Aug 12 11:03 yang
-</code></pre>
-<p>和用户相关的一些文件</p>
-<ul>
-<li>/etc/passwd 所有用户信息（用户名：密码占位符：uid：gid：描述：home：shell ）</li>
-<li>/etc/shadow  用来存放密码（用户名：加密后的密码：密码最近修改时间（1970.01.01后的天数）：密码最短修改时间：密码最长修改时间：密码过期预警天数：密码过期的宽恕时间：账号失效日期：保留）$id $salt $encrypted</li>
-<li>/etc/group 用来存放组的信息（组名：组密码占位符：gid：组成员）</li>
-</ul>
-<p>加密算法$id：<br>$1:  MD5<br>$5:  SHA-256<br>$6:  SHA-512</p>
-<p>[root@ecs-ea9d ~]# man 5 passwd<br>[root@ecs-ea9d ~]# man 5 shadow<br>[root@ecs-ea9d ~]# man 5 group<br>[root@ecs-ea9d ~]# man 3 crypt</p>
-<p>系统约定（不是不可变的）： RHEL6<br>uid: 0             特权用户<br>uid: 1~499     系统用户<br>uid: 500+          普通用户</p>
-<p><strong>The root user</strong></p>
-<ul>
-<li>uid is 0</li>
-<li>all power</li>
-<li>This user has the power to override normal privileges on the file system</li>
-<li>installing or removing software and to manage system files and directorie</li>
-<li>Most devices can only be controlled by root</li>
-</ul>
-<h2 id="给普通用户提权"><a href="#给普通用户提权" class="headerlink" title="给普通用户提权"></a>给普通用户提权</h2><ol>
-<li><p>切换用户</p>
-<p>[yang@ecs-ea9d ~]$ su<br>Password: </p>
-</li>
-<li><p>以root身份授权普通用户</p>
-<p>[root@ecs-ea9d ~]# vim /etc/sudoers<br><strong>%wheel  ALL=(ALL)       NOPASSWD: ALL  取消注释</strong></p>
-<p>[yang@ecs-ea9d ~]$ sudo useradd gougou10  -G wheel<br>[yang@ecs-ea9d ~]$ id gougou10<br>uid=505(gougou10) gid=505(gougou10) 组=505(gougou10)</p>
-</li>
-</ol>
-<h2 id="用户-组管理"><a href="#用户-组管理" class="headerlink" title="用户/组管理"></a>用户/组管理</h2><p>​    groupadd：创建组</p>
-<p>​    groupdel：删除组</p>
-<p>​    useradd：创建用户</p>
-<p>​    userdel：删除用户</p>
-<p>​    usermod：修改用户</p>
-<p>​    passwd：设置/修改密码</p>
-<p>​    chage：修改用户密码有效期限</p>
-<p>用户组：<br>[root@ecs-ea9d ~]# groupadd hr<br>[root@ecs-ea9d ~]# groupadd sale<br>[root@ecs-ea9d ~]# groupadd it<br>[root@ecs-ea9d ~]# groupadd fd<br>[root@ecs-ea9d ~]# groupadd market<br>[root@ecs-ea9d ~]# groupadd net01 -g 2000                    //添加组net01，并指定gid 2000<br>[root@ecs-ea9d ~]# grep ‘net01’ /etc/group                    //查看/etc/group中组net01信息<br>[root@ecs-ea9d ~]# groupdel net01                                //删除组net01</p>
-<p>用户：<br>useradd creates users<br>＝＝创建用户 未指定选项＝＝<br>[root@ecs-ea9d ~]# useradd user01<br>. 未指定该用户的主组<br>. 未指定该用户的附加组<br>. 未指定用户的HOME<br>. 未指定用户的SHELL<br>. 未指定用户的UID…</p>
-<p>[root@ecs-ea9d ~]# id user01<br>uid=507(user01) gid=512(user01) groups=512(user01)</p>
-<p>[root@ecs-ea9d ~]# ls /var/spool/mail/user01<br>/var/spool/mail/user01</p>
-<p><strong>小结：</strong><br><strong>如果创建一个用户时，未指定任何选项，系统会创建一个和用户名相同的组作为用户的Primary Group.</strong></p>
-<p>＝＝创建用户 指定选项＝＝<br>[root@ecs-ea9d ~]# useradd user02 -u 503                        //创建用户usr02，指定uid<br>[root@ecs-ea9d ~]# useradd user03 -d /aaa                    //创建用户user03 指定家目录<br>[root@ecs-ea9d ~]# useradd user05 -s /sbin/nologin         //创建用户并指定shell<br>[root@ecs-ea9d ~]# useradd user07 -G hr,it,fd                //创建用户，指定附加组<br>[root@ecs-ea9d ~]# useradd user10 -u 4000 -s /sbin/nologin</p>
-<p>userdel deletes users<br>＝＝删除用户＝＝<br>[root@ecs-ea9d ~]# userdel user10                                //删除用户user10，但不删除用户家目录和mail spool<br>[root@ecs-ea9d ~]# ll -d /home/user10/<br>drwx—— 3 506 510 4096 09-01 21:14 /home/user10/<br>[root@ecs-ea9d ~]# ll /var/spool/mail/user10<br>-rw-rw—- 1 506 mail 0 09-01 21:14 /var/spool/mail/user10</p>
-<p>[root@ecs-ea9d ~]# userdel -r user2                               //删除用户user2，同时删除用户家目录和mail spool</p>
-<p>＝＝用户密码＝＝<br>[root@ecs-ea9d ~]# passwd alice<br>[zhuzhu@ecs-ea9d ~]$ passwd</p>
-<p>usermod modifies existing users<br>＝＝组成员管理＝＝<br>注意：只针对已存在的用户<br>[root@ecs-ea9d ~]# usermod -G hr niuniu2                     //覆盖原有的附加组<br>[root@ecs-ea9d ~]# usermod -G fd,it niuniu2<br>[root@ecs-ea9d ~]# usermod -aG hr niuniu2                   //增加新的附加组</p>
-<p>＝＝其它选项管理＝＝<br>[root@ecs-ea9d ~]# usermod -s /sbin/nologin niuniu2</p>
-<h2 id="扩展知识"><a href="#扩展知识" class="headerlink" title="扩展知识"></a>扩展知识</h2><p>useradd创建用户时，参照的文件…<br>[root@ecs-ea9d ~]# vim /etc/login.defs<br>MAIL_DIR        /var/spool/mail<br>PASS_MAX_DAYS       30<br>PASS_MIN_DAYS        0<br>PASS_MIN_LEN          5<br>PASS_WARN_AGE      7<br>CREATE_HOME          yes<br>ENCRYPT_METHOD   SHA512</p>
-<p>[root@ecs-ea9d ~]# vim /etc/default/useradd<br>SHELL=/sbin/nologin</p>
-<p>Password aging</p>
-<p>chage -m 0 -M 90 -W 7 -I 14 username      </p>
-<p>chage -d 0 username       will force a password update on next login.<br>chage -l username           will list a username’s current settings.<br>chage -E YYYY-MM-DD     will expire an account on a specific day.    </p>
-<p>手动创建用户示例：<br>[root@ecs-ea9d~]# useradd maomao100<br>[root@ecs-ea9d~]# echo 123456 |passwd –stdin maomao100<br>[root@ecs-ea9d~]# chage -d 0 maomao100                               //强制用户在下一次登录时修改密码</p>
-<p>将多个用户加入到指定的组：<br>[root@ecs-ea9d~]# gpasswd -a jack wheel                                //usermod -aG hr zhuzhu<br>[root@ecs-ea9d~]# gpasswd -M zhuzhu,maomao100 hr<br>[root@ecs-ea9d~]# gpasswd -d zhuzhu hr</p>
+        <h1 id="参数传递-Xargs"><a href="#参数传递-Xargs" class="headerlink" title="参数传递 Xargs"></a>参数传递 Xargs</h1><p>之所以能用到这个命令，关键是由于很多命令不支持|管道来传递参数，而日常工作中有有这个必要，所以就有了xargs命令，例如：这个命令是错误的find /sbin -perm +700 |ls -l 这样才是正确的find /sbin -perm +700 |xargs ls -l  。xargs  可以读入 stdin 的资料，并且以空白字元或断行字元作为分辨，将 stdin 的资料分隔成为 arguments 。  因为是以空白字元作为分隔，所以，如果有一些档名或者是其他意义的名词内含有空白字元的时候， xargs  可能就会误判了,如果需要处理特殊字符，需要使用-0参数进行处理。</p>
+<p>awk sed grep sort uniq less more xargs      //支持管道命令<br><strong>ls cp rm</strong>           //不支持管道</p>
+<p>案例1<br>[root@localhost ~]# touch /home/file{1..5}</p>
+<p>[root@localhost ~]# vim files.txt<br>/home/file1<br>/home/file2<br>/home/file3<br>/home/file4<br>/home/file5</p>
+<p>[root@localhost ~]# cat files.txt |ls -l       //失败<br>[root@localhost ~]# cat files.txt |rm -rvf      //失败<br>[root@localhost ~]# cat files.txt |<strong>xargs</strong> ls -l          //成功<br>-rw-r–r–. 1 root root 0 Mar 11 10:35 /home/file1<br>-rw-r–r–. 1 root root 0 Mar 11 10:35 /home/file2<br>-rw-r–r–. 1 root root 0 Mar 11 10:35 /home/file4<br>-rw-r–r–. 1 root root 0 Mar 11 10:35 /home/file5</p>
+<p><strong>[yang@ecs-ea9d ~]$ cat files.txt |xargs sudo rm -rvf</strong><br>removed ‘/home/file1’<br>removed ‘/home/file2’<br>removed ‘/home/file4’<br>removed ‘/home/file5’</p>
+<p>案例2<br>[root@localhost ~]# touch /home/file{1..5}<br>[root@localhost ~]# cat files.txt |xargs -I {} ls -l {}     //先将前面的内容保存到{}内，在后面进行读取，{}可自定义，也可以定义为Jack、Rose等<br>-rw-r–r–. 1 root root 0 Mar 11 10:40 /home/file1<br>-rw-r–r–. 1 root root 0 Mar 11 10:40 /home/file2<br>-rw-r–r–. 1 root root 0 Mar 11 10:40 /home/file4<br>-rw-r–r–. 1 root root 0 Mar 11 10:40 /home/file5</p>
+<p>[root@localhost ~]# cat files.txt |xargs -I {} cp -rvf {} /tmp<br>‘/home/file1’ -&gt; ‘/tmp/file1’<br>‘/home/file2’ -&gt; ‘/tmp/file2’<br>‘/home/file4’ -&gt; ‘/tmp/file4’<br>‘/home/file5’ -&gt; ‘/tmp/file5’</p>
+<p>[root@localhost ~]# cat files.txt |xargs -I YANG cp -rvf YANG /var/tmp    //YANG：自定义符号<br>‘/home/file1’ -&gt; ‘/var/tmp/file1’<br>‘/home/file2’ -&gt; ‘/var/tmp/file2’<br>‘/home/file4’ -&gt; ‘/var/tmp/file4’<br>‘/home/file5’ -&gt; ‘/var/tmp/file5’</p>
+<p>案例3<br>[root@localhost ~]# find /etc -iname “<em>ifcfg</em>“ |xargs -I {} cp -rf {} /tmp</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -473,12 +414,12 @@ drwxr-xr-x 7 yang yang 4096 Aug 12 11:03 yang
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-06用户管理</p>
+    <p><span class="copy-title">文章标题:</span>每天一点Linux-15参数传递</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-14, 19:08:44</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-14, 19:17:18</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/14/每天一点Linux-06用户管理/" title="每天一点Linux-06用户管理">https://DROBP.github.io/2019/08/14/每天一点Linux-06用户管理/</a>
+    <p><span class="copy-title">发布时间:</span>2019-08-23, 14:37:38</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-23, 14:40:50</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/23/每天一点Linux-15参数传递/" title="每天一点Linux-15参数传递">https://DROBP.github.io/2019/08/23/每天一点Linux-15参数传递/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
