@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-02bash使用技巧 | DROBP</title>
+  <title>每天一点Linux-16基本分区管理.md | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-02bash使用技巧 | DROBP">
+  <meta name="description" content="每天一点Linux-16基本分区管理.md | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -335,9 +335,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-02bash使用技巧" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-每天一点Linux-16基本分区管理" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-02bash使用技巧</h1>
+        <h1 class="article-title">每天一点Linux-16基本分区管理.md</h1>
     
     <div class="article-meta">
         
@@ -353,7 +353,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-10 22:54:28">2019-08-10 22:47</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-24 19:37:58">2019-08-24 19:36</time>
         
     </div>
     <div class="article-meta">
@@ -386,7 +386,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#bash使用技巧"><span class="toc-text">bash使用技巧</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux获得帮助"><span class="toc-text">Linux获得帮助</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本分区管理"><span class="toc-text">基本分区管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-创建分区"><span class="toc-text">1.创建分区</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fdisk"><span class="toc-text">fdisk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gdisk"><span class="toc-text">gdisk</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-创建文件系统（格式化）"><span class="toc-text">2.创建文件系统（格式化）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-挂载"><span class="toc-text">3.挂载</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#存储基础知识"><span class="toc-text">存储基础知识</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -401,95 +401,44 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="bash使用技巧"><a href="#bash使用技巧" class="headerlink" title="bash使用技巧"></a>bash使用技巧</h1><pre><code class="python">[yang@ecs-ea9d ~]$ id
-uid=1001(yang) gid=1001(yang) groups=1001(yang),10(wheel)
-</code></pre>
-<ul>
-<li>~ 表示现在在home目录下，/表示当前在根目录下</li>
-<li><p>$表示现在是普通用户；$位置的符号变为#时，表示为root。</p>
-</li>
-<li><p>用Tab可以进行命令的自动补全。</p>
-</li>
-<li>用键盘的上下键进行历史命令翻查</li>
-<li>用Ctrl + a （ahead）可以在终端中将光标移至命令开头。</li>
-<li>用Ctrl + e（end）可以在终端中将光标移至命令末。</li>
-<li>用Ctrl + k 可以删除光标后面的命令</li>
-<li>用Ctrl + u 可以删除光标前面的命令</li>
-<li>用Ctrl + r 可以以检索的方式查找历史命令</li>
-<li>在命令空格后长按Alt + . 可以自动补全上一条命令的参数</li>
-<li>在命令空格后按一下ESC后再加 . 可以自动补全上一条命令的参数</li>
-<li>在命令空格后输入要!$（一样）可以自动补全上一条命令的参数</li>
-<li>通过history查看历史命令；后输入！+数字，显示历史中的第”数字“条命令</li>
-<li>在！+ 字符串，搜索历史中最近的以”字符串“开口的命令</li>
-<li>使用”alias name=’命令’来进行命令的别名（如果不进行保存，关闭当前终端后别名功能无效）。例如 alias catnet=’cat /etc/sysconfig/network-scripts/ifcfg-enpls0’定义一条命令，以后在终端中直接输入catnet即执行cat /etc/sysconfig/network-scripts/ifcfg-enpls0这条命令。在终端中输入alias可以查看以别名（别名优先，\ +命令：跳过别名）</li>
-<li>使用type + 字符串 用来查询字符串（命令）的类型（命令类型可能是一个哈希[hash]、别名[alias]、内置命令[builtin]、关键字[keyword]、函数[function]、文件[file]，第一次输入命令时按hash-&gt;alias-&gt;builtin-&gt;$PATH顺序进行执行，即当命令不是hash而是是一个<strong>别名（alias）</strong>时就只执行这个<strong>别名（alias）</strong>不执行后面的其他类型命令）  </li>
-</ul>
-<h1 id="Linux获得帮助"><a href="#Linux获得帮助" class="headerlink" title="Linux获得帮助"></a>Linux获得帮助</h1><p>命令帮助</p>
-<p>命令 –help</p>
-<pre><code class="python">[yang@ecs-ea9d linux]$ ls --help
-Usage: ls [OPTION]... [FILE]...
-</code></pre>
-<p>方括号[]表示可有可无不是必须要加，…表示可有多个选项</p>
-<p><strong>date命令</strong></p>
-<p>文件帮助</p>
-<p>man（manual：手册）：可以理解为是一个工具的说明书</p>
-<p>在man中使用<strong>/字符串</strong>可以在手册中进行搜索字符串的信息，n（next）去找下一个。</p>
-<p>man手册章节（可使用man man命令查手册章节以及章节类型）</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">部分</th>
-<th style="text-align:center">man手册类型</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"><strong>1</strong></td>
-<td style="text-align:center"><strong>用户命令</strong></td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">内核系统调用</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">函数库调用</td>
-</tr>
-<tr>
-<td style="text-align:center">4</td>
-<td style="text-align:center">设备文件和特殊文件</td>
-</tr>
-<tr>
-<td style="text-align:center"><strong>5</strong></td>
-<td style="text-align:center"><strong>配置文件及格式</strong></td>
-</tr>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">游戏</td>
-</tr>
-<tr>
-<td style="text-align:center">7</td>
-<td style="text-align:center">杂项（规范、标准和其他页面）</td>
-</tr>
-<tr>
-<td style="text-align:center"><strong>8</strong></td>
-<td style="text-align:center"><strong>管理类命令</strong></td>
-</tr>
-<tr>
-<td style="text-align:center">9</td>
-<td style="text-align:center">Linux 内核 API（内核调用）</td>
-</tr>
-</tbody>
-</table>
-<pre><code class="python">[yang@ecs-ea9d ~]$ ll /usr/bin/passwd  /etc/passwd
--rw-r--r--  1 root root  1544 Aug  6 10:36 /etc/passwd
--rwsr-xr-x. 1 root root 27832 Jun 10  2014 /usr/bin/passwd
-</code></pre>
-<p>当上述两个passwd名字相同，使用man时可能得到的不是你想要的结果，可使用手册章节号来进行区分。(绿色为章节号)</p>
-<pre><code class="python">[yang@ecs-ea9d ~]$ man 1 passwd
-[yang@ecs-ea9d ~]$ man 5 passwd
-</code></pre>
-<p>也可使用man -f 手册名（例如：man -f passwd）来确定手册名（passwd）在那个章节。</p>
+        <h1 id="基本分区管理"><a href="#基本分区管理" class="headerlink" title="基本分区管理"></a>基本分区管理</h1><p>基本分区(MBR|GPT) —-&gt; Filesystem —-&gt; mount<br>逻辑卷 —-&gt; Filesystem —-&gt; mount</p>
+<p>[yang@ecs-ea9d ~]$ ll /dev/vd*<br>brw-rw—-. 1 root disk 253,  0 Aug 18 23:33 /dev/vda<br>brw-rw—-. 1 root disk 253,  1 Aug 18 23:33 /dev/vda1<br>brw-rw—-. 1 root disk 253,  2 Aug 18 23:33 /dev/vda2<br>brw-rw—-. 1 root disk 253, 16 Aug 18 23:33 /dev/vdb</p>
+<p>[yang@ecs-ea9d ~]$ lsblk<br>NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT<br>vda    253:0    0  40G  0 disk<br>├─vda1 253:1    0   4G  0 part [SWAP]<br>└─vda2 253:2    0  36G  0 part /<br>vdb    253:16   0  50G  0 disk </p>
+<h2 id="1-创建分区"><a href="#1-创建分区" class="headerlink" title="1.创建分区"></a>1.创建分区</h2><h3 id="fdisk"><a href="#fdisk" class="headerlink" title="fdisk"></a>fdisk</h3><p>MBR   14个分区（4个主分区，扩展分区(不可被格式化)，逻辑分区）<br>1.创建分区</p>
+<p>fdisk /dev/vdb</p>
+<p>fdisk -l /dev/vdb</p>
+<p>partprobe /dev/vdb</p>
+<p>ll /dev/vdb*</p>
+<p>brw-rw—-. 1 root disk 253, 16 11月 30 15:13 /dev/vdb<br>brw-rw—-. 1 root disk 253, 17 11月 30 15:13 /dev/vdb1<br>brw-rw—-. 1 root disk 253, 18 11月 30 15:13 /dev/vdb2</p>
+<h3 id="gdisk"><a href="#gdisk" class="headerlink" title="gdisk"></a>gdisk</h3><p>GPT  128个主分区<br>1.创建分区</p>
+<p>gdisk -l /dev/vdc</p>
+<p>gdisk /dev/vdc</p>
+<p>partprobe /dev/vdc     //真机中分区完成后需要此步骤刷新分区表或者重启刷新分区表</p>
+<p>ll /dev/vdc*</p>
+<p>brw-rw—-. 1 root disk 253, 32 Jun  6 17:38 /dev/vdc<br>brw-rw—-. 1 root disk 253, 33 Jun  6 17:38 /dev/vdc1<br>brw-rw—-. 1 root disk 253, 34 Jun  6 17:38 /dev/vdc2</p>
+<p>fdisk -l /dev/vdb</p>
+<h2 id="2-创建文件系统（格式化）"><a href="#2-创建文件系统（格式化）" class="headerlink" title="2.创建文件系统（格式化）"></a>2.创建文件系统（格式化）</h2><p>Centos7中默认文件格式是xfs（<strong>新分的区需要格式化才能进行使用</strong>）</p>
+<p>mkfs.xfs /dev/vdb1</p>
+<p>mkfs.ext4 /dev/vdb2</p>
+<h2 id="3-挂载"><a href="#3-挂载" class="headerlink" title="3.挂载"></a>3.挂载</h2><p>mkdir /mnt/disk1</p>
+<p>mkdir /mnt/disk2</p>
+<p>mount -t xfs -o ro /dev/vdb1 /mnt/disk1        //手动不推荐</p>
+<p>umount /mnt/disk1       //umount卸载</p>
+<p>blkid</p>
+<p>vim /etc/fstab               //在开机时自动帮助挂载</p>
+<p>UUID=”9bf6b9f7-92ad-441b-848e-0257cbb883d1” /mnt/disk1   auto    defaults    0 0<br>UUID=”4d26172c-7aff-4388-baa5-c6756c014d52” /mnt/disk2    ext4    ro    0 0</p>
+<p>mount -a</p>
+<p>[root@server0 ~]# df -Th<br>Filesystem     Type      Size  Used Avail Use% Mounted on<br>/dev/vda1      xfs        10G  3.2G  6.8G  33% /<br>devtmpfs       devtmpfs  906M     0  906M   0% /dev<br>tmpfs          tmpfs     921M  140K  921M   1% /dev/shm<br>tmpfs          tmpfs     921M   17M  904M   2% /run<br>tmpfs          tmpfs     921M     0  921M   0% /sys/fs/cgroup<br>/dev/vdb1      xfs       197M   11M  187M   6% /mnt/disk1<br>/dev/vdb2      ext4      283M  2.1M  262M   1% /mnt/disk2</p>
+<p>[root@server0 ~]# mount<br>mqueue on /dev/mqueue type mqueue (rw,relatime,seclabel)<br>hugetlbfs on /dev/hugepages type hugetlbfs (rw,relatime,seclabel)<br>/dev/vdb1 on /mnt/disk1 type xfs (rw,relatime,seclabel,attr2,inode64,noquota)<br>/dev/vdb2 on /mnt/disk2 type xfs (ro,relatime,seclabel,attr2,inode64,noquota)</p>
+<h1 id="存储基础知识"><a href="#存储基础知识" class="headerlink" title="存储基础知识"></a>存储基础知识</h1><p>从工作原理区分<br>机械<br>固态</p>
+<p>从磁盘尺寸<br>3.5  2.5  1.8</p>
+<p>从插拔方式<br>热插拔<br>非热插拔</p>
+<p>从硬盘主要接口<br>IDE     ——&gt;  SATA I/II/III<br>SCSI   —— &gt; SAS<br>PCIE<br>FC<br>kernel对不同接口硬盘命名方式<br>OS         IDE（并口）    SATA（串口）        SCSI<br>RHEL5     /dev/hda        /dev/sda                /dev/sda<br>RHEL6     /dev/sda        /dev/sda                /dev/sda<br><strong>RHEL7     /dev/sda        /dev/sda                /dev/sda</strong><br><strong>KVM      /dev/vda（半虚拟化驱动）</strong><br>　　　   /dev/sda（全虚拟化驱动）</p>
+<p><em>HP服务器硬盘</em><br><em>/dev/cciss/c0d0</em><br><em>/dev/cciss/c0d0p1    //c0第一个控制器, d0第一块磁盘, p1分区1</em><br><em>/dev/cciss/c0d0p2    //c0第一个控制器, d0第一块磁盘, p2分区2</em></p>
+<p>从存储连接方式<br>本地存储<br>外部存储 scsi线 stat线 sas线 FC线<br>网络存储 以太网络 FC网络</p>
+<p>从分区方式区分<br>MBR   <2tb fdisk 14个分区（4个主分区，扩展分区，逻辑分区） 例如: 3主 + 1扩展（n逻辑） gpt>2TB        gdisk(parted)    128个主分区<br>注意：从MBR转到GPT，或从GPT转换到MBR会导致数据全部丢失！</2tb></p>
+<p>KVM增加硬盘<br>半虚拟化驱动磁盘： online</p>
+<p>全虚拟化驱动磁盘： offline</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -503,12 +452,12 @@ Usage: ls [OPTION]... [FILE]...
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-02bash使用技巧</p>
+    <p><span class="copy-title">文章标题:</span>每天一点Linux-16基本分区管理.md</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-10, 22:47:01</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-10, 22:54:28</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/10/每天一点Linux-02bash使用技巧/" title="每天一点Linux-02bash使用技巧">https://DROBP.github.io/2019/08/10/每天一点Linux-02bash使用技巧/</a>
+    <p><span class="copy-title">发布时间:</span>2019-08-24, 19:36:40</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-24, 19:37:58</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/24/每天一点Linux-16基本分区管理/" title="每天一点Linux-16基本分区管理.md">https://DROBP.github.io/2019/08/24/每天一点Linux-16基本分区管理/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
