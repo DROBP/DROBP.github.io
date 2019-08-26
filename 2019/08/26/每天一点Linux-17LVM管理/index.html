@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-12进程优先级 | DROBP</title>
+  <title>每天一点Linux-17LVM管理 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-12进程优先级 | DROBP">
+  <meta name="description" content="每天一点Linux-17LVM管理 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -340,9 +340,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-12进程优先级" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-每天一点Linux-17LVM管理" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-12进程优先级</h1>
+        <h1 class="article-title">每天一点Linux-17LVM管理</h1>
     
     <div class="article-meta">
         
@@ -358,7 +358,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-20 23:51:11">2019-08-20 23:49</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-26 09:25:56">2019-08-26 09:24</time>
         
     </div>
     <div class="article-meta">
@@ -391,7 +391,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#进程优先级"><span class="toc-text">进程优先级</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-进程调度及多任务"><span class="toc-text">Linux 进程调度及多任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相对优先级-nice"><span class="toc-text">相对优先级 nice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看进程的nice级别"><span class="toc-text">查看进程的nice级别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动具有不同nice级别的进程"><span class="toc-text">启动具有不同nice级别的进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更改现有进程的nice级别"><span class="toc-text">更改现有进程的nice级别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#作业控制"><span class="toc-text">作业控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#示例1"><span class="toc-text">示例1:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#示例2：如何管理远程主机"><span class="toc-text">示例2：如何管理远程主机</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#proc-文件系统"><span class="toc-text">proc 文件系统</span></a></li>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#LVM管理"><span class="toc-text">LVM管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-创建LVM"><span class="toc-text">1.创建LVM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-VG管理"><span class="toc-text">2. VG管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#扩大VG-vgextend"><span class="toc-text">扩大VG vgextend</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#减小VG-vgreduce"><span class="toc-text">减小VG vgreduce</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-LV扩容"><span class="toc-text">3. LV扩容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-LVM快照snapshot"><span class="toc-text">4. LVM快照snapshot</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -406,45 +406,78 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="进程优先级"><a href="#进程优先级" class="headerlink" title="进程优先级"></a>进程优先级</h1><h2 id="Linux-进程调度及多任务"><a href="#Linux-进程调度及多任务" class="headerlink" title="Linux 进程调度及多任务"></a>Linux 进程调度及多任务</h2><p>每个CPU（或CPU核心）在一个时间点上只能处理一个进程，通过时间片技术，Linux实际能够运行的进程（和线程数）可以超出实际可用的CPU及核心数量。Linux内核<strong>进程调度程序</strong>将多个进程在CPU核心上快速切换，<strong>从而</strong>给用户多个进程在同时运行的印象。</p>
-<h2 id="相对优先级-nice"><a href="#相对优先级-nice" class="headerlink" title="相对优先级 nice"></a>相对优先级 nice</h2><p>由于不是每个进程都与其他进程同样重要，可告知<strong>进程调度程序</strong>为不同的进程使用不同的<strong>调度策略</strong>。常规系统上运行的大多数进程所使用的调度策略为 <strong>SCHED_OTHER</strong> (也称为SCHED_NORMAL)，但还有其它一些调度策略用于不同的目的。</p>
-<p>SCHED_OTHER 调度策略运行的进程的<strong>相对优先级</strong>称为进程的 nice 值，可以有40种不同级别的nice值。</p>
-<p>nice 值越高：   表示优先级越低，例如+19，该进程容易将CPU 使用量让给其他进程。<br>nice 值越低：   表示优先级越高，例如-20，该进程更不倾向于让出CPU。</p>
-<h2 id="查看进程的nice级别"><a href="#查看进程的nice级别" class="headerlink" title="查看进程的nice级别"></a>查看进程的nice级别</h2><ol>
-<li>使用top查看nice级别<br>NI:  实际nice级别<br>PR: 将nice级别显示为映射到更大优先级队列，-20映射到0，+19映射到39</li>
-<li>使用ps查看nice级别<br>[yang@ecs-ea9d ~]$ ps axo pid,command,nice –sort=-nice<br>[yang@ecs-ea9d ~]$ ps axo pid,command,nice,cls –sort=-nice<br>TS 表示该进程使用的调度策略为SCHED_OTHER</li>
+        <h1 id="LVM管理"><a href="#LVM管理" class="headerlink" title="LVM管理"></a>LVM管理</h1><ul>
+<li>逻辑卷是可以跨越磁盘，可以打破上述分区方式的硬性规定，可以将多个硬盘逻辑上进行整合为一块硬盘。</li>
+<li>物理卷：通常一个分区或者一个硬盘就可以建立一个物理卷，物理卷的最小单位是<strong>PE</strong>,一般默认是<strong>4MB</strong>。</li>
+<li>卷组：将多个物理卷组合到一起，成为一个卷组。</li>
+<li>虚拟卷：其实就是在卷组的基础上再次划分，最小单位是<strong>LE</strong>，与<strong>PE</strong>一样，并且一一对应。逻辑卷跟物理卷没有本质区别，只是站在不同的层次来看罢了。</li>
+</ul>
+<p>基本分区(MBR|GPT) —-&gt; Filesystem —-&gt; mount<br>逻辑卷 —-&gt; Filesystem —-&gt; mount</p>
+<h2 id="1-创建LVM"><a href="#1-创建LVM" class="headerlink" title="1.创建LVM"></a>1.创建LVM</h2><ol>
+<li><p>准备物理磁盘<br>可以是： /dev/sdb /dev/sdc1 （建立在RIAD之上）<br>[root@server0 ~]# ll /dev/vd{c,d,e}<br>brw-rw—-. 1 root disk 253, 32 Jun  6 17:38 /dev/vdc<br>brw-rw—-. 1 root disk 253, 48 Jun  6 17:38 /dev/vdd<br>brw-rw—-. 1 root disk 253, 64 Jun  6 17:38 /dev/vde</p>
+</li>
+<li><p>pv<br>[root@server0 ~]# pvcreate /dev/vdd<br> Physical volume “/dev/vdd” successfully created</p>
+<p>[root@server0 ~]# pvscan<br>  PV /dev/vdd                      lvm2 [2.00 GiB]<br>  Total: 1 [2.00 GiB] / in use: 0 [0   ] / in no VG: 1 [2.00 GiB]</p>
+<p>[root@server0 ~]# pvs<br>  PV         VG   Fmt  Attr PSize PFree<br>  /dev/vdd        lvm2 a–  2.00g 2.00g</p>
+</li>
+<li><p>vg<br>[root@server0 ~]# vgcreate vg1 /dev/vdd<br> Volume group “vg1” successfully created<br>[root@server0 ~]# vgs<br> VG   #PV #LV #SN Attr   VSize VFree<br> vg1    1   0   0 wz–n- 2.00g 2.00g<br>[root@server0 ~]# vgscan<br> Reading all physical volumes.  This may take a while…<br> Found volume group “vg1” using metadata type lvm2<br>[root@server0 ~]# vgdisplay<br> — Volume group —<br> VG Name               vg1<br> System ID<br> Format                lvm2<br> Metadata Areas        1<br> Metadata Sequence No  1<br> VG Access             read/write<br> VG Status             resizable<br> MAX LV                0<br> Cur LV                0<br> Open LV               0<br> Max PV                0<br> Cur PV                1<br> Act PV                1<br> VG Size               2.00 GiB<br> PE Size               4.00 MiB<br> Total PE              511<br> Alloc PE / Size       0 / 0<br> Free  PE / Size       511 / 2.00 GiB<br> VG UUID               7E4tlj-l0a2-ph52-OytH-eaq7-58K6-2S4n8V</p>
+</li>
+<li><p>lv<br>[root@server0 ~]# lvcreate -l 10 -n lv1 vg1<br>[root@server0 ~]# lvcreate -L 200M -n lv2 vg1</p>
+<p>[root@server0 ~]# lvscan<br>  ACTIVE            ‘/dev/vg1/lv1’ [640.00 MiB] inherit<br>  ACTIVE            ‘/dev/vg1/lv2’ [256.00 MiB] inherit</p>
+</li>
+<li><p>创建文件系统并挂载<br>[root@server0 ~]# mkfs.xfs /dev/vg1/lv1<br>[root@server0 ~]# mkfs.ext4 /dev/vg1/lv2</p>
+<p>[root@server0 ~]# mkdir /mnt/lv1 /mnt/lv2</p>
+<p>[root@server0 ~]# vim /etc/fstab<br>/dev/vg1/lv1    /mnt/lv1        xfs     defaults 0 0<br>/dev/vg1/lv2    /mnt/lv2        ext4    defaults 0 0</p>
+<p>[root@server0 ~]# mount -a<br>[root@server0 ~]# df<br>Filesystem          1K-blocks    Used Available Use% Mounted on<br>/dev/mapper/vg1-lv1    651948   32928    619020   6% /mnt/lv1<br>/dev/mapper/vg1-lv2    245671    2062    226406   1% /mnt/lv2</p>
+</li>
 </ol>
-<h2 id="启动具有不同nice级别的进程"><a href="#启动具有不同nice级别的进程" class="headerlink" title="启动具有不同nice级别的进程"></a>启动具有不同nice级别的进程</h2><p><strong>启动进程时，通常会继承父进程的 nice级别，默认为0。</strong><br>[root@ecs-ea9d ~]# nice -n -5 sleep 6000 &amp; </p>
-<p>以自定义字段显示nice值：</p>
-<p>[root@ecs-ea9d ~]# ps axo command,pid,nice |grep sleep</p>
-<p>[root@ecs-ea9d ~]# nice -n -20 systemctl start httpd<br>[root@ecs-ea9d ~]# ps axo pid,command,nice,cls |grep httpd<br>11116 /usr/sbin/httpd             -20  TS<br>11119 /usr/sbin/httpd             -20  TS<br>11120 /usr/sbin/httpd             -20  TS<br>11121 /usr/sbin/httpd             -20  TS<br>11122 /usr/sbin/httpd             -20  TS<br>11123 /usr/sbin/httpd             -20  TS<br>11124 /usr/sbin/httpd             -20  TS<br>11125 /usr/sbin/httpd             -20  TS<br>11126 /usr/sbin/httpd             -20  TS(当是FF（fifo）时优先级高)</p>
-<h2 id="更改现有进程的nice级别"><a href="#更改现有进程的nice级别" class="headerlink" title="更改现有进程的nice级别"></a>更改现有进程的nice级别</h2><ol>
-<li>使用top更改nice级别<br>r    调整进程的优先级（Nice Level） （-20高）  －－－0－－－ （19低）</li>
-<li>使用shell更改nice级别<br>[root@ecs-ea9d ~]# sleep 7000 &amp;<br>[3] 10089<br>[root@ecs-ea9d ~]# renice -20 10089<br>10089: old priority 0, new priority -20</li>
+<h2 id="2-VG管理"><a href="#2-VG管理" class="headerlink" title="2. VG管理"></a>2. VG管理</h2><h3 id="扩大VG-vgextend"><a href="#扩大VG-vgextend" class="headerlink" title="扩大VG vgextend"></a>扩大VG vgextend</h3><ol>
+<li>pv<br>[root@server0 ~]# pvcreate /dev/vde</li>
+<li>vgextend<br>[root@server0 ~]# vgextend vg1 /dev/vde<br> Volume group “vg1” successfully extended<br>[root@server0 ~]# vgs<br> VG   #PV #LV #SN Attr   VSize VFree<br> vg1    2   2   0 wz–n- 3.99g 3.76g</li>
 </ol>
-<p><strong>在top中输入r进行renice值设置</strong></p>
-<h1 id="作业控制"><a href="#作业控制" class="headerlink" title="作业控制"></a>作业控制</h1><p>作业控制是一个命令行功能，允许一个shell 实例来运行和管理多个命令。<br>如果没有作业控制，父进程fork()一个子进程后，将sleeping，直到子进程退出。<br>使用作业控制，可以选择性暂停，恢复，以及异步运行命令，让 shell 可以在子进程运行期间返回接受其他命令。</p>
-<p>foreground, background, and controlling terminal</p>
-<p><strong>foreground</strong>: 前台进程是在终端中运行的命令，该终端为进程的控制终端。前台进程接收键盘产生的输入和信号，并允许从终端读取或写入到终端。<br><strong>background</strong>: 后台进程没有控制终端，它不需要终端的交互。</p>
-<h3 id="示例1"><a href="#示例1" class="headerlink" title="示例1:"></a>示例1:</h3><p>[yang@ecs-ea9d ~]$ sleep 3000 &amp;                        //运行程序（时），让其在后台执行<br>[yang@ecs-ea9d ~]$ sleep 4000                            //<strong>^Z</strong>,将前台的程序挂起（暂停）到后台<br>^Z</p>
-<p>[2]+  Stopped             sleep 4000</p>
-<p>[yang@ecs-ea9d ~]$ ps aux |grep sleep<br>root      8895  0.0  0.0 100900   556 pts/0    S    12:13   0:00 sleep 3000<br>root      8896  0.0  0.0 100900   556 pts/0    T    12:13   0:00 sleep 4000</p>
-<p>[yang@ecs-ea9d ~]$ jobs                                     //查看后台作业<br>[1]-  Running                sleep 3000 &amp;<br>[2]+ Stopped               sleep 4000</p>
-<p>[yang@ecs-ea9d ~]$ bg %2                                //<strong>让作业2在后台运行，不加作业号默认为最近放后台的作业</strong><br>[yang@ecs-ea9d ~]$ fg %1                                //<strong>将作业1调回到前台，不加作业号默认为最近放后台的作业</strong></p>
-<p>[yang@ecs-ea9d ~]$ kill %1                                //kill %1，终止作业号为1的进程</p>
-<p>自己运行的作业，只能自己更改，管理员也无法通过作业号对作业更改但管理员可以将进程杀死。</p>
-<p>[yang@ecs-ea9d ~]$ (while :; do date; sleep 2; done) &amp;  //进程在后台运行，但输出依然在当前终端</p>
-<p>[yang@ecs-ea9d ~]$ (while :; do date; sleep 2; done) &amp;&gt;/dev/null &amp;</p>
-<h3 id="示例2：如何管理远程主机"><a href="#示例2：如何管理远程主机" class="headerlink" title="示例2：如何管理远程主机"></a>示例2：如何管理远程主机</h3><p>[yang@ecs-ea9d ~]$ ssh 172.16.50.240<br>[root@www ~]# yum -y install screen<br>[root@www ~]# screen -S install_apache     //选择要保存会话</p>
-<p>断网后，重新连接<br>[root@www ~]# screen -list<br>There are screens on:<br>    28958.install_nginx    (Detached)<br>    29013.install_apache    (Detached)<br>2 Sockets in /var/run/screen/S-root.</p>
-<p>[root@www ~]# screen -r 29013      //可以回到29013会话</p>
-<h1 id="proc-文件系统"><a href="#proc-文件系统" class="headerlink" title="proc 文件系统"></a>proc 文件系统</h1><p>虚拟文件系统： 内核、进程运行的状态信息<br>[yang@ecs-ea9d ~]$ du -sh /proc<br>0       /proc</p>
-<p>/proc/cpuinfo<br>[yang@ecs-ea9d ~]$ grep ‘processor’ /proc/cpuinfo         //逻辑cpu的个数<br>processor       : 0<br>processor       : 1<br>[yang@ecs-ea9d ~]$ grep ‘physical id’ /proc/cpuinfo         //物理cpu的个数<br>physical id     : 0<br>physical id     : 0<br>==flags<br>lm（64位）<br>vmx 支持虚拟化 Intel<br>svm 支持虚拟化 AMD<br>[yang@ecs-ea9d ~]$ egrep ‘lm|vmx|svm’ /proc/cpuinfo<br>flags           : fpu vme de clflush dts acpi lm constant_tsc pni monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr lahf_lm<br>flags           : fpu vme de clflush dts acpi lm constant_tsc pni monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr lahf_lm</p>
-<p>[yang@ecs-ea9d ~]$ lscpu<br>Architecture:               x86_64<br>CPU op-mode(s):         32-bit, 64-bit<br>CPU(s):                       4<br>On-line CPU(s) list:      0-3<br>Thread(s) per core:     2<br>Core(s) per socket:     2<br>Socket(s):                  1<br>Virtualization:             VT-x<br>L1d cache:                 32K<br>L1i cache:                  32K<br>L2 cache:                   256K<br>L3 cache:                   3072K<br>NUMA node0 CPU(s):   0-3</p>
-<p>/proc/meminfo<br>[yang@ecs-ea9d ~]$ less /proc/meminfo<br>[yang@ecs-ea9d ~]$ free -m<br>                     total        used        free      shared  buff/cache   available<br>Mem:           7950         704        6540         100         705        6908<br>Swap:           2047           0        2047</p>
-<p>/proc/cmdline       //内核启动参数<br>[yang@ecs-ea9d ~]$ cat /proc/cmdline<br>BOOT_IMAGE=/vmlinuz-3.10.0-327.el7.x86_64 root=UUID=9b17ab4e-cd93-4f84-bd1e-7241a0baac9b ro rhgb quiet LANG=zh_CN.UTF-8</p>
-<p>uptime<br>[yang@ecs-ea9d ~]$ uptime<br> 17:20:58 up  8:33,  3 users,  load average: 0.43, 0.36, 0.36</p>
-<p>[yang@ecs-ea9d ~]$ cat /proc/sys/net/ipv4/ip_forward<br>1</p>
+<h3 id="减小VG-vgreduce"><a href="#减小VG-vgreduce" class="headerlink" title="减小VG vgreduce"></a>减小VG vgreduce</h3><p>​    1.查看当前的VG中PV的使用情况<br>​    [root@server0 ~]# pvs<br>​      PV         VG   Fmt  Attr PSize PFree<br>      /dev/vdd   vg1  lvm2 a–  2.00g 1.76g<br>      /dev/vde   vg1  lvm2 a–  2.00g 2.00g</p>
+<ol start="2">
+<li><p>pvmove数据到其它PV<br>[root@server0 ~]# pvmove /dev/vdd<br> /dev/vdd: Moved: 16.7%<br> /dev/vdd: Moved: 100.0%</p>
+<p>[root@server0 ~]# pvs<br>  PV         VG   Fmt  Attr PSize PFree<br>  /dev/vdd   vg1  lvm2 a–  2.00g 2.00g<br>  /dev/vde   vg1  lvm2 a–  2.00g 1.76g</p>
+</li>
+<li><p>vgreduce VG<br>[root@server0 ~]#  vgreduce vg1 /dev/vdd<br>  Removed “/dev/vdd” from volume group “vg1”</p>
+<p>[root@server0 ~]# vgs<br>  VG   #PV #LV #SN Attr   VSize VFree<br>  vg1    1   2   0 wz–n- 2.00g 1.76g</p>
+</li>
+</ol>
+<h2 id="3-LV扩容"><a href="#3-LV扩容" class="headerlink" title="3. LV扩容"></a>3. LV扩容</h2><ol>
+<li><p>lv扩容<br>[root@server0 ~]# vgs<br> VG   #PV #LV #SN Attr   VSize VFree<br> vg1    2   2   0 wz–n- 1.88g 1.00g</p>
+<p>[root@server0 ~]# lvextend -L 800M /dev/vg1/lv1<br>[root@server0 ~]# lvextend -L +800M /dev/vg1/lv1</p>
+<p>[root@server0 ~]# lvextend -l 15 /dev/vg1/lv1<br>[root@server0 ~]# lvextend -l +15 /dev/vg1/lv1</p>
+<p>=======================================</p>
+<p>+50%FREE</p>
+<p>[root@server0 ~]# lvscan<br>  ACTIVE            ‘/dev/vg1/lv1’ [768.00 MiB] inherit<br>  ACTIVE            ‘/dev/vg1/lv2’ [512.00 MiB] inherit</p>
+</li>
+<li><p>FS扩容<br>[root@server0 ~]# df -Th<br>/dev/mapper/vg1-lv1 xfs       637M   67M  570M  11% /mnt/lv1<br>/dev/mapper/vg1-lv2 ext4      240M   32M  192M  15% /mnt/lv2</p>
+<p>a. xfs<br>[root@server0 ~]# xfs_growfs /dev/vg1/lv1</p>
+<p>b. ext2/3/4<br>[root@server0 ~]# resize2fs /dev/vg1/lv2</p>
+<p>[root@server0 ~]# df -Th<br>Filesystem          Type      Size  Used Avail Use% Mounted on<br>/dev/mapper/vg1-lv1 xfs       765M   67M  698M   9% /mnt/lv1<br>/dev/mapper/vg1-lv2 ext4      488M   32M  429M   7% /mnt/lv2</p>
+</li>
+</ol>
+<h2 id="4-LVM快照snapshot"><a href="#4-LVM快照snapshot" class="headerlink" title="4. LVM快照snapshot"></a>4. LVM快照snapshot</h2><ol>
+<li><p>创建快照 (EXT4)<br>[root@server0 ~]# lvcreate -L 128M -s -n lv2-snap /dev/vg1/lv2<br>[root@server0 ~]# lvs<br> LV       VG   Attr       LSize   Pool Origin Data%  Move Log Cpy%Sync Convert<br> lv1      vg1  -wi-ao—- 768.00m<br> lv2      vg1  owi-aos— 512.00m<br> lv2-snap vg1  swi-aos— 128.00m      lv2      5.92 </p>
+<p>[root@server0 ~]# mount -o ro /dev/vg1/lv2-snap /mnt/lv2-snap/</p>
+<p>[root@server0 ~]# df -Th<br>Filesystem                Type      Size  Used Avail Use% Mounted on<br>/dev/mapper/vg1-lv2       ext4      488M   32M  429M   7% /mnt/lv2<br>/dev/mapper/vg1-lv2–snap ext4      488M   32M  429M   7% /mnt/lv2-snap</p>
+<p>[root@server0 ~]# lvscan<br>  ACTIVE            ‘/dev/vg1/lv1’ [768.00 MiB] inherit<br>  ACTIVE   Original ‘/dev/vg1/lv2’ [512.00 MiB] inherit<br>  ACTIVE   Snapshot ‘/dev/vg1/lv2-snap’ [128.00 MiB] inherit</p>
+<p>[root@server0 ~]# ls /mnt/lv2<br>etc  lost+found<br>[root@server0 ~]# ls /mnt/lv2-snap/<br>etc  lost+found</p>
+</li>
+<li><p>修改原卷的数据</p>
+</li>
+<li><p>观察Snapshot<br>[root@server0 ~]# lvs<br> LV       VG   Attr       LSize   Pool Origin Data%  Move Log Cpy%Sync Convert<br> lv1      vg1  -wi-ao—- 768.00m<br> lv2      vg1  owi-aos— 512.00m<br> lv2-snap vg1  swi-aos— 128.00m      lv2     30.56     </p>
+<p>XFS：<br>[root@server0 ~]# mount -o nouuid,ro /dev/vg1/lv1-snap /mnt/lv1-snap/s<br>挂载快照，尽量使用ro（readonly）的方式，将不会破坏快照卷中的数据</p>
+<p>[root@server0 ~]# dmsetup ls –tree<br>vg1-lv2–snap (252:5)<br> ├─vg1-lv2–snap-cow (252:7)<br> │  └─ (253:17)<br> └─vg1-lv2-real (252:6)</p>
+<pre><code>├─ (253:17)
+└─ (253:18)
+</code></pre><p>vg1-lv2 (252:1)<br> └─vg1-lv2-real (252:6)</p>
+<pre><code>├─ (253:17)
+└─ (253:18)
+</code></pre></li>
+</ol>
+<p>快照自动增长：<br>[root@server0 ~]# vim /etc/lvm/lvm.conf<br>snapshot_autoextend_threshold = 70<br>snapshot_autoextend_percent = 20<br>[root@server0 ~]# systemctl restart lvm2-monitor.service<br>[root@server0 ~]# systemctl enable lvm2-lvmetad.service<br><strong>注：快照卷和原卷使用同一VG空间</strong></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -458,12 +491,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-12进程优先级</p>
+    <p><span class="copy-title">文章标题:</span>每天一点Linux-17LVM管理</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-20, 23:49:15</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-20, 23:51:11</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/20/每天一点Linux-12进程优先级/" title="每天一点Linux-12进程优先级">https://DROBP.github.io/2019/08/20/每天一点Linux-12进程优先级/</a>
+    <p><span class="copy-title">发布时间:</span>2019-08-26, 09:24:48</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-26, 09:25:56</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/26/每天一点Linux-17LVM管理/" title="每天一点Linux-17LVM管理">https://DROBP.github.io/2019/08/26/每天一点Linux-17LVM管理/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
