@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>SDN概述 | DROBP</title>
+  <title>每天一点Linux-20磁盘阵列 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="SDN概述 | DROBP">
+  <meta name="description" content="每天一点Linux-20磁盘阵列 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -355,9 +355,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-SDN概述" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-每天一点Linux-20磁盘阵列" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">SDN概述</h1>
+        <h1 class="article-title">每天一点Linux-20磁盘阵列</h1>
     
     <div class="article-meta">
         
@@ -365,7 +365,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="SDN">SDN</a>
+                <a href="javascript:" data-rel="Linux">Linux</a>
             
         </span>
         
@@ -373,7 +373,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-07 17:48:47">2019-08-02 17:30</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-29 10:08:22">2019-08-29 10:06</time>
         
     </div>
     <div class="article-meta">
@@ -406,7 +406,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-为什么会出现SDN？"><span class="toc-text">1.为什么会出现SDN？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-什么是软件定义网络？"><span class="toc-text">2.什么是软件定义网络？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方法"><span class="toc-text">解决方法</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#1-2SDN的标准化"><span class="toc-text">1.2SDN的标准化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-3SDN的多种基本架构"><span class="toc-text">1.3SDN的多种基本架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ONF定义的SDN三层架构"><span class="toc-text">ONF定义的SDN三层架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2SDN的核心思想"><span class="toc-text">2.2SDN的核心思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在SDN中有哪些可编程接口呢？"><span class="toc-text">在SDN中有哪些可编程接口呢？</span></a></li></ol></li>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#磁盘阵列-RAID"><span class="toc-text">磁盘阵列 RAID</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -421,171 +421,44 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-为什么会出现SDN？"><a href="#1-为什么会出现SDN？" class="headerlink" title="1.为什么会出现SDN？"></a>1.为什么会出现SDN？</h2><h2 id="2-什么是软件定义网络？"><a href="#2-什么是软件定义网络？" class="headerlink" title="2.什么是软件定义网络？"></a>2.什么是软件定义网络？</h2><p>网络系统的4个生命周期：</p>
+        <h1 id="磁盘阵列-RAID"><a href="#磁盘阵列-RAID" class="headerlink" title="磁盘阵列 RAID"></a>磁盘阵列 RAID</h1><p>RAID：廉价磁盘冗余阵列（Redundant Array of Independent Disks）<br>作 用：容错、提升读写速率</p>
+<p>RAID类型                                                                                         个数               利用率                优缺点<br>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>RAID0   条带集（磁盘同时工作，读写块）                              2块以上              100%                  读写速率快，<strong>不容错</strong><br><strong>RAID1</strong>   镜像集（镜子，需要偶数个磁盘）                                    2                     50%                   读写速率一般，容错<br><strong>RAID5</strong>   带奇偶校验条带集                                                             3块以上            (n-1）/n           读写速率快，容错，<strong>允许坏一块</strong>、磁盘数越多读写越快、恢复速度慢、恢复时不允许又另外一块盘损坏<br>RAID6   带奇偶校验条带集<strong>双校验</strong>           4块以上             (n-2）/n            读写快，容错，允<strong>许坏两块</strong><br>RAID0<em>1</em><br>RAID1<em>0</em> RAID1的安全＋RAID0的高速                                            至少4                50%                     读写速率快，容错<br>RAID5<em>0</em> RAID5的安全＋RAID0的高速                                            至少6                (n-2）/n              读写速率快，容错<br>RAID6<em>0</em> RAID6的安全＋RAID0的高速                                            至少8                (n-4）/n              读写速率快，容错<br>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</p>
+<p><img src="/2019/08/29/每天一点Linux-20磁盘阵列/1.png" alt="1"></p>
+<p><img src="/2019/08/29/每天一点Linux-20磁盘阵列/blog\source\_posts\每天一点Linux-20磁盘阵列\2.png" alt="2"></p>
+<p><img src="/2019/08/29/每天一点Linux-20磁盘阵列/3.png" alt="3"></p>
+<p><img src="/2019/08/29/每天一点Linux-20磁盘阵列/4.png" alt="4"></p>
+<p>一、不同场景RAID的使用<br>RAID 实现方式<br>硬RAID：  需要RAID卡，有自己的CPU，处理速度快<br>软RAID：  通过操作系统实现，比如Windows、Linux</p>
+<p>二、RAID5 (3块硬盘) + 热备(1块硬盘)</p>
 <ol>
-<li>需求调研<ol>
-<li>对网络互联范围、互联规模</li>
-<li>拟承载的应用<ul>
-<li>对象</li>
-<li>类型</li>
-<li>用户规模</li>
-<li>实现模式</li>
-<li>服务质量</li>
-<li>安全要求</li>
-<li>…..</li>
-</ul>
+<li><p>准备4块硬盘<br>[root@ecs-ea9d ~]# ll /dev/sd*<br>brw-rw—- 1 root disk 8,  48 Jan 13 16:07 /dev/sdd<br>brw-rw—- 1 root disk 8,  64 Jan 13 16:07 /dev/sde<br>brw-rw—- 1 root disk 8,  80 Jan 13 16:07 /dev/sdf<br>brw-rw—- 1 root disk 8,  80 Jan 13 16:07 /dev/sdg</p>
+</li>
+<li><p>创建RAID<br>[root@ecs-ea9d ~]# yum -y install mdadm              //确保mdadm命令可用<br>[root@ecs-ea9d ~]# mdadm -C /dev/md0 -l5 -n3 -x1 /dev/sd{d,e,f,g}<br>mdadm: array /dev/md0 started.<br>-C                      创建RAID<br>/dev/md0        第一个RAID设备<br>-l5                     RAID5<br>-n                      RAID成员的数量<br>-x                      热备磁盘的数量</p>
+</li>
+<li><p>格式化，挂载<br>[root@ecs-ea9d ~]# mkfs.xfs /dev/md0<br>[root@ecs-ea9d ~]# mkdir /mnt/raid5<br>[root@ecs-ea9d ~]# mount /dev/md0 /mnt/raid5     //也可选择永久挂载<br>[root@ecs-ea9d ~]# cp -rf /etc /mnt/raid5/etc1</p>
+</li>
+<li><p>查看RAID信息<br>[root@ecs-ea9d ~]# mdadm -D /dev/md0                 //-D 查看详细信息<br>/dev/md0:<br>  Version : 1.2<br>  Creation Time : Mon Jan 13 16:28:47 2014<br>  Raid Level : raid5<br>  Array Size : 2095104 (2046.34 MiB 2145.39 MB)<br>  Used Dev Size : 1047552 (1023.17 MiB 1072.69 MB)<br>  Raid Devices : 3<br>  Total Devices : 4<br>  Persistence : Superblock is persistent</p>
+<p>  Update Time : Mon Jan 13 16:34:51 2014</p>
+<pre><code>   State : clean 
+</code></pre><p> Active Devices : 3<br> Working Devices : 4<br> Failed Devices : 0<br> Spare Devices : 1</p>
+<p> Layout : left-symmetric</p>
+<p>  Chunk Size : 512K<br> Number   Major   Minor   RaidDevice State</p>
+<pre><code>0       8       48        0      active sync   /dev/sdd
+1       8       64        1      active sync   /dev/sde
+4       8       80        2      active sync   /dev/sdf
+</code></pre><p>​    3       8       96        -      spare   /dev/sdg</p>
+</li>
+<li><p>模拟一块硬盘损坏，并移除<br>终端一：<br>[root@ecs-ea9d ~]# watch -n 0.5 ‘mdadm -D /dev/md0 | tail’      //watch持续查看<br>终端二：<br>[root@ecs-ea9d ~]# mdadm /dev/md0 -f /dev/sde -r /dev/sde<br>//模拟坏了并移除  -f  –fail  -r  –remove</p>
+</li>
+<li><p>设置RAID开机生效<br>[root@ecs-ea9d ~]# mdadm -D -s<br>ARRAY /dev/md0 metadata=1.2 name=sxl1.com:0 UUID=c6761621:8878498f:f5be209e<br>[root@ecs-ea9d ~]# mdadm -D -s &gt; /etc/mdadm.conf</p>
 </li>
 </ol>
-</li>
-<li>规划设计<ol>
-<li>网络架构与拓扑</li>
-<li>IP和路由</li>
-<li>安全和Qos策略<br>在设计过程中体现一定的冗余，以便对未来的规模和业务扩展留下一定的弹性空间</li>
-</ol>
-</li>
-<li>部署实施<ol>
-<li>根据规划与设计方案进行落地包括对设备的上架、配置、连通，对系统的集成、上线、测试。</li>
-</ol>
-</li>
-<li>运行维护<br> 对网络状态的监控与管理，包括设备、用户、流量、应用。发现并排除网络故障与隐患，确保网络对系统可靠有效的运行。（通常网络在运行了一定的年限后，不能再满足扩增或变化的应用需求而需要升级或被取代）</li>
-</ol>
-<p><strong>网络亚健康问题：多元、多变的网络上层应用于业务与相对稳定的网络架构设计以及系统运维之间的矛盾</strong>。</p>
-<ol>
-<li>上层应用需要网络的规模扩展和服务能力上具有很大的灵活性，能过体现客户为中心提供应用服务和业务体现的自适应性和动态性。<br>以云计算为例：<ol>
-<li>三种典型的模式：<ol>
-<li>IaaS</li>
-<li>PaaS</li>
-<li>SaaS</li>
-</ol>
-</li>
-<li>无论哪种模式都需要具备按需进行资源分配与调度的能力，需要借助资源池化、网络功能虚拟化、虚拟主机自动恢复和动态可迁移、不同的用户或应用之间的安全隔离。来确保系统的自动化部署和资源的动态适配。</li>
-</ol>
-</li>
-</ol>
-<p>一方面：传统网络规划与设计是预设定于好的也就是说是静态的；调整与对应的空间有限；人工为主、自动为辅。加上在分布式网络架构中网络设备类型的多样性、厂家来源的多样性。所以调整的复杂度和难度比较大。<br>归结起来又两方面的根本原因：</p>
-<p>传统网络及其设备的只可配置、不可编程（网络的部署、配置与管理需要落到每台设备上区域手工完成，而每台设备紧耦合了三个平面）<br>    1.管理平面（命令行界面、图形界面）<br>    2.控制平面（在管理平面输入的配置与管理指令会在控制平面生成相应的控制表，例如：数据链路层的MAC交    换表、网络层的路由表、MPLS标签表、ACL访问控制表等）<br>    3.数据平面：数据平面数据转发的依据：数据平面会根据控制平面的相关控制表给出的信息，进行具体的报文处    理或转发</p>
-<p>矛盾的根源不在于网络的生命周期而是来自我们对网络的设计思想、网络架构、管理模式。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>针对上述问题的根源软件定义网络技术（SDN）引入了两项重要的改变和创新：</p>
-<ol>
-<li>能够弹性响应上层应用变化的网络可编程从而实现随心而变，随应用而动</li>
-<li>在分布式网络设备连接上引入一个集中统一的控制与管理层来实现对网络的全局控制与管理和对上层应用与业务的动态相应。</li>
-</ol>
-<p>为此需要对网络设备的管理、控制、数据平面进行解耦：</p>
-<ol>
-<li>在设备中仅保留原来的数据层面</li>
-<li>将控制平面和管理平面放到集中控制管理层</li>
-</ol>
-<p>SDN的三层网络架构</p>
-<p><img src="/2019/08/02/SDN概述/1.jpg" alt="1"></p>
-<ul>
-<li>最上层是应用层：包含了网络所要承载的多元业务与应用</li>
-<li>最下层是网络的基础设施层：这些设备已经不是传统的网络设备，它们的控制平面和管理平面都已经被拉出。这些设备变得简单只承担报转发功能。</li>
-<li>被抽取出的控制与管理平面到中间的集中控制层（SDN集中控制器）这个控制层非常关键，它在应用业务层和基础设施层起到“承上启下”的全局管控作用。</li>
-<li>在控制器与应用层之间提供了不同的API接口（北向接口），通过这些API（北向接口）实现控制器与上层应用的交互。</li>
-<li>在控制器与基础设施层之间提供了控制数据平面接口（南向接口）：所有在SDN控制器里面通过软件定义生成的流表都通过南向接口下发到基础设施层的设备上，引导和决定设备的包转发行为。</li>
-</ul>
-<p><strong>通过这种控、管、转的分离，网络的控制与管理效率会更高；弹性的相应也会更好。</strong></p>
-<p>新一代网络架构：</p>
-<ol>
-<li>底层网络设备通过解耦实现简单化</li>
-<li>网络的管理通过集中控制器实现了全局化</li>
-<li>网络的运维通过SDN南向接口与协议实现的自动化</li>
-<li>网络的应用通过SDN北向接口与协议实现了更加弹性的人性化</li>
-</ol>
-<h1 id="1-2SDN的标准化"><a href="#1-2SDN的标准化" class="headerlink" title="1.2SDN的标准化"></a>1.2SDN的标准化</h1><p>SDN的标准化组织机构：</p>
-<ol>
-<li>ONF:是SDN的专门的标准化的组织、是最活跃、最具有影响力的组织，是SDN标准化和产业化最主要的推动力量。</li>
-<li>IETF:是全球最具权威的技术标准化组织。</li>
-<li>ITU-T：国际电信联盟</li>
-<li>ETSI:欧洲电信标准化协会<br> 标准化的重要作用：提供了开放架构下的技术，互操作性，和系统的兼容性。</li>
-</ol>
-<h1 id="1-3SDN的多种基本架构"><a href="#1-3SDN的多种基本架构" class="headerlink" title="1.3SDN的多种基本架构"></a>1.3SDN的多种基本架构</h1><ol>
-<li>ONF定义的基于OpenFlow的三层架构<br> 技术特点：<ol>
-<li>实现了转发与控制的分离</li>
-<li>对转发面进行了标准化<br>由于实现了逻辑的集中控制所以有以下几个<strong>优点</strong>：<ol>
-<li>在流量调度方面有优势</li>
-<li>开放生态链</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>IETF提出的技术架构<br> 主要思想：<ol>
-<li>开放现有网络设备的能力</li>
-<li>向应用层提供标准开放的API<br>优点：<ol>
-<li>充分利用了现有的网络设备和路由协议（能和现有网络进行兼容）</li>
-<li>便于快速实现</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>NICIRA（已被vmware收购）提出的Ocerlay技术架构<br> 技术架构：（在传统网络上抽象出虚拟网络）<ol>
-<li>网络边缘软件化</li>
-<li>Overlay技术（基于网络叠加）<br>优点：</li>
-<li>实现了与物理网络的解耦，对物理设备的要求降到最低</li>
-<li>部署非常灵活</li>
-</ol>
-</li>
-<li>ETSI的NFV（网络功能虚拟化：Network Function Virtualization）技术架构<br>下面详细简绍各架构：<h3 id="ONF定义的SDN三层架构"><a href="#ONF定义的SDN三层架构" class="headerlink" title="ONF定义的SDN三层架构"></a><strong>ONF定义的SDN三层架构</strong></h3>基本框架：</li>
-</ol>
-<p><img src="/2019/08/02/SDN概述/3架构.jpg" alt="3架构"><br>这是一种新型的网络创新架构，实现了网络设备控制与转发的分离；这是网络虚拟化的一种实现方式，核心技术是OpenFlow，控制层和转发层之间通过OpenFlow协议进行通信；控制与转发分离后可以实现逻辑上的集中控制，因此能实现网络流量的灵活控制，使网络作为管道变得更加智能。</p>
-<p>体系架构：</p>
-<ol>
-<li><p><strong>四个平面</strong></p>
-<ol>
-<li>数据平面<br>是由若干网元（Network Element）组成，每个网元包含一个或多个SDN数据路径（SDN Datapath）。SDN Datapath是逻辑上的网络设备，负责转发和处理数据无控制能力，一个SDN DataPath包含控制数据平面接口（Control Data Plane Interface,CDPI）、代理、转发引擎（Forwarding Engine）表和处理功能（Processing Function） SDN数据面（转发面）的关键技术:对数据面进行抽象建模。</li>
-</ol>
-</li>
-<li><p>控制平面<br>控制平面包括北向接口（Northbound Interfaces,NBI）代理、SDN控制逻辑（Control Logic）、控制数据平面接口驱动三部分。控制平面有两个任务：1.将SDN应用层请求转换到SDN Datapath;2.为SDN应用提供底层网络的抽象模型（状态或事件）<br>  控制平面的关键技术：控制器（网络操作系统（NOS）或网络控制器），SDN控制器是整个网络的大脑，网络的智能或核心实现都在SDN控制器中。开源的SDN控制器：NOX、POX、FloodLight、RYU、OpenDayLight、ONOS等。</p>
-<ol start="3">
-<li>应用平面<br>应用平面包括SDN应用逻辑与北向接口（NBI）驱动。应用平面通过北向接口与SDN控制器进行交互。在应用逻辑的实现上可以基于SDN理念改造传统应用的交付能力比如负载均衡、访问控制、应用加速。具体比如：可以通过软件实现的应用交付能力，降低系统的开支和成本；实现网元的虚拟化和集中化控制；支持网络系统的快速部署，在故障出现时能够快速并发现与解决问题；提供更高的智能，支持自动化运作，实现应用可感知的网络，这些都是SDN应用逻辑的具体实现。</li>
-<li>管理平面<br>管理平面负责一系列静态的工作例如网元的初始化配置；指定SDN DataPath控制器；定义SDN控制器及SDN应用的控制范围.</li>
-</ol>
-</li>
-<li><p><strong>两大接口</strong>：</p>
-<p>1.数据平面与控制平面的接口（CDPI）:南向接口</p>
-<p>主要功能：对所有的转发行为进行控制、设备性能查询、统计报告、事件通知等。ONF架构最突出的特点：    标准化的南向接口协议（Openflow），不依赖于底层具体厂商的交换设备。 南向接口的关键技术：转发面    开放协议（南向接口协议）：该协议允许控制器控制交换机的配置以及相关    转发行为，比如ONF定义的    转发面开放协议是Openflow它将转发面抽象为一个或多个流表组成的转发模型。网络控制器通过Openflow    协议下发流表到具体的交换机从而控制交换机的具体行为。</p>
-<p>2.控制平面与应用层面的接口（NBI）：北向接口<br>主要功能：负责向应用层提供抽象的网络视图，使应用能直接控制网络的行为。北向接口是一个开放的与厂    商无关的接口。北向接口的关键技术：SDN北向接口的设计：设计的目的是将网络能力封装后开放接口，供    上层业务调用。目前REST API 成为SDN北向接口的主流设计。以Floodlight的北向API集合为例。</p>
-</li>
-</ol>
-<h3 id="2-2SDN的核心思想"><a href="#2-2SDN的核心思想" class="headerlink" title="2.2SDN的核心思想"></a><strong>2.2SDN的核心思想</strong></h3><p>SDN的网络架构中包含可那些核心的设计思想呢？</p>
-<ol>
-<li><p>解耦<br> 解耦是将控制平面和数据平面进行分离，主要是为了解决传统网络中控制平面和数据平面在紧耦合上导致的问题。解耦后控制平面负责上层的控制决策；数据平面负责数据的交换转发，两个平面之间不在相互依赖，双发只要遵循一定的开放接口即可进行通信。<br> 在传统网络中：</p>
-<p> <img src="/2019/08/02/SDN概述/8.jpg" alt="8"><br> 在SDN网络中：</p>
-<p> <img src="/2019/08/02/SDN概述/9.jpg" alt="9"></p>
-<p> 解耦带来的问题与挑战：</p>
-<pre><code> 1. 控制平面的服务能力可能成为网路性能的瓶颈，而解决的办法之一就是在控制平面上布置多个分布式的控制器。
- 2. 上述提到的多控制器之间如何交互路由信息，如何保持分布式网络状态节点的一致性。
- 3. 由于控制平面在远端，控制平面的响应延迟，导致数据平面的可用性问题。
-</code></pre><p> 总体来说控制平面与数据平面的解耦，实现了网络的逻辑集中控制。从发展的角度来看解耦后两个平面可以独立完成体系结构与技术发展的冶进。有利于网络的技术创新技术发展。</p>
-</li>
-<li><p>抽象</p>
-<p> SDN借鉴了计算机系统的抽象技术，从用户的视角来看可以把网络看成一个类似计算机操作系统的分层系统，如图：</p>
-<p> <img src="/2019/08/02/SDN概述/10类比图.jpg" alt="10类比图"></p>
-<p> 在各个层上进行进一步的抽象，主要实现了三种类型的抽象：</p>
-<ol>
-<li><p>转发抽象</p>
-<p> 转发抽象是将数据平面抽象为通用的转发模型，比如OpenFlow的交换机模型，转发行为与硬件无关，同时各种转发表象如MAC表、路由表、MPLS标签表、ACL访问控制链表等抽象为统一的流表。</p>
-</li>
-<li><p>分布状态抽象<br> 控制层将设备的分布状态抽象成全局的网络视图从而实现逻辑的集中控制。抽象功能具体可通过网络操作系统（NOS）来实现，主要有两方面功能一是实现下发控制命令；二是通过手机设备和链路状态，为上层应用提供全局网络视图。</p>
-</li>
-<li>配置抽象<br> 配置抽象是指应用层对网络行为的表达，可以通过网络编程语言来实现，用户或者应用程序可以基于简化抽象模型，将抽象配置映射到（为）物理配置。<br>  在SDN前我们对网络行为的表达主要通过命令行配置后或者通过网管协议接口编写简单的脚本来实现。<br>  而在SDN中可以利用控制器提供的API通过python、java、c++等编程语言来实现，而且这种编程是基于控制层提供的全局网络视图而不是基于单个设备的编程。<br>  抽象的思想不仅体现在ONF提出的三层网络架构中，在Overlay架构中也给予了抽象的思想。在Overlay架构中Overlay网络在Underlay的基础上进行了抽象，应用程序不需要关注底层网络的实现细节。</li>
-</ol>
-</li>
-<li><p>网络的可编程<br> 可编程，SDN在数据平面和控制平面解耦后，提供了开放的可编程接口，这也是SDN区别于传统网络的重要思想之一。<br> 传统网络的管理接口主要是命令行和网络管理协议等，也可以通过Shell脚本和Python脚本实现一些运维或管理功能，但都属于一种非常初级的网络编程方式。而网络管理员需要的是类似于软件编程那样更高级的编程方式。这种编程方式的实现是基于整个网络的而不是基于某一设备的，因而需要对网络功能进行抽象来实现网络的可编程。<br> 在SDN出现之前学术界已经对网络的可编程进行了大量相关研究，其中最具代表的是主动网络和4D架构。主动网络的主要思想是开放网络节点的可编程接口；允许网络节点在用户数据上根据用户有需求执行相应的计算。4D架构将网络系统划分为四个平面：数据平面、发现平面、扩展平面、决策平面。这些研究都对SDN的可编程奠定了基础。</p>
-</li>
-</ol>
-<h3 id="在SDN中有哪些可编程接口呢？"><a href="#在SDN中有哪些可编程接口呢？" class="headerlink" title="在SDN中有哪些可编程接口呢？"></a>在SDN中有哪些可编程接口呢？</h3><p> SDN可编程接口主要包括：</p>
-<ol>
-<li>北向接口<pre><code> 北向接口的实现方式主要有REST API、JAVA API等.
-</code></pre></li>
-<li>南向接口<pre><code> 南向接口的实现协议主要有OpenFlow、OF-Config、OVSDB等。
-</code></pre></li>
-<li>东西向接口（研究阶段没有形成统一标准）<pre><code> 东西向接口主要负责多控制器或控制器与外部组件之间的通信。目前还在研究阶段没有形成统一的标准。
-</code></pre></li>
-<li>除了三大接口支持可编程外，SDN的数据平面也支持可编程。<pre><code> 目前数据平面的可编程技术主要包括Intel主导的高性能网络数据处理框架DPDK；斯坦福大学主导的数据平面可编程语言P4等。
-</code></pre></li>
-</ol>
-<p>下一篇：数据平面</p>
+<p>========================================================<br>mdadm选项：<br>-s  –scan<br>-S  –stop<br>-D  –detail<br>-C  –create<br>-f   –fail<br>-r   –remove<br>-n  –raid-devices=3<br>-x  –spare-devices=1</p>
+<p>-l   –level=5</p>
+<p>参考：<br>    Update Time : Mon Aug  4 22:47:47 2014<br>          State : clean, degraded, recovering<br> Active Devices : 2<br>Working Devices : 3<br> Failed Devices : 0<br>  Spare Devices : 1</p>
+<p> Layout : left-symmetric<br> Chunk Size : 512K</p>
+<p> Rebuild Status : 3% complete</p>
+<p>​       Name : localhost.localdomain:0  (local to host localhost.localdomain)<br>​       UUID : 3df9624c:138a5b3e:2f557132:59a43d04<br>​     Events : 41</p>
+<p>Number   Major   Minor   RaidDevice State<br>   0     252       16        0    active sync   /dev/vdb<br>   3     252       64        1    spare rebuilding   /dev/vde<br>   4     252       48        2    active sync   /dev/vdd</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -599,12 +472,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>SDN概述</p>
+    <p><span class="copy-title">文章标题:</span>每天一点Linux-20磁盘阵列</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-02, 17:30:40</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-07, 17:48:47</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/02/SDN概述/" title="SDN概述">https://DROBP.github.io/2019/08/02/SDN概述/</a>
+    <p><span class="copy-title">发布时间:</span>2019-08-29, 10:06:44</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-29, 10:08:22</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/29/每天一点Linux-20磁盘阵列/" title="每天一点Linux-20磁盘阵列">https://DROBP.github.io/2019/08/29/每天一点Linux-20磁盘阵列/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
