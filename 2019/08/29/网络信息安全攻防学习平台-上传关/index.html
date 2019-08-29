@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>控制平面 | DROBP</title>
+  <title>网络信息安全攻防学习平台-上传关 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="控制平面 | DROBP">
+  <meta name="description" content="网络信息安全攻防学习平台-上传关 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -360,9 +360,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-控制平面" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-网络信息安全攻防学习平台-上传关" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">控制平面</h1>
+        <h1 class="article-title">网络信息安全攻防学习平台-上传关</h1>
     
     <div class="article-meta">
         
@@ -370,7 +370,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="SDN">SDN</a>
+                <a href="javascript:" data-rel="网络安全">网络安全</a>
             
         </span>
         
@@ -378,7 +378,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-07 17:49:13">2019-08-05 21:53</time>
+        创建时间:<time class="date" title="更新时间: 2019-08-29 10:14:50">2019-08-29 10:12</time>
         
     </div>
     <div class="article-meta">
@@ -411,7 +411,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SDN控制平面"><span class="toc-text">SDN控制平面</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#开源控制器"><span class="toc-text">开源控制器</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#网络信息安全攻防学习平台-上传关"><span class="toc-text">网络信息安全攻防学习平台-上传关</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一题"><span class="toc-text">第一题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一："><span class="toc-text">方法一：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第二题："><span class="toc-text">第二题：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第三题"><span class="toc-text">第三题</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -426,52 +426,73 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="SDN控制平面"><a href="#SDN控制平面" class="headerlink" title="SDN控制平面"></a>SDN控制平面</h1><p>SDN控制平面一般有一个或多个控制器组成，控制器是网络的大脑控制器，负责两大任务，第一是通过南向接口协议对底层网络交换设备进行集中管理、状态监测、转发决策以及处理和调度数据平面的流量。第二是通过北向接口向上层应用开放多个层次的可编程能力，允许网络用户根据特定的应用场景，灵活的制定各种完了过策略。</p>
-<p>目前已经实现的SDN控制器非常多，有开源的控制器，有商用的控制器，不同的控制器有不同的架构和功能，我们来看一下典型的SDN控制器的架构，该架构分成6个层，南向接口层、抽象逻辑层、基础网络层、内置应用层、北向接口层和配置管理层。</p>
-<ul>
-<li><p>南向接口层主要对各种南向接口协议的支持，如OpenFlow、OVSDB等标准协议，控制器通过接口层的通道实现对底层网络的管理。</p>
-</li>
-<li><p>抽象逻辑层，主要作用是将服务抽象出来，实现各种通信协议的适配，为各模块和应用提供一致的服务。</p>
-</li>
-<li><p>基础网络层在任何控制器中，都是必不可少的。这里的模块包括了控制器内部的实现逻辑，比如拓扑管理、链路计算等，也包括一些底层的网络实现逻辑，比如BGP、Vxlan的实现等。</p>
-</li>
-<li><p>内置应用层提供了基础的功能包，如L2、L3层网络、Over APP、服务链APP等。</p>
-</li>
-<li><p>北向接口层中控制器实现了Restful API接口，或者是嵌入式的API，提供给上层应用调用。</p>
-</li>
-<li><p>配置管理层提供了控制器服务管理、集群管理和图形化界面，如ODL控制器提供了模块的启用，删除等功能。Floodlight等控制器提供了简单易用的UI界面，可以在WEB界面中调用控制器的北向API，对控制器进行配置。</p>
-</li>
-</ul>
-<p>不同的控制器有不同的架构和功能，那么SDN控制器的关键技术是什么呢？控制器的关键技术主要包括，南向网络控制和北向业务支撑。</p>
-<p>我们现分别介绍一下。控制器的南向网络控制技术主要包括链路发现、拓扑管理、策略制定和表项下发等，其中链路发现是获得SDN全网信息的关键，是实现网络地址学习、VLAN、路由转发等网络功能的基础与传统网络链路发现由各个网元自主进行不同，SDN网络中的链路发现工作由控制器统一完成，对于OpenFlow交换机直连链路的发现SDN控制器通过链路层发现协议LLDP实现，如图所示：</p>
-<p><img src="/2019/08/05/控制平面/79.png" alt="79"></p>
-<p>首先控制器通过packet-out消息，向所有相连的交换机发送LLDP数据包，该消息命令交换机将LLDP数据包发送给所有端口，当交换机收到packet-out消息，它就会把LLDP数据包通过其所有端口发送给与之相连的设备，由于邻居交换机是一台OpenFlow交换机，在该交换机中没有专门的流表项用于处理LLDP数据包，所以它将通过一个packet-in消息将数据包发送给控制器，控制器在收到packet-in消息后，会对数据包进行分析，并创建两台交换机之间的链接记录，网络中的其它交换机也都采用同样的方式向控制器发送packet-in消息，因此控制器能够创建完整的网络拓扑视图，OpenFlow交换机非直连链路的发现即两台OpenFlow交换机通过其他多台非OpenFlow交换机连接，控制器在发送packet-out消息给OpenFlow交换机的时候会同时要求交换机发出广播包通过广播的机制实现链路的发现。</p>
-<p>拓扑管理是为了随时监控和采集网络中SDN交换机的信息及时反馈网络的设备状态和链路状态，控制器需要定时发送带LLDP数据包的packet-out消息，给相连的SDN交换机并根据反馈回来的packet-in消息获知交换机的信息，以完成交换机工作状态的监测和网络拓扑视图的更新。但是当网络规模较大的时候，这种拓扑管理机制收敛速度很慢会影响网络状态的实时反馈。</p>
-<p>南向网络控制中的核心技术之一是策略制定，交换机流表生算法是影响控制器智能化水平的关键因素，控制器要针对不同网络层次的传输需求制定相应的转发策略，变成相应的流表项。SDN中策略制定与传统网络相比有很大优势。在传统网络中，在各台设备中进行相关的算法执行通常只能根据设备自身所掌握的有限的局部网络连接情况进行数据处理决策，SDN具有集中化控管的优势，控制器能够拥有全局的是网络视图，因此更容易获得优化的算法执行结果。</p>
-<p>策略计算的结果，需要通过下发表项来实现，控制器下发表项有两种交互方式，主动下发和被动下发。</p>
-<ul>
-<li><p>主动下发是控制器在交换机还没收到数据包之前先给交换机下发流表，告诉交换机如何处理第1个数据包，这样做的好处是可以避免交换机启动时数据流对交换机的冲击，并且可以消除数据传输过程中流表项设置延迟的问题。</p>
-</li>
-<li><p>另外一种是被动下发，被动下发是等到有数据流来才发送给控制器等待下发流表，这种在复杂网络中会产生流表项设置延迟的问题。</p>
-</li>
-</ul>
-<p>控制器的另外一个关键技术是北向业务支撑，控制器的北向业务支撑，主要是通过北向接口向上层业务应用，提供灵活的网络资源抽象；与南向接口已有的OpenFlow为代表的标准协议的不同，SDN在北向接口标准方面存在争议，这主要是因为北向接口直接为业务应用服务其涉及密切联系业务应用需求所以具有多样化的特征很难统一。同时北向接口设计的合理性和网络能力的开放性，会直接影响到SDN控制器技术和产品的市场前景。这也是SDN标准难以统一的重要原因，当前业界有近20种控制器，每种控制器都会对外提供北向接口用于上层应用开发和资源编排，从技术实现上来看，目前rest API是用户比较容易接受的方式。</p>
-<h2 id="开源控制器"><a href="#开源控制器" class="headerlink" title="开源控制器"></a>开源控制器</h2><p>目前已经实现的SDN开源控制器非常多，如果按实现的程序设计语言进行分类主要有三类。第一类是c或c++加语言系列的；第二类是Python语言系列；第三类是java语言系列的。具体如下图：</p>
-<p><img src="/2019/08/05/控制平面/85.png" alt="85"></p>
-<p>下面简绍几个典型的控制器：</p>
-<p><strong>POX</strong></p>
-<p>POX控制器是基于NOX控制器的，完全采用Python语言开发，实现了简单的控制平面的功能，具有简单易上手的特点，非常适合初学者。</p>
-<p>POX由内核和组件组成，内核负责组建的注册，组件之间可以通过内核进行交互。内核的主要模块有两个，OpenFlow和of_01，控制器可以通过OpenFlow模块控制所有的交换机，of_01模块主要是运行一个线程，该线程不断与交换机进行TCP的连接到某交换机送来一个协议消息时of_01会触发消息所对应的事件并由相关的组件处理函数进行事件的处理。下面这张表是POX中主要组件和功能的介绍，其中包括了POX的核心模块、web服务器模块、拓扑模块等，定义了OpenFlow类库、消息系统、日志系统、事件系统以及报文的解封装以及处理逻辑等，此外还实现了2层3层交换机的功能。</p>
-<p>POX控制器最大特点是简单和绿色、代码结构十分简单、无需安装即可使用，初学者学习POX并不需要完全学习所有的代码，只需要阅读Forwarding目录下的简单例子，便可学会使用它的API。</p>
-<p>由于POX简单高效，所以POX应用开发的效率很高，适用于快速开发和功能验证的科研场景。那么POX控制器的缺点是什么呢？正是由于POX代码简单它缺少模块也比较多功能不够全面，由日本NTT主导开发的RYU控制器正好解决这一问题，Ryu也是基于Python语言开发的，它是一个简单易用的轻量级SDN控制器。</p>
-<p>控制层主要包含协议解析、事件系统、基本的网络报文库等模块，而应用层包含内涵内建应用和基于控制层提供的API编写的网络应用。Ryu通过南向接口与数据平面的设备进行通信。在南向协议方面，不仅支持从1.0~1.5版本的OpenFlow协议还支持如OF-Config、OVSDB、VRRP和NETCONF等其他南向协议。通过北向接口，完成应用层和控制层的通信Ryu提供了Rest API和RPC的接口，允许外界的进程和Ryu进行通信，用户可以在OpenStack或者其他应用程序上与Ryu通信，从而控制SDN网络。</p>
-<p><strong>Ryu</strong><br>Ryu控制器中包含了大量的库函数和组件供SDN的应用开发使用。其中库函数是Ryu针对SDN控制器需求抽取的一些共性功能，这些库函数可以在组件中被直接调用，而组件之间的关系是相互独立的。Ryu提供的库函数和组件如图所示，Netconf、OF-conf、sFlow等函数主要实现对OpenFlow交换机的控制功能。<br>在几个重要的组件中，OF-wire主要实现对OpenFlow不同协议版本的支持；Topology主要实现对拓扑图构建，以及列入状态的跟踪；OF REST为用户提供了REST API；VRRp组件用于在Open Flow交换机上添加了VRRP能力，有效的改善网络的可靠性；此外Ryu可以作为OpenStack的插件也支持与开源入侵检测系统Snort协同合作，Ryu也支持使用Zookeeper来实现高可用的目标。</p>
-<p><strong>floodlight</strong></p>
-<p>另一个不得不提非常经典的控制器是Floodlight，它几乎影响了后来所有采用Java语言编写的SDN控制器。Floodlight模块可以分成Floodlight控制器、模块应用、Java API、REST API和REST应用部分。</p>
-<p>Floodlight的控制器是Floodlight的核心模块部分，包括模块管理、线程池、WEB UI、设备管理和Open Flow的相关服务。核心部分完成了SDN控制器的基础功能并向应用层提供API使得开发者可以在此基础上开发SDN应用。模块应用部分包含了如集线器，自学交换机等模块化的基础网络应用，初学者可以通过学习这些应用掌握Floodlight的API使用方法为开发新应用做准备。此外Floodlight支持第三方软件通过REST API与之通信，共同完成复杂的网络管理，下表是Floodlight的主要组件的功能介绍。</p>
-<p>由于Floodlight的优秀性能，Floodlight被学术界和工业界广泛的采用，已经成为主流的SDN开源控制器之一。</p>
-<p>Opendaylight和ONOS也是基于java语言开发的相对于Floodlight而言，它们的架构更加复杂功能也更加强大，适合于大型项目的开发应用。</p>
-<p>下一篇：北向接口</p>
+        <h1 id="网络信息安全攻防学习平台-上传关"><a href="#网络信息安全攻防学习平台-上传关" class="headerlink" title="网络信息安全攻防学习平台-上传关"></a>网络信息安全攻防学习平台-上传关</h1><p>注：本人使用的是火狐浏览器，下面会用到软件burpsuite<br>软件下载【<a href="https://portswigger.net/burp/communitydownload】" target="_blank" rel="noopener">https://portswigger.net/burp/communitydownload】</a><br>使用方法【<a href="https://jingyan.baidu.com/article/6f2f55a151c6ddb5b93e6c36.html】" target="_blank" rel="noopener">https://jingyan.baidu.com/article/6f2f55a151c6ddb5b93e6c36.html】</a><br>下面开始解题</p>
+<h2 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h2><p>链接：【<a href="http://hackinglab.cn/ShowQues.php?type=upload】" target="_blank" rel="noopener">http://hackinglab.cn/ShowQues.php?type=upload】</a><br><img src="https://img-blog.csdnimg.cn/20181101204459937.png" alt="在这里插入图片描述"><br>点击通关地址<br><img src="https://img-blog.csdnimg.cn/20181101204837509.png" alt="在这里插入图片描述"></p>
+<h3 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h3><p>以下是网页源代码（在此页面中点击鼠标右键中选择查看页面源代码）：</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv=Content-Type content=&quot;text/html;charset=utf-8&quot;&gt;
+        &lt;title&gt;upload 1&lt;/title&gt;
+        &lt;script&gt;
+            function check(){
+                var filename=document.getElementById(&quot;file&quot;);
+                var str=filename.value.split(&quot;.&quot;);
+                var ext=str[str.length-1];
+                if(ext==&#39;jpg&#39;){
+                    return true;
+                }else{
+                    alert(&quot;请上传一张JPG格式的图片！&quot;)
+                    return false;
+                }
+                return false;
+            }
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        请上传一张JPG格式的图片！
+        &lt;form action=&quot;upload_file.php&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot; onsubmit=&quot;return check()&quot;&gt;
+            &lt;label for=&quot;file&quot;&gt;文件名&lt;/label&gt;
+            &lt;input type=&quot;file&quot; name=&quot;file&quot; id=&quot;file&quot; /&gt; 
+            &lt;br /&gt;
+            &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;上传&quot; /&gt;
+        &lt;/form&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>代码中第八行中的语句语义为：将文件的名字以“   .   ”进行分割存放在一个数组中。第9行中是用数组中的最后一个进行判断，用来执行下面的函数。<br>一般的网页是不会显示此代码的，由此代码可知题中的逻辑判断不是由后台判断的，是前端直接进行判断，就出现了第一种解决办法(用我上述的软件进行解决)<br>我们首先开启上述软件后在自己的电脑中选择一张自己的图片，点击上传会在软件中得到此代码，这时我们已经通过了前端对文件的认证，将下图中箭头所指的文件后缀名改为其他的文件的后缀名（例如：txt、exe等）即可得到key<br><img src="https://img-blog.csdnimg.cn/20181101210403247.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>key is IKHJL9786#$%^&amp;</p>
+<p>###方法二：<br><img src="https://img-blog.csdnimg.cn/20181101211807315.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>进入通关地址后按键盘F12进入浏览器的web开发者界面如图，我们可以看到箭头所指的“return check()”我们可以直接跳过页面源码中的check（）函数，将check双击修改为true，后点击上传即可得到key。<br><img src="https://img-blog.csdnimg.cn/20181101212439433.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="第二题："><a href="#第二题：" class="headerlink" title="第二题："></a>第二题：</h1><p>链接：【<a href="http://hackinglab.cn/ShowQues.php?type=upload】" target="_blank" rel="noopener">http://hackinglab.cn/ShowQues.php?type=upload】</a><br>此题的解决办法与上一题中的第一种方法相同。（用软件得到代码后修改文件后缀名得到key）<br><img src="https://img-blog.csdnimg.cn/20181101213519512.png" alt="在这里插入图片描述"></p>
+<h1 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h1><p>链接【<a href="http://hackinglab.cn/ShowQues.php?type=upload】" target="_blank" rel="noopener">http://hackinglab.cn/ShowQues.php?type=upload】</a><br>进入通关地址后我们选择看页面源代码：</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv=Content-Type content=&quot;text/html;charset=utf-8&quot;&gt;
+        &lt;title&gt;upload 1&lt;/title&gt;
+        &lt;script&gt;
+            function check(){
+                var filename=document.getElementById(&quot;file&quot;);
+                var str=filename.value.split(&quot;.&quot;);
+                var ext=str[1];
+                if(ext===&#39;jpg&#39;){
+                    return true;
+                }else{
+                    alert(&quot;请上传一张JPG格式的图片！&quot;);
+                    return false;
+                }
+                return false;
+            }
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        请上传一张JPG格式的图片！
+        &lt;form action=&quot;upload_file.php&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot; onsubmit=&quot;return check()&quot;&gt;
+            &lt;label for=&quot;file&quot;&gt;文件名&lt;/label&gt;
+            &lt;input type=&quot;file&quot; name=&quot;file&quot; id=&quot;file&quot; /&gt; 
+            &lt;br /&gt;
+            &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;上传&quot; /&gt;
+        &lt;/form&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>可以看到它与第一题中的源码大致相同，但是在第9行中做了改变，由第一题中数组的最后一个修改为第二个。由此我们可以通过文件的命名来解决此题。例如将上传的文件命名为：文件名.jpg.txt（中间是有点的）即可得到key<br><img src="https://img-blog.csdnimg.cn/20181101215314783.png" alt="在这里插入图片描述"><br>此题还有第二种解决方法，（小编掌握的也掌握的不好，就不写了）思路为：一般接收文件都会以 /0 来结束检索，我们可以在上述的软件中修改上传文件后缀名的ASCII值来得到key。</p>
+<p>下面小编来说一下我对此上传关的一些感受：本关内的三个题主要就是如何绕过页面源码对文件的判断，来上传一些jpg外的文件。例如你想黑入一个服务器（上传病毒，但是你想要上传的文件类型不可能是jpg的） 但其只允许你上传图片类型的文件，你需要绕过其前端的判断。</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -485,12 +506,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>控制平面</p>
+    <p><span class="copy-title">文章标题:</span>网络信息安全攻防学习平台-上传关</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-05, 21:53:30</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-07, 17:49:13</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/05/控制平面/" title="控制平面">https://DROBP.github.io/2019/08/05/控制平面/</a>
+    <p><span class="copy-title">发布时间:</span>2019-08-29, 10:12:48</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-29, 10:14:50</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/29/网络信息安全攻防学习平台-上传关/" title="网络信息安全攻防学习平台-上传关">https://DROBP.github.io/2019/08/29/网络信息安全攻防学习平台-上传关/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
