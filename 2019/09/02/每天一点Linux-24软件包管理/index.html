@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-13I/O重定向 | DROBP</title>
+  <title>每天一点Linux-24软件包管理 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-13I/O重定向 | DROBP">
+  <meta name="description" content="每天一点Linux-24软件包管理 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -387,9 +387,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-13I-O重定向" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-每天一点Linux-24软件包管理" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-13I/O重定向</h1>
+        <h1 class="article-title">每天一点Linux-24软件包管理</h1>
     
     <div class="article-meta">
         
@@ -405,7 +405,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-21 19:51:03">2019-08-21 19:44</time>
+        创建时间:<time class="date" title="更新时间: 2019-09-02 09:40:11">2019-09-02 09:39</time>
         
     </div>
     <div class="article-meta">
@@ -438,7 +438,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#I-O重定向-I-O-Redirection"><span class="toc-text">I/O重定向 I/O Redirection</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#输出重定向-覆盖，追加"><span class="toc-text">输出重定向 (覆盖，追加)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输入重定向"><span class="toc-text">输入重定向</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#软件包管理"><span class="toc-text">软件包管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#YUM使用官方源"><span class="toc-text">YUM使用官方源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用自建源"><span class="toc-text">使用自建源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Base源-centos7光盘文件"><span class="toc-text">Base源 [centos7光盘文件]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三方软件源-yum缓存"><span class="toc-text">第三方软件源 [yum缓存]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#YUM缓存："><span class="toc-text">YUM缓存：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#本地源：例如使用安装光盘"><span class="toc-text">本地源：例如使用安装光盘</span></a></li></ol></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -453,67 +453,132 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="I-O重定向-I-O-Redirection"><a href="#I-O重定向-I-O-Redirection" class="headerlink" title="I/O重定向 I/O Redirection"></a>I/O重定向 I/O Redirection</h1><p>标准输入、标准输出、标准错误</p>
-<p><img src="/2019/08/21/每天一点Linux-13I-O重定向/1.png" alt="1"></p>
-<p>进程在运行是会打开多个文件，每个文件都有一个file descriptors （FD，文件描述符 或  Process I/O channels）：</p>
-<p><img src="/2019/08/21/每天一点Linux-13I-O重定向/2.png" alt="2"></p>
-<p>进程使用文件描述符来管理打开的文件<br>[yang@ecs-ea9d ~]$  ls /proc/$$/fd<br>0  1  2  255</p>
-<h2 id="输出重定向-覆盖，追加"><a href="#输出重定向-覆盖，追加" class="headerlink" title="输出重定向 (覆盖，追加)"></a>输出重定向 (覆盖，追加)</h2><p><strong>正确输出： 1&gt; 1&gt;&gt; 等价于 &gt; &gt;&gt;</strong><br><strong>错误输出： 2&gt; 2&gt;&gt;</strong></p>
-<p>案例1：输出重定向（覆盖）<br>[yang@ecs-ea9d ~]$  date 1&gt;date.txt</p>
-<p>案例2：输出重定向（追加）<br>[yang@ecs-ea9d ~]$  date &gt;&gt;date.txt</p>
-<p>案例3：错误输出重定向<br>[yang@ecs-ea9d ~]$  ls /home/ /aaaaa&gt;list.txt<br>ls: cannot access /aaaaa: No such file or directory<br>[yang@ecs-ea9d ~]$  ls /home/ /aaaaaa&gt;list.txt <strong>2</strong>&gt;error.txt        //重定向到不同的位置</p>
-<p>案例4： 正确和错误都输入到相同位置<br>[yang@ecs-ea9d ~]$  ls /home/ .aaaa &amp;&gt;list1                        //混合输出</p>
-<p>案例5： 正确和错误都输入到相同位置<br>[yang@ecs-ea9d ~]$  ls /home/ /aaaa&gt;list.txt3 2&gt;&amp;1                //重定向到相同的位置</p>
-<p>案例6：重定向到空设备/dev/null        //垃圾桶<br>[yang@ecs-ea9d ~]$  ls /home/  /aaaaaaaaa &gt;list.txt 2&gt;/dev/null     //空设备，即将产生的输出丢掉<br>[yang@ecs-ea9d ~]$  ls /home/  /aaaaaaaaa &amp;&gt;/dev/null                     //空设备，即将产生的输出丢掉</p>
-<p>案例7：脚本中使用重定向</p>
-<p>vim ping.sh </p>
-<pre><code class="shell">#!/usr/bin/bash
-ping -c1 172.16.120.254 &amp;&gt;/dev/null
-if [ $? -eq 0 ];then
-    echo &quot;up..&quot;
-else
-    echo &quot;down..&quot;
-fi
-</code></pre>
-<p>bash ping.sh</p>
-<p>案例8：脚本中使用重定向</p>
-<p>vim ping2.sh </p>
-<pre><code class="shell">#!/user/bin/bash
-ping -c1 www.baidu.com &amp;&gt;/home/yang/workspace/test1
-if [ $? -eq 0 ];then
-        echo “up..”
-else
-        echo&quot;down..&quot;
-fi
-</code></pre>
-<p>bash ping2.sh</p>
-<h2 id="输入重定向"><a href="#输入重定向" class="headerlink" title="输入重定向"></a>输入重定向</h2><p>标准输入：   &lt;   等价 0&lt;<br>案例1：</p>
-<p>[yang@ecs-ea9d ~]$ mail -s “drobp” jack<br>d<br>r<br>o<br>b    </p>
-<p>p</p>
-<p><strong>^D</strong>         //ctrl+d用来结束内容书写<br>[yang@ecs-ea9d ~]$ su - jack<br>[jack@ecs-ea9d ~]$ mail<br>Mail version 8.1 6/6/93.  Type ? for help.<br>“/var/spool/mail/alice”: 1 message 1 new</p>
-<p>N  1 <a href="mailto:root@ecs-ea9d.local" target="_blank" rel="noopener">root@ecs-ea9d.local</a>  Mon Oct 29 14:09  18/657   “ssss”<br>&amp; </p>
-<p>[jack@ecs-ea9d ~]$ mail -s “test01” jack &lt; /etc/hosts    //输入重定向，来自于文件</p>
-<p>案例2：<br>[yang@ecs-ea9d ~]$  grep ‘root’                                        //没有改变输入的方向，默认键盘，此时等待输入…<br>yang sss<br>sssrootssss..<br>sssrootssss..</p>
-<p>[yang@ecs-ea9d ~]$  grep ‘root’ &lt; /etc/passwd<br>root​：x :0:0:root:/root:/bin/bash<br>operator​：x  :11:0:operator:/root:/sbin/nologin</p>
-<p>案例3：<br>[yang@ecs-ea9d ~]$  dd if=/dev/zero of=/file1.txt bs=1M count=2    //加限制大小为1M，否则文件会不断变大<br>[yang@ecs-ea9d ~]$  dd &lt;/dev/zero &gt;/file2.txt bs=1M count=20</p>
-<p>案例4：mysql表结构导入<br>[yang@ecs-ea9d ~]$  mysql -uroot -p123 &lt; bbs.sql</p>
-<p>案例5：at<br>[yang@ecs-ea9d ~]$  at now +5 min<br>at&gt; useradd yang99<br>at&gt;^D<br>job 1 at 2015-06-09 11:57</p>
-<p>[yang@ecs-ea9d ~]$  vim at.txt<br>sudo useradd yang100<br>sudo useradd yang102<br>[yang@ecs-ea9d ~]$  at now +2 min &lt; at.txt<br>job 2 at 2015-06-09 11:55</p>
-<p><em>sudo: sorry, you must have a tty to run sudo</em><br><em>sudo: sorry, you must have a tty to run sudo</em></p>
-<p>解决方法：查看修改/etc/sudoers 文件内容（关闭sudo需要终端功能）</p>
-<p>综合案例1: 利用重定向建立多行的文件<br>[yang@ecs-ea9d ~]$  echo “111” &gt; file1.txt<br>[yang@ecs-ea9d ~]$  cat file1.txt       //cat后如果没有要查看的文件就需要在键盘输入<br>111</p>
-<p>^D</p>
-<p>[yang@ecs-ea9d ~]$  cat &gt;file2.txt<br>111<br>222<br>333<br>444<br>^D</p>
-<p>[yang@ecs-ea9d ~]$  cat &gt;file4 &lt;&lt;EOF     //EOF定义一个结束符，但此结束符不写入文件中</p>
-<p>111<br>222<br>333<br>EOF<br>[yang@ecs-ea9d ~]$  cat file4<br>111<br>222<br>333</p>
-<p><em>综合案例2</em><br><em>[yang@ecs-ea9d ~]$  ls; date &amp;&gt;/dev/null</em></p>
-<p><em>[yang@ecs-ea9d ~]$  ls &amp;&gt;/dev/null; date &amp;&gt;/dev/null</em></p>
-<p><em>[yang@ecs-ea9d ~]$  (ls; date) &amp;&gt;/dev/null</em></p>
-<p><em>[yang@ecs-ea9d ~]$  (while :; do date; sleep 2; done) &amp;&gt;date.txt</em></p>
-<p><em>[yang@ecs-ea9d ~]$  (while :; do date; sleep 2; done) &amp;&gt;date.txt &amp;</em><br><em>[1] 6595</em><br><em>[yang@ecs-ea9d ~]$  tailf date.txt</em><br><em>Tue Apr 12 22:04:32 CST 2016</em><br><em>Tue Apr 12 22:04:34 CST 2016</em><br><em>Tue Apr 12 22:04:36 CST 2016</em><br><em>Tue Apr 12 22:04:38 CST 2016</em><br><em>Tue Apr 12 22:04:40 CST 2016</em><br><em>Tue Apr 12 22:04:42 CST 2016</em><br><em>Tue Apr 12 22:04:44 CST 2016</em><br><em>Tue Apr 12 22:04:46 CST 2016</em><br><em>Tue Apr 12 22:04:48 CST 2016</em></p>
-<p><em>[yang@ecs-ea9d ~]$  jobs</em><br><em>[1]+  Running                 ( while :; do</em><br>    <em>date; sleep 2;</em><br><em>done ) &amp;&gt;date.txt &amp;</em><br><em>[yang@ecs-ea9d ~]$  kill %1</em><br><em>[yang@ecs-ea9d ~]$  jobs</em></p>
-<p><em>[yang@ecs-ea9d ~]$  (./configure &amp;&amp; make &amp;&amp; make install) &amp;&gt;/dev/null</em> </p>
-<p><em>扩展点：subshell</em><br><em>[yang@ecs-ea9d ~]$  (umask 777; touch file8888)</em><br><em>[yang@ecs-ea9d ~]$<br>[yang@ecs-ea9d ~]$  ll file8888</em><br><em>———- 1 root root 0 Apr 12 22:11 file8888</em><br><em>[yang@ecs-ea9d ~]$<br>[yang@ecs-ea9d ~]$  umask</em><br><em>0022</em></p>
+        <h1 id="软件包管理"><a href="#软件包管理" class="headerlink" title="软件包管理"></a>软件包管理</h1><p><strong>安装/查询/卸载</strong></p>
+<p>一、软件的类型</p>
+<ul>
+<li>A. 源码包                            需要编译          nginx-1.8.1.tar.gz </li>
+<li>B. 二进制包                        已编译             mysql-community-common-5.7.12-1.el7.x86_64.rpm</li>
+</ul>
+<p>常见二进制包</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">系统平台</th>
+<th style="text-align:center">包类型</th>
+<th style="text-align:center">工具（自动解决依赖关系）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">RedHat/Centos</td>
+<td style="text-align:center">RPM（RedHat Packet Manage）</td>
+<td style="text-align:center">rpm,rpmbuild</td>
+</tr>
+<tr>
+<td style="text-align:center">Ubuntu/Debian</td>
+<td style="text-align:center">DPKG</td>
+<td style="text-align:center">dpkg</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意： 不管是源码包，还是二进制包，安装时都可能会有依赖关系！使用RPM安装首先需要手动安装依赖文件</strong></p>
+<p>二、RPM包管理<br>主要获得RPM包途径：</p>
+<ol>
+<li>RedHat光盘或官方网站 <a href="ftp://ftp.redhat.com" target="_blank" rel="noopener">ftp://ftp.redhat.com</a></li>
+<li>rpmfind.net</li>
+<li>相应软件官方网站如 <a href="http://www.mysql.com" target="_blank" rel="noopener">http://www.mysql.com</a></li>
+</ol>
+<p>认识RPM包：整体为套件名，一般第一个数字前的为包名<br><strong>ntfs-3g</strong>-2011.4.12-5.el5.x86_64.rpm                               套件名<br><strong>ntfs-3g</strong>-2011.4.12-5.el6.i686.rpm                                    套件名<br><strong>ntfs-3g</strong>-2011.4.12-5.el6.x86_64.rpm                               套件名<br><strong>yum-rhn-plugin</strong>-0.9.1-40.el6.noarch.rpm                      套件名<br><strong>yum-utils</strong>-1.1.30-14.el6.noarch.rpm                               套件名<br><strong>mysql-community-common</strong>-5.7.12-1.el7.i686.rpm<br><strong>mysql-community-common</strong>-5.7.12-1.el7.x86_64.rpm<br><strong>mysql-community-embedded-devel</strong>-5.7.12-1.el6.x86_64.rpm<br><strong>php</strong>-5.6.20-1.fc23.x86_64.rpm<br><strong>php</strong>-5.6.20-1.fc23.ppc64p7.rpm                                     IBM 小型机CPU Power</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">软件包名</th>
+<th style="text-align:center">版本号(Version)</th>
+<th style="text-align:center">发布版本(Release)</th>
+<th style="text-align:center">系统平台</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ntfs-3g</td>
+<td style="text-align:center">2011.4.12</td>
+<td style="text-align:center">5.el6</td>
+<td style="text-align:center">i386（32位）</td>
+</tr>
+<tr>
+<td style="text-align:center">ntfs-3g</td>
+<td style="text-align:center">2011.4.12</td>
+<td style="text-align:center">5.el6</td>
+<td style="text-align:center">x86_64（64位）</td>
+</tr>
+<tr>
+<td style="text-align:center">yum-utils</td>
+<td style="text-align:center">1.1.30</td>
+<td style="text-align:center">14.el6</td>
+<td style="text-align:center">noarch（不区分）</td>
+</tr>
+<tr>
+<td style="text-align:center">php</td>
+<td style="text-align:center">5.6.20</td>
+<td style="text-align:center">1.fc23</td>
+<td style="text-align:center">x86_64</td>
+</tr>
+<tr>
+<td style="text-align:center">php</td>
+<td style="text-align:center">5.6.20</td>
+<td style="text-align:center">1.fc23</td>
+<td style="text-align:center">ppc64p7</td>
+</tr>
+</tbody>
+</table>
+<p>[yang@ecs-ea9d ~]$ uname -m<br>x86_64</p>
+<p>[yang@ecs-ea9d ~]$ cat /etc/redhat-release<br>CentOS Linux release 7.5.1804 (Core) </p>
+<h2 id="YUM使用官方源"><a href="#YUM使用官方源" class="headerlink" title="YUM使用官方源"></a>YUM使用官方源</h2><p><a href="http://mirrors.aliyun.com/" target="_blank" rel="noopener">http://mirrors.aliyun.com/</a></p>
+<p>[yang@ecs-ea9d ~]$ yum repolist       //列出当前使用的那些源<br>Loaded plugins: fastestmirror, langpacks<br>Determining fastest mirrors</p>
+<p>base: mirrors.aliyun.com</p>
+<p>extras: mirrors.aliyun.com</p>
+<p>updates: mirrors.aliyun.com</p>
+<p>repo id                                                         repo name                                                         status<br>!base/7/x86_64                                           CentOS-7 - Base                                               10,019<br>!extras/7/x86_64                                         CentOS-7 - Extras                                               435<br>!updates/7/x86_64                                     CentOS-7 - Updates                                          2,500<br>repolist: 12,954</p>
+<p><strong>Base/Extras/Updates: 默认(国外源)     //三个基本源，一般用来升级系统</strong><br>mkdir /etc/yum.repos.d/backup<br>mv /etc/yum.repos.d/{*.repo,backup}<br>wget -O /etc/yum.repos.d/CentOS-Base.repo <a href="http://mirrors.aliyun.com/repo/Centos-7.repo" target="_blank" rel="noopener">http://mirrors.aliyun.com/repo/Centos-7.repo</a> (aliyun)<br>yum makecache           //重建缓冲</p>
+<p><strong>EPEL:                          //给企业版的一个扩展包</strong><br>yum -y install epel-release (国外源)            //安装包，官方，一般找不到的包这可能会有<br>wget -O /etc/yum.repos.d/epel.repo <a href="http://mirrors.aliyun.com/repo/epel-7.repo" target="_blank" rel="noopener">http://mirrors.aliyun.com/repo/epel-7.repo</a> (aliyun)</p>
+<p>Nginx:<br>[yang@ecs-ea9d ~]$# vim /etc/yum.repos.d/nginx.repo<br>[nginx]<br>name=nginx repo<br>baseurl=<a href="http://nginx.org/packages/centos/7/$basearch/" target="_blank" rel="noopener">http://nginx.org/packages/centos/7/$basearch/</a><br>gpgcheck=0<br>enabled=1</p>
+<h3 id="使用自建源"><a href="#使用自建源" class="headerlink" title="使用自建源"></a>使用自建源</h3><h3 id="Base源-centos7光盘文件"><a href="#Base源-centos7光盘文件" class="headerlink" title="Base源 [centos7光盘文件]"></a>Base源 [centos7光盘文件]</h3><h3 id="第三方软件源-yum缓存"><a href="#第三方软件源-yum缓存" class="headerlink" title="第三方软件源 [yum缓存]"></a>第三方软件源 [yum缓存]</h3><p>建议：<br>刚安装好系统 Base/Extras/Updates:    yum -y update<br>zabbix,nginx: yum -y install zabbix –downloadonly</p>
+<p>综合案例：建立YUM服务器</p>
+<ol>
+<li>提供基础软件包Base [光盘]</li>
+<li>提供update软件包 [yum缓存]</li>
+<li>提供其它软件包如nginx, zabbix, docker, hadoop, openstack [yum缓存]</li>
+</ol>
+<p>配置防火墙<br>[root@yangs ~]# firewall-cmd –permanent –add-service=ftp<br>[root@yangs ~]# firewall-cmd –reload </p>
+<p>关闭SELinux<br>[root@yangs ~]# setenforce 0<br>[root@yangs ~]# vim /etc/sysconfig/selinux<br>SELINUX=disabled</p>
+<p>FTP<br>[root@yangs ~]# yum -y install vsftpd<br>[root@yangs ~]# systemctl start vsftpd<br>[root@yangs ~]# systemctl enable vsftpd</p>
+<p>实现目标1：提供基础软件Base<br>挂载centos镜像<br>[root@yangs ~]# mkdir /var/ftp/{centos6u6,centos7u2}<br>[root@yangs ~]# mount -o loop /home/centos7u2.iso /var/ftp/centos7u2<br>[root@yangs ~]# echo “mount -o loop /home/centos7u2.iso /var/ftp/centos7u2”  &gt;&gt; /etc/rc.local<br>[root@yangs ~]# chmod +x /etc/rc.d/rc.local</p>
+<p>实现目标2: 提供其它软件包如nginx, zabbix<br>复制已缓存的Nginx 及依赖包 到自定义YUM仓库目录中：<br>[root@ecs-ea9d  ~]# mkdir /var/ftp/{nginx,zabbix}</p>
+<h3 id="YUM缓存："><a href="#YUM缓存：" class="headerlink" title="YUM缓存："></a>YUM缓存：</h3><ol>
+<li>配置nginx及zabbix源<br>[root@ecs-ea9d  ~]# vim /etc/yum.repos.d/nginx.repo<br>[nginx]<br>name=nginx repo<br>baseurl=<a href="http://nginx.org/packages/centos/7/$basearch/" target="_blank" rel="noopener">http://nginx.org/packages/centos/7/$basearch/</a><br>gpgcheck=0<br>enabled=1</li>
+<li>启动yum缓存安装nginx<br>[root@yangs ~]# vim /etc/yum.conf<br>[main]<br>cachedir=/var/cache/yum/$basearch/$releasever<br>keepcache=1<br>debuglevel=2</li>
+</ol>
+<p>[root@yangs ~]# yum clean all<br>[root@yangs ~]# yum -y install nginx<br>[root@yangs ~]# find /var/cache/yum/x86_64/7/ -iname “*.rpm” -exec cp -rf {} /var/ftp/nginx</p>
+<ol start="2">
+<li>downloadonly<br>[root@aliyun ~]# yum -y install nginx –downloadonly</li>
+<li>创建reopdata：<br>[root@yangs ~]# yum -y install createrepo<br>[root@yangs ~]# createrepo /var/ftp/nginx                   //如果加入新软件包，重新创建<br>[root@ecs-ea9d  ~]# ls /var/ftp/nginx/<br>nginx-1.8.1-1.el6.ngx.x86_64.rpm     repodata</li>
+</ol>
+<p>客户端使用YUM源：<br>[root@client ~]# vim /etc/yum.repos.d/centos7.repo     //指向基础源<br>[centos7]<br>name=centos7<br>baseurl=<a href="ftp://x.x.x.x/centos7u2" target="_blank" rel="noopener">ftp://x.x.x.x/centos7u2</a><br>gpgcheck=0</p>
+<p>[root@client ~]# vim /etc/yum.repos.d/nginx.repo        //指向nginx源<br>[nginx]<br>name=nginx<br>baseurl=<a href="ftp://x.x.x.x/nginx" target="_blank" rel="noopener">ftp://x.x.x.x/nginx</a><br>gpgcheck=0</p>
+<p>[root@client ~]# yum -y install nginx</p>
+<p>1000台client使用自定义源：</p>
+<ol>
+<li>Shell script</li>
+<li>Saltstack, Asible, Puppet</li>
+</ol>
+<p>YUM使用签名检查机制<br>rpm软件提供组织例如redhat在构建rpm包时，使用其private key对rpm进行签名<br>client在使用其rpm时，为了验证其合法性，可以使用redhat提供的public key进行签名检查</p>
+<p>方法一： 事先导入公钥<br>[root@ecs-ea9d  ~]# rpm –import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7        //redhat<br>[root@ecs-ea9d  ~]# vim /etc/yum.repos.d/CentOS-Base.repo<br>[base]<br>name=CentOS-$releasever - Base<br>mirrorlist=<a href="http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os&amp;infra=$infra" target="_blank" rel="noopener">http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os&amp;infra=$infra</a></p>
+<p>#baseurl=<a href="http://mirror.centos.org/centos/$releasever/os/$basearch/" target="_blank" rel="noopener">http://mirror.centos.org/centos/$releasever/os/$basearch/</a><br>gpgcheck=1</p>
+<p>方法二： 指定公钥的位置<br>[root@ecs-ea9d  ~]# vim /etc/yum.repos.d/CentOS-Base.repo<br>[base]<br>name=CentOS-$releasever - Base<br>mirrorlist=<a href="http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os&amp;infra=$infra" target="_blank" rel="noopener">http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os&amp;infra=$infra</a></p>
+<p>#baseurl=<a href="http://mirror.centos.org/centos/$releasever/os/$basearch/" target="_blank" rel="noopener">http://mirror.centos.org/centos/$releasever/os/$basearch/</a><br>gpgcheck=1<br>gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</p>
+<p>额外选项：<br>–nogpgcheck            //不检查软件包的签名</p>
+<h3 id="本地源：例如使用安装光盘"><a href="#本地源：例如使用安装光盘" class="headerlink" title="本地源：例如使用安装光盘"></a>本地源：例如使用安装光盘</h3><p>挂载安装光盘（临时）：<br>[root@ecs-ea9d  ~]# mount /dev/cdrom /media<br>[root@ecs-ea9d  ~]# mount -o loop centos7u2.iso /media<br>[root@ecs-ea9d  ~]#vim /etc/yum.repos.d/dvd.repo<br>[dvd]<br>name=dvd<br>baseurl=file:///media            </p>
+<p>gpgcheck=0    </p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -527,12 +592,12 @@ fi
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-13I/O重定向</p>
+    <p><span class="copy-title">文章标题:</span>每天一点Linux-24软件包管理</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-21, 19:44:35</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-21, 19:51:03</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/21/每天一点Linux-13I-O重定向/" title="每天一点Linux-13I/O重定向">https://DROBP.github.io/2019/08/21/每天一点Linux-13I-O重定向/</a>
+    <p><span class="copy-title">发布时间:</span>2019-09-02, 09:39:12</p>
+    <p><span class="copy-title">最后更新:</span>2019-09-02, 09:40:11</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/02/每天一点Linux-24软件包管理/" title="每天一点Linux-24软件包管理">https://DROBP.github.io/2019/09/02/每天一点Linux-24软件包管理/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
