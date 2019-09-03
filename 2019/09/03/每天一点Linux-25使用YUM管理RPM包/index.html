@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-11信号 | DROBP</title>
+  <title>每天一点Linux-25使用YUM管理RPM包 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-11信号 | DROBP">
+  <meta name="description" content="每天一点Linux-25使用YUM管理RPM包 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -397,9 +397,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-11信号" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-每天一点Linux-25使用YUM管理RPM包" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-11信号</h1>
+        <h1 class="article-title">每天一点Linux-25使用YUM管理RPM包</h1>
     
     <div class="article-meta">
         
@@ -415,7 +415,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-19 20:25:32">2019-08-19 20:24</time>
+        创建时间:<time class="date" title="更新时间: 2019-09-03 10:24:38">2019-09-03 10:24</time>
         
     </div>
     <div class="article-meta">
@@ -448,7 +448,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用信号控制进程"><span class="toc-text">使用信号控制进程</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用YUM管理RPM包"><span class="toc-text">使用YUM管理RPM包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-查看可用仓库"><span class="toc-text">1.查看可用仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-安装"><span class="toc-text">2.安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-查询（从本地-rpm数据库-和-yum源-中查询）"><span class="toc-text">3.查询（从本地 rpm数据库 和 yum源 中查询）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-卸载"><span class="toc-text">4.卸载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-history"><span class="toc-text">5.history</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -463,31 +463,37 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="使用信号控制进程"><a href="#使用信号控制进程" class="headerlink" title="使用信号控制进程"></a>使用信号控制进程</h1><p>kill,killall,pkill,top</p>
-<p>killall  -数字  只能跟进程名（不能跟进程id）</p>
-<p>给进程发送信号<br>[yang@ecs-ea9d ~]$ kill -l                                    //列出所有支持的信号<br>编号）  信号名<br>1) SIGHUP             重新加载配置<br>2) SIGINT            键盘中断^C<br>3) SIGQUIT        键盘退出<br>9) SIGKILL            强制终止<br>15) SIGTERM        终止（正常结束），缺省信号（默认为15）<br>18) SIGCONT        继续（continue）<br>19) SIGSTOP        停止 (stop)<br>20)SIGTSTP      暂停^Z</p>
-<p>示例1： 给crond进程发送信号1,15</p>
-<p>//1<br>[yang@ecs-ea9d ~]$ ps aux | grep crond<br>root       498  0.0  0.0 126232  1596 ?        Ss   Aug14   0:00 /usr/sbin/crond -n<br>yang      6609  0.0  0.0 112660   968 pts/1    R+   10:34   0:00 grep –color=auto crond<br>[yang@ecs-ea9d  ~]$ sudo kill -1 498<br>[yang@ecs-ea9d  ~]$ ps aux |grep crond<br>root       498  0.0  0.0 126232  1596 ?        Ss   Aug14   0:00 /usr/sbin/crond -n</p>
-<p>//15<br>[yang@ecs-ea9d  ~]$ sudo kill 498</p>
-<p>[yang@ecs-ea9d ~]$ ps aux | grep crond<br>yang      6650  0.0  0.0 112660   968 pts/1    S+   10:36   0:00 grep –color=auto crond</p>
-<p>[yang@ecs-ea9d  ~]$ ps aux |grep crond<br>[yang@ecs-ea9d  ~]$ sudo systemctl start crond                //重新启动crond进程<br>[yang@ecs-ea9d  ~]$ ps aux |grep crond<br>root      6685  0.0  0.0 126236  1584 ?        Ss   10:39   0:00 /usr/sbin/crond -n</p>
-<p>实例2：信号测试9,15<br>[yang@ecs-ea9d  ~]$ touch file1 file2<br>[yang@ecs-ea9d  ~]$ tty<br>/dev/pts/1<br>[yang@ecs-ea9d  ~]$ vim file1</p>
-<p>[yang@ecs-ea9d  ~]$ tty<br>/dev/pts/2<br>[yang@ecs-ea9d  ~]$ vim file2</p>
-<p>[yang@ecs-ea9d  ~]$ ps aux |grep vim<br>yang      7280  0.0  0.1 151488  5216 pts/0    S+   11:02   0:00 vim file1<br>yang      7306  0.1  0.1 151484  5216 pts/1    S+   11:02   0:00 vim file3</p>
-<p>[yang@ecs-ea9d ~]$ sudo kill 7280<br>[yang@ecs-ea9d ~]$ sudo kill -9 7306    //不建议，会导致文件损坏</p>
-<p><strong>有些centos7精简版没有killall需要安装 sudo yum install psmisc</strong></p>
-<p>[yang@ecs-ea9d]$ killall vim                //给所有vim进程发送信号，</p>
-<p>实例3：信号测试18,19<br>[root@ecs-ea9d ~]# ps aux |grep sshd<br>root      5571  0.0  0.0  64064  1164 ?                Ss   09:35   0:00 /usr/sbin/sshd</p>
-<p>[root@ecs-ea9d ~]# kill -STOP 5571<br>[root@ecs-ea9d ~]# ps aux |grep sshd<br>root      5571  0.0  0.0  64064  1164 ?                Ts   09:35   0:00 /usr/sbin/sshd</p>
-<p>[root@ecs-ea9d ~]# kill -cont 5571<br>[root@ecs-ea9d ~]# ps aux |grep sshd<br>root      5571  0.0  0.0  64064  1164 ?                Ss   09:35   0:00 /usr/sbin/sshd</p>
-<p>[yang@ecs-ea9d  ~]$ ps aux |grep crond<br>root     22319  0.0  0.1 124140  1568 ?        Ss   14:54   0:00 /usr/sbin/crond -n<br>yang     22427  0.0  0.0 112648   964 pts/2    R+   15:07   0:00 grep –color=auto crond<br>[yang@ecs-ea9d  ~]$<br>[yang@ecs-ea9d  ~]$ sudo kill -19 22319<br>[yang@ecs-ea9d  ~]$ ps aux |grep crond<br>root     22319  0.0  0.1 124140  1568 ?        Ts   14:54   0:00 /usr/sbin/crond -n<br>yang     22431  0.0  0.0 112648   964 pts/2    R+   15:07   0:00 grep –color=auto crond<br>[yang@ecs-ea9d  ~]$<br>[yang@ecs-ea9d  ~]$ sudo kill -cont 22319<br>[yang@ecs-ea9d  ~]$ ps aux |grep crond<br>root     22319  0.0  0.1 124140  1568 ?        Ss   14:54   0:00 /usr/sbin/crond -n<br>yang     22436  0.0  0.0 112648   960 pts/2    R+   15:08   0:00 grep –color=auto crond</p>
-<p>实例4：踢出一个从远程登录到本机的用户</p>
-<p>man pkill  （可以以终端或者用户为对象来发送信号） </p>
-<p>[root@ecs-ea9d ~]# pkill –help<br>pkill: invalid option – ‘-‘<br>Usage: pkill [-SIGNAL] [-fvx] [-n|-o] [-P PPIDLIST] [-g PGRPLIST] [-s SIDLIST]<br>    [-u EUIDLIST] [-U UIDLIST] [-G GIDLIST] [-t TERMLIST] [PATTERN]<br>[root@ecs-ea9d ~]# pkill -u alice</p>
-<p>[root@ecs-ea9d ~]# w<br> 15:46:44 up  2:19,  4 users,  load average: 0.17, 0.12, 0.08<br>USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT<br>root     tty1     :0               21:32     ?     4:22   4:22  /usr/bin/Xorg :<br>root     pts/0    :0.0             15:46    0.00s  0.00s  0.00s w<br>root     pts/3    172.16.8.100     15:46    2.00s  0.01s  0.00s sleep 50000</p>
-<p>[yang@ecs-ea9d  ~]$ w<br> 15:17:25 up  5:42,  3 users,  load average: 0.00, 0.01, 0.05<br>USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT<br>yang     pts/0    X.X.X.X    15:00   21.00s  0.00s  0.00s -bash<br>yang     pts/1    X.X.X.X    15:00    5.00s  0.00s  0.00s w<br>yang     pts/2    X.X.X.X    12:04   13.00s  0.12s  0.02s vim file1<br>[yang@ecs-ea9d  ~]$ pkill -t pts/2                //终止pts/2上所有进程<br>[yang@ecs-ea9d  ~]$ pkill -9 -t pts/2            //终止pts/2上所有进程  并结束该pts/2</p>
-<p>[yang@ecs-ea9d  ~]$ w<br> 15:20:59 up  5:45,  3 users,  load average: 0.00, 0.01, 0.05<br>USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT<br>yang     pts/0    X.X.X.X    15:00    3:55   0.00s  0.00s -bash<br>yang     pts/1    X.X.X.X    15:00    3.00s  0.01s  0.00s w<br>yang     pts/2    X.X.X.X    15:20    3.00s  0.00s  0.00s -bash<br>[yang@ecs-ea9d  ~]$ sudo pkill -u yang</p>
-<p><strong>在top中使用k键输入进程号，也可以中断进程。</strong></p>
+        <h1 id="使用YUM管理RPM包"><a href="#使用YUM管理RPM包" class="headerlink" title="使用YUM管理RPM包"></a>使用YUM管理RPM包</h1><p>yum优点：自动解决包的依赖关系                </p>
+<h2 id="1-查看可用仓库"><a href="#1-查看可用仓库" class="headerlink" title="1.查看可用仓库"></a>1.查看可用仓库</h2><p>[root@ecs-ea9d  ~]# yum clean all                                   //清空缓存及其它文件<br>[root@ecs-ea9d  ~]# yum makecache                             //重建缓存<br>[root@ecs-ea9d  ~]# yum repolist                                   //查询可用的仓库</p>
+<h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h2><p>yum -y install httpd vsftpd *vnc</p>
+<p>yum -y reinstall httpd</p>
+<p>yum -y update httpd</p>
+<p>yum -y update</p>
+<p>yum -y install /root/OpenIPMI-2.0.19-11.el7.x86_64.rpm        //从本地安装</p>
+<p>yum -y install <a href="https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm" target="_blank" rel="noopener">https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm</a></p>
+<p>yum -y groupinstall mariadb</p>
+<p>yum -y remove httpd</p>
+<p>yum -y groupremove mariadb</p>
+<h2 id="3-查询（从本地-rpm数据库-和-yum源-中查询）"><a href="#3-查询（从本地-rpm数据库-和-yum源-中查询）" class="headerlink" title="3.查询（从本地 rpm数据库 和 yum源 中查询）"></a>3.查询（从本地 rpm数据库 和 yum源 中查询）</h2><p>yum list httpd</p>
+<p>yum list <em>vnc</em></p>
+<p>yum list |grep vnc</p>
+<p>yum list installed</p>
+<p>yum info httpd</p>
+<p>yum group list</p>
+<p>yum grouplist</p>
+<p>yum groupinfo mariadb</p>
+<h2 id="4-卸载"><a href="#4-卸载" class="headerlink" title="4.卸载"></a>4.卸载</h2><p>[root@ecs-ea9d  ~]# yum -y remove mysql-server<br>[root@ecs-ea9d  ~]# yum -y groupremove mysql-server</p>
+<h2 id="5-history"><a href="#5-history" class="headerlink" title="5.history"></a>5.history</h2><p>yum history</p>
+<p>yum history info 4</p>
+<p>yum history undo 4         //撤销</p>
+<p>扩展查询：<br>例1: 从包名和包描述中查找带有关键字chinese的包</p>
+<p>yum list |grep chinese</p>
+<p>yum list |grep piny</p>
+<p>yum search chinese    </p>
+<p>例2：查找/etc/vsftpd/vsftpd.conf属由哪个包提供？<br>[root@server0 ~]# yum provides /etc/vsftpd/vsftpd.conf<br>Loaded plugins: langpacks<br>vsftpd-3.0.2-9.el7.x86_64 : Very Secure Ftp Daemon<br>Repo        : classroom_content_rhel7.0_x86_64_dvd_<br>Matched from:<br>Filename    : /etc/vsftpd/vsftpd.conf<br>[root@server0 ~]# yum -y install vsftpd-3.0.2-9.el7.x86_64</p>
+<p>例3：查找vsftpd.conf属由哪个包提供？<br>[root@server0 ~]# yum provides */vsftpd.conf</p>
+<p>例4：查找命令gnuplot属由哪个包提供？<br>[root@server0 ~]# gnuplot<br>bash: gnuplot: command not found…<br>[root@server0 ~]#<br>[root@server0 ~]# yum provides gnuplot<br>Loaded plugins: langpacks<br>gnuplot-4.6.2-3.el7.x86_64 : A program for plotting mathematical expressions and data<br>Repo        : classroom_content_rhel7.0_x86_64_dvd</p>
+<p>例5：查找命令pip属由哪个包提供？<br>[root@server0 ~]# pip<br>bash: pip: command not found…<br>[root@server0 ~]# yum -y install pip</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -501,12 +507,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-11信号</p>
+    <p><span class="copy-title">文章标题:</span>每天一点Linux-25使用YUM管理RPM包</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-19, 20:24:33</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-19, 20:25:32</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/19/每天一点Linux-11信号/" title="每天一点Linux-11信号">https://DROBP.github.io/2019/08/19/每天一点Linux-11信号/</a>
+    <p><span class="copy-title">发布时间:</span>2019-09-03, 10:24:02</p>
+    <p><span class="copy-title">最后更新:</span>2019-09-03, 10:24:38</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/03/每天一点Linux-25使用YUM管理RPM包/" title="每天一点Linux-25使用YUM管理RPM包">https://DROBP.github.io/2019/09/03/每天一点Linux-25使用YUM管理RPM包/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
