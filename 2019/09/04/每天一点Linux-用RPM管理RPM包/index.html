@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>网络信息安全攻防学习平台-基础关 | DROBP</title>
+  <title>每天一点Linux-用RPM管理RPM包 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="网络信息安全攻防学习平台-基础关 | DROBP">
+  <meta name="description" content="每天一点Linux-用RPM管理RPM包 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -402,9 +402,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-网络信息安全攻防学习平台-基础关" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-每天一点Linux-用RPM管理RPM包" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">网络信息安全攻防学习平台-基础关</h1>
+        <h1 class="article-title">每天一点Linux-用RPM管理RPM包</h1>
     
     <div class="article-meta">
         
@@ -412,7 +412,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="网络安全">网络安全</a>
+                <a href="javascript:" data-rel="Linux">Linux</a>
             
         </span>
         
@@ -420,7 +420,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-03 09:50:27">2019-04-01 14:37</time>
+        创建时间:<time class="date" title="更新时间: 2019-09-04 10:16:07">2019-09-04 10:15</time>
         
     </div>
     <div class="article-meta">
@@ -453,7 +453,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一题"><span class="toc-text">第一题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二题"><span class="toc-text">第二题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三题"><span class="toc-text">第三题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四题"><span class="toc-text">第四题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第五题"><span class="toc-text">第五题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第六题"><span class="toc-text">第六题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第七题"><span class="toc-text">第七题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第八题"><span class="toc-text">第八题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第九题"><span class="toc-text">第九题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十题"><span class="toc-text">第十题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十一题"><span class="toc-text">第十一题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十二题"><span class="toc-text">第十二题</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用YUM管理RPM包"><span class="toc-text">使用YUM管理RPM包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-查看可用仓库"><span class="toc-text">1.查看可用仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-安装"><span class="toc-text">2.安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-查询（从本地-rpm数据库-和-yum源-中查询）"><span class="toc-text">3.查询（从本地 rpm数据库 和 yum源 中查询）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-卸载"><span class="toc-text">4.卸载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-history"><span class="toc-text">5.history</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用RPM工具管理RPM包"><span class="toc-text">使用RPM工具管理RPM包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-安装"><span class="toc-text">1.安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-查询"><span class="toc-text">2.查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-卸载"><span class="toc-text">3.卸载</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -468,21 +468,54 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>游戏地址【<a href="http://hackinglab.cn/ShowQues.php?type=bases】" target="_blank" rel="noopener">http://hackinglab.cn/ShowQues.php?type=bases】</a></p>
-<h2 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h2><p>key在哪里？<br>这类题时最简单的，一般只需在浏览器内打开开发者选项（键盘F12）即可。<br><img src="https://img-blog.csdnimg.cn/20181102105210914.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="开发者选项后的界面！"></p>
-<h2 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h2><p><img src="https://img-blog.csdnimg.cn/20181102105502672.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>此题加密方法为rot13，百度rot13在线解密即可得到key</p>
-<h2 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h2><p>我们看到此题的密文以符号结尾，判断其为base64加密后的密文，复制密文到百度在线解码（需要多解几次）后得到key<br><img src="https://img-blog.csdnimg.cn/20181102105956650.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h2><p>题中说时MD5加密，我们去百度MD5解密即可得到key<br><img src="https://img-blog.csdnimg.cn/20181102110202282.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> </p>
-<h2 id="第五题"><a href="#第五题" class="headerlink" title="第五题"></a>第五题</h2><p><em>种族歧视<br>分值: 300<br>小明同学今天访问了一个网站，竟然不允许中国人访问！太坑了，于是小明同学决心一定要进去一探究竟！</em><br><img src="https://img-blog.csdnimg.cn/20181104155141132.png" alt="在这里插入图片描述"><br>如图即可的到key：key is: <em>(TU687jksf6&amp;</em></p>
-<h2 id="第六题"><a href="#第六题" class="headerlink" title="第六题"></a>第六题</h2><p>HAHA浏览器<br>分值: 200<br>据说信息安全小组最近出了一款新的浏览器，叫HAHA浏览器，有些题目必须通过HAHA浏览器才能答对。小明同学坚决不要装HAHA浏览器，怕有后门，但是如何才能过这个需要安装HAHA浏览器才能过的题目呢？<img src="https://img-blog.csdnimg.cn/20181104164543243.png" alt="在这里插入图片描述"><br>恭喜您，成功安装HAHA浏览器！key is: meiyouHAHAliulanqi</p>
-<h2 id="第七题"><a href="#第七题" class="headerlink" title="第七题"></a>第七题</h2><p>key究竟在哪里呢？<br>分值: 200<br>上一次小明同学轻松找到了key，感觉这么简单的题目多无聊，于是有了找key的加强版，那么key这次会藏在哪里呢？<img src="https://img-blog.csdnimg.cn/20181104172457217.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第八题"><a href="#第八题" class="headerlink" title="第八题"></a>第八题</h2><p>key又找不到了<br>分值: 350<br>小明这次可真找不到key去哪里了，你能帮他找到key吗？<br><img src="https://img-blog.csdnimg.cn/20181104182548679.png" alt="在这里插入图片描述"></p>
-<h2 id="第九题"><a href="#第九题" class="headerlink" title="第九题"></a>第九题</h2><p>冒充登陆用户<br>分值: 200<br>小明来到一个网站，还是想要key，但是却怎么逗登陆不了，你能帮他登陆吗？<img src="https://img-blog.csdnimg.cn/20181104182819634.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>key is: yescookieedit7823789KJ</p>
-<h2 id="第十题"><a href="#第十题" class="headerlink" title="第十题"></a>第十题</h2><p>比较数字大小<br>分值: 100<br>只要比服务器上的数字大就可以了！<br>说明：此题的html代码中，对输入框的最大输入长度进行了限制，我们只要取消这个限制即可。<br>解法：进入过关网址，打开开发人员工具中的查看器，将输入框的maxLength改为4以上的数值，再在文本框中输入值即可。<br><img src="https://img-blog.csdnimg.cn/20181104183656894.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第十一题"><a href="#第十一题" class="headerlink" title="第十一题"></a>第十一题</h2><p>说明:此题要求从本地访问。HTTP包中的X-Forwarded-For<br>字段是用来表示你IP地址和代理IP地址(如果有的话),<br>我们在请求包中加上此值改为127.0.0.1即可。<br><img src="https://img-blog.csdnimg.cn/20181106194531183.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第十二题"><a href="#第十二题" class="headerlink" title="第十二题"></a>第十二题</h2><p>说明：此题考察robots.txt作用。进入此网页的robots.txt<br>如下图:<br><img src="https://img-blog.csdnimg.cn/20181106194647162.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>此文件不让我们爬取/9fb7531fe95594603aff7e794ab2f5f里的文件，我们接下来就进入此文件夹,<br>网页显示：you find me,but I am not the login page. keep search.<br>我们就猜测key在login.php里，进入此目录下的login.php得到key<br><img src="https://img-blog.csdnimg.cn/20181106195754177.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>   <strong><em>ps:此关需要对http包有所了解，知道了http包内的内容后对解决此关有很大帮助！</em></strong></p>
+        <h1 id="使用YUM管理RPM包"><a href="#使用YUM管理RPM包" class="headerlink" title="使用YUM管理RPM包"></a>使用YUM管理RPM包</h1><p>yum优点：自动解决包的依赖关系                </p>
+<h2 id="1-查看可用仓库"><a href="#1-查看可用仓库" class="headerlink" title="1.查看可用仓库"></a>1.查看可用仓库</h2><p>[root@ecs-ea9d  ~]# yum clean all                                   //清空缓存及其它文件<br>[root@ecs-ea9d  ~]# yum makecache                             //重建缓存<br>[root@ecs-ea9d  ~]# yum repolist                                   //查询可用的仓库</p>
+<h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h2><p>yum -y install httpd vsftpd *vnc</p>
+<p>yum -y reinstall httpd</p>
+<p>yum -y update httpd</p>
+<p>yum -y update</p>
+<p>yum -y install /root/OpenIPMI-2.0.19-11.el7.x86_64.rpm        //从本地安装</p>
+<p>yum -y install <a href="https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm" target="_blank" rel="noopener">https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm</a></p>
+<p>yum -y groupinstall mariadb</p>
+<p>yum -y remove httpd</p>
+<p>yum -y groupremove mariadb</p>
+<h2 id="3-查询（从本地-rpm数据库-和-yum源-中查询）"><a href="#3-查询（从本地-rpm数据库-和-yum源-中查询）" class="headerlink" title="3.查询（从本地 rpm数据库 和 yum源 中查询）"></a>3.查询（从本地 rpm数据库 和 yum源 中查询）</h2><p>yum list httpd</p>
+<p>yum list <em>vnc</em></p>
+<p>yum list |grep vnc</p>
+<p>yum list installed</p>
+<p>yum info httpd</p>
+<p>yum group list</p>
+<p>yum grouplist</p>
+<p>yum groupinfo mariadb</p>
+<h2 id="4-卸载"><a href="#4-卸载" class="headerlink" title="4.卸载"></a>4.卸载</h2><p>[root@ecs-ea9d  ~]# yum -y remove mysql-server<br>[root@ecs-ea9d  ~]# yum -y groupremove mysql-server</p>
+<h2 id="5-history"><a href="#5-history" class="headerlink" title="5.history"></a>5.history</h2><p>yum history</p>
+<p>yum history info 4</p>
+<p>yum history undo 4         //撤销</p>
+<p>扩展查询：<br>例1: 从包名和包描述中查找带有关键字chinese的包</p>
+<p>yum list |grep chinese</p>
+<p>yum list |grep piny</p>
+<p>yum search chinese    </p>
+<p>例2：查找/etc/vsftpd/vsftpd.conf属由哪个包提供？<br>[root@server0 ~]# yum provides /etc/vsftpd/vsftpd.conf<br>Loaded plugins: langpacks<br>vsftpd-3.0.2-9.el7.x86_64 : Very Secure Ftp Daemon<br>Repo        : classroom_content_rhel7.0_x86_64_dvd_<br>Matched from:<br>Filename    : /etc/vsftpd/vsftpd.conf<br>[root@server0 ~]# yum -y install vsftpd-3.0.2-9.el7.x86_64</p>
+<p>例3：查找vsftpd.conf属由哪个包提供？<br>[root@server0 ~]# yum provides */vsftpd.conf</p>
+<p>例4：查找命令gnuplot属由哪个包提供？<br>[root@server0 ~]# gnuplot<br>bash: gnuplot: command not found…<br>[root@server0 ~]#<br>[root@server0 ~]# yum provides gnuplot<br>Loaded plugins: langpacks<br>gnuplot-4.6.2-3.el7.x86_64 : A program for plotting mathematical expressions and data<br>Repo        : classroom_content_rhel7.0_x86_64_dvd</p>
+<p>例5：查找命令pip属由哪个包提供？<br>[root@server0 ~]# pip<br>bash: pip: command not found…<br>[root@server0 ~]# yum -y install pip</p>
+<h1 id="使用RPM工具管理RPM包"><a href="#使用RPM工具管理RPM包" class="headerlink" title="使用RPM工具管理RPM包"></a>使用RPM工具管理RPM包</h1><p>需要手动解决包的依赖关系</p>
+<h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1.安装"></a>1.安装</h2><p>rpm -ivh local_path<br>rpm -ivh url_path<br>[root@tianyun ~]# rpm -ivh dos2unix-3.1-37.el6.x86_64.rpm                     套件名<br>[root@tianyun ~]# rpm -ivh ntfs-3g-2010.5.22-1.el6.x86_64.rpm                套件名<br>[root@tianyun ~]# rpm -Uvh ntfs-3g-2011.4.12-5.el6.x86_64.rpm                套件名<br>[root@tianyun ~]# rpm -ivh <a href="ftp://rpmfind.net/linux/atrpms/sl6-x86_64/atrpms/stable/puppet-3.2.4-3.el6.noarch.rpm" target="_blank" rel="noopener">ftp://rpmfind.net/linux/atrpms/sl6-x86_64/atrpms/stable/puppet-3.2.4-3.el6.noarch.rpm</a><br>[root@tianyun ~]# rpm -ivh rpm -ivh <a href="https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm" target="_blank" rel="noopener">https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm</a><br>额外选项：<br>–nosignature       //不检验软件包的签名<br>–force                //强制安装软件包<br>–nodeps           //忽略依赖关系</p>
+<p>RPM包安装信息存储到本地RPM数据库中。。。</p>
+<h2 id="2-查询"><a href="#2-查询" class="headerlink" title="2.查询"></a>2.查询</h2><p>(从本地的rpm数据库)<br>[root@tianyun ~]# rpm -q ntfs-3g                        //查询指定包是否安装<br>[root@tianyun ~]# rpm -qa |grep ntfs<br>[root@tianyun ~]# rpm -ql ntfs-3g                        //查询ntfs-3g安装的文件<br>[root@tianyun ~]# rpm -qf /usr/bin/ntfs-3g        //查询该文件属于哪个rpm包<br>[root@tianyun ~]# rpm -qi ntfs-3g                        //查询包的information<br>[root@tianyun ~]# rpm -qc ntfs-3g                    //查询某个包安装的配置文件<br>[root@tianyun ~]# rpm -qd vsftpd                        //查安装的帮助文档</p>
+<p>(从rpm套件中查询)<br>扩展知识： 针对没有安装的包，直接从套件中查询<br>[root@tianyun ~]# rpm -e ntfs-3g<br>[root@tianyun ~]# rpm -qip ntfs-3g-2011.4.12-5.el6.x86_64.rpm<br>[root@tianyun ~]# rpm -qlp ntfs-3g-2011.4.12-5.el6.x86_64.rpm<br>[root@tianyun ~]# rpm -qcp ntfs-3g-2011.4.12-5.el6.x86_64.rpm<br>[root@tianyun ~]# rpm -qdp ntfs-3g-2011.4.12-5.el6.x86_64.rpm</p>
+<h2 id="3-卸载"><a href="#3-卸载" class="headerlink" title="3.卸载"></a>3.卸载</h2><p>[root@tianyun ~]# rpm -e ntfs-3g<br>[root@tianyun ~]# rpm -e ntfs-3g –nodeps </p>
+<p>案例1：安装系统光盘上的rpm包<br>[root@tianyun ~]# mount /dev/cdrom /media<br>[root@tianyun ~]# df<br>文件系统               1K-块        已用     可用 已用% 挂载点<br>/dev/sr0               3632776   3632776         0 100% /media</p>
+<p>案例2: 使用iso镜像文件<br>[root@tianyun ~]# mount -o loop /home/centos7.iso /media</p>
+<p>案例3：安装如下软件包<br>vsftpd<br>samba<br>nfs-utils<br>httpd<br>dhcp<br>postfix<br>mysql-server<br>php<br>lftp<br>dos2unix<br>unix2dos<br>tigervnc </p>
+<p>[root@tianyun Packages]# pwd<br>/media/cd/Packages<br>[root@tianyun Packages]# rpm -ivh samba-3.0.33-3.37.el5.i386.rpm samba-common-3.0.33-3.37.el5.i386.rpm </p>
+<p>rpm工具管理软件包总结：</p>
+<ol>
+<li>很难解决包依赖关系</li>
+<li>如果某个文件没有，很难知道它由哪个rpm包提供，例如 semanage 或 tree 命令是由哪个包提供？</li>
+</ol>
+<p><strong>rpm是从本地rmp数据库去查询</strong></p>
+<p><strong>yum是从本地rmp数据库+yum数据库查询</strong></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -496,12 +529,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>网络信息安全攻防学习平台-基础关</p>
+    <p><span class="copy-title">文章标题:</span>每天一点Linux-用RPM管理RPM包</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-04-01, 14:37:24</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-03, 09:50:27</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/04/01/网络信息安全攻防学习平台-基础关/" title="网络信息安全攻防学习平台-基础关">https://DROBP.github.io/2019/04/01/网络信息安全攻防学习平台-基础关/</a>
+    <p><span class="copy-title">发布时间:</span>2019-09-04, 10:15:03</p>
+    <p><span class="copy-title">最后更新:</span>2019-09-04, 10:16:07</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/04/每天一点Linux-用RPM管理RPM包/" title="每天一点Linux-用RPM管理RPM包">https://DROBP.github.io/2019/09/04/每天一点Linux-用RPM管理RPM包/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
