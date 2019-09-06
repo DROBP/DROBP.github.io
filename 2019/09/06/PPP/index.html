@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-01文件系统 | DROBP</title>
+  <title>PPP | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-01文件系统 | DROBP">
+  <meta name="description" content="PPP | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -412,9 +412,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-01文件系统" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-PPP" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-01文件系统</h1>
+        <h1 class="article-title">PPP</h1>
     
     <div class="article-meta">
         
@@ -422,7 +422,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="Linux">Linux</a>
+                <a href="javascript:" data-rel="计算机网络">计算机网络</a>
             
         </span>
         
@@ -430,7 +430,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-09 21:55:27">2019-08-09 21:01</time>
+        创建时间:<time class="date" title="更新时间: 2019-09-06 19:35:38">2019-09-06 19:35</time>
         
     </div>
     <div class="article-meta">
@@ -463,7 +463,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux文件系统"><span class="toc-text">Linux文件系统</span></a></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -478,46 +478,26 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Linux文件系统"><a href="#Linux文件系统" class="headerlink" title="Linux文件系统"></a>Linux文件系统</h1><p>Windows:     以多根的方式组织文件  C:\   D:\   E:\<br>Linux:           以单根的方式组织文件  /</p>
-<p>/目录结构： FSH (Filesystem Hierarchy Standard)</p>
-<pre><code class="python">[root@yang ~]# ls /
-bin     dev   lib          media  net   root     srv  usr
-boot    etc   lib64       misc   opt   sbin     sys  var
-cgroup  home  lost+found  mnt    proc  selinux  tmp
-</code></pre>
-<p>利用BASH Shell对文件进行管理</p>
-<ul>
-<li><strong>bin 二进制文件，存放这Linux常用操作命令的执行文件</strong></li>
-<li><strong>dev 设备目录</strong></li>
-<li>home 相当于windows的c盘下的用户文件夹</li>
-<li><strong>lib64 64的库文件</strong></li>
-<li>media 媒体文件</li>
-<li>mnt 外设目录（插u盘硬盘）</li>
-<li>opt 第三方软件安装目录（安装qq等）</li>
-<li>root root用户的home</li>
-<li>usr 用户共享目录（相当于windows中c盘的Program Files,系统内置软件都装在这个文件夹中）</li>
-<li><strong>boot 内核启动目录</strong></li>
-<li>etc 配置文件目录</li>
-<li><strong>lib 库目录</strong></li>
-<li>lost+found 丢失目录</li>
-<li>sbin 超级管理员的目录</li>
-<li>tmp 临时目录（重启后会清空）</li>
-<li><strong>var 变量目录</strong></li>
-<li><strong>proc 虚拟的文件系统，反应出来的时内核，进程信息或是实时状态</strong></li>
-<li>selinux Linux安全</li>
-</ul>
-<p><strong>挂载</strong>的意义是将一个设备与一个目录关联起来，这个目录可以很深也可以很浅。一个磁盘可被挂载到多个目录下。</p>
-<p>Linux是一个单根结构，windows是一个多根结构。</p>
-<p>如何确定文件在那个磁盘中存放：</p>
-<ul>
-<li>例如新建一个文件为：/boot/dirl/file1</li>
-</ul>
+        <p><strong>PPP协议</strong>：主要用于拨号接入Internet的场合。</p>
+<p>两种认证：</p>
 <ol>
-<li>先查看此文件的父亲（/boot/dirl/）是否为挂载点（可以通过df命令查看挂载点信息），如果是即该文件占用父亲挂载点相对应的文件系统（设备）的空间。如果不是则进行第二部。</li>
-<li>向上继续推一层即/boot是否为挂载点，是则进行对比找到文件系统（设备），如果不是继续向上推直到是为止（直到根目录 <strong>/</strong>）。</li>
+<li><p>认证协议PAP</p>
+<ul>
+<li>认证过程：被认证方先向认证方发送一个认证请求，其中包含账号以及密码，若通过认证方回复认证ACK，如不通过则回复认证NACK，同时返回失败原因。</li>
+</ul>
+<p>PAP是基于口令的认证方法，PAP包含的身份和口令是信息是明文传输，所以无法防止窃听、重放和穷举攻击，在PPP身份认证过程中，PAP仅在建立链路的阶段使用，在传输过程中不能使用。</p>
+</li>
+<li><p>认证协议CHAP</p>
+<ul>
+<li>认证过程：认证方先发送challenge报文其中包含了随机数c，被认证方将收到的从c与自己账户信息s，一同使用函数（一般为单向函数）计算出A后发送给认证方，认证方使用相同元素计算出B，将A与B进行比较，相同则认真成功，不通则认证失败并返回认证失败的原因。</li>
+</ul>
+<p>身份和口令是加密传输，CHAP可以在链路建立和数据通信阶段多次使用。</p>
+</li>
 </ol>
-<p>当你向根下的文件内创建文件时提示空间不够，但是你发现根下空间充足，错误可能是因为该目录挂载设备与根目录挂载设备不同。</p>
-<p><strong>挂载会遮盖录下的原有数据，所以一般会选择空目录进行挂载。</strong></p>
+<ul>
+<li>以太网帧的大小范围：64~1518字节</li>
+<li>数据部分大小范围：46~1500字节，以太网帧减去18字节的首部（目的地址、源地址、类型）与尾部（FCS）</li>
+</ul>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -531,12 +511,12 @@ cgroup  home  lost+found  mnt    proc  selinux  tmp
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-01文件系统</p>
+    <p><span class="copy-title">文章标题:</span>PPP</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-09, 21:01:36</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-09, 21:55:27</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/09/每天一点Linux-01文件系统/" title="每天一点Linux-01文件系统">https://DROBP.github.io/2019/08/09/每天一点Linux-01文件系统/</a>
+    <p><span class="copy-title">发布时间:</span>2019-09-06, 19:35:06</p>
+    <p><span class="copy-title">最后更新:</span>2019-09-06, 19:35:38</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/06/PPP/" title="PPP">https://DROBP.github.io/2019/09/06/PPP/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
