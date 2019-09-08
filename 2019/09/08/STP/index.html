@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-20磁盘阵列 | DROBP</title>
+  <title>STP | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-20磁盘阵列 | DROBP">
+  <meta name="description" content="STP | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -422,9 +422,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-20磁盘阵列" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-STP" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-20磁盘阵列</h1>
+        <h1 class="article-title">STP</h1>
     
     <div class="article-meta">
         
@@ -432,7 +432,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="Linux">Linux</a>
+                <a href="javascript:" data-rel="计算机网络">计算机网络</a>
             
         </span>
         
@@ -440,7 +440,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-31 13:15:02">2019-08-29 10:06</time>
+        创建时间:<time class="date" title="更新时间: 2019-09-08 08:48:09">2019-09-08 08:47</time>
         
     </div>
     <div class="article-meta">
@@ -473,7 +473,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#磁盘阵列-RAID"><span class="toc-text">磁盘阵列 RAID</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、不同场景RAID的使用"><span class="toc-text">一、不同场景RAID的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、RAID5-3块硬盘-热备-1块硬盘"><span class="toc-text">二、RAID5 (3块硬盘) + 热备(1块硬盘)</span></a></li></ol></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -488,102 +488,56 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="磁盘阵列-RAID"><a href="#磁盘阵列-RAID" class="headerlink" title="磁盘阵列 RAID"></a>磁盘阵列 RAID</h1><p>RAID：廉价磁盘冗余阵列（Redundant Array of Independent Disks）<br>作 用：容错、提升读写速率</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">RAID类型</th>
-<th style="text-align:center">个数</th>
-<th style="text-align:center">利用率</th>
-<th style="text-align:center">优缺点</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">RAID0   条带集（磁盘同时工作，读写块）</td>
-<td style="text-align:center">2块以上</td>
-<td style="text-align:center">100%</td>
-<td style="text-align:center">读写速率快，不容错</td>
-</tr>
-<tr>
-<td style="text-align:center">RAID1  镜像集（镜子，需要偶数个磁盘）</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">50%</td>
-<td style="text-align:center">读写速率一般，容错</td>
-</tr>
-<tr>
-<td style="text-align:center">RAID5   带奇偶校验条带集</td>
-<td style="text-align:center">3块以上</td>
-<td style="text-align:center">(n-1）/n</td>
-<td style="text-align:center">读写速率快，容错，<strong>允许坏一块</strong>、磁盘数越多读写越快、恢复速度慢、恢复时不允许又另外一块盘损坏</td>
-</tr>
-<tr>
-<td style="text-align:center">RAID6   带奇偶校验条带集双校验</td>
-<td style="text-align:center">(n-2）/n</td>
-<td style="text-align:center">(n-2）/n</td>
-<td style="text-align:center">读写快，容错，允许坏两块</td>
-</tr>
-<tr>
-<td style="text-align:center">RAID0<em>1</em></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">RAID1<em>0</em> RAID1的安全＋RAID0的高速</td>
-<td style="text-align:center">至少4</td>
-<td style="text-align:center">50%</td>
-<td style="text-align:center">读写速率快，容错</td>
-</tr>
-<tr>
-<td style="text-align:center">RAID5<em>0</em> RAID5的安全＋RAID0的高速</td>
-<td style="text-align:center">至少6</td>
-<td style="text-align:center">(n-2）/n</td>
-<td style="text-align:center">读写速率快，容错</td>
-</tr>
-<tr>
-<td style="text-align:center">RAID6<em>0</em> RAID6的安全＋RAID0的高速</td>
-<td style="text-align:center">至少8</td>
-<td style="text-align:center">(n-4）/n</td>
-<td style="text-align:center">读写速率快，容错</td>
-</tr>
-</tbody>
-</table>
-<p><img src="/2019/08/29/每天一点Linux-20磁盘阵列/1.png" alt="1"></p>
-<p><img src="/2019/08/29/每天一点Linux-20磁盘阵列/2.png" alt="2"></p>
-<p><img src="/2019/08/29/每天一点Linux-20磁盘阵列/3.png" alt="3"></p>
-<p><img src="/2019/08/29/每天一点Linux-20磁盘阵列/4.png" alt="4"></p>
-<h2 id="一、不同场景RAID的使用"><a href="#一、不同场景RAID的使用" class="headerlink" title="一、不同场景RAID的使用"></a>一、不同场景RAID的使用</h2><p>RAID 实现方式<br>硬RAID：  需要RAID卡，有自己的CPU，处理速度快<br>软RAID：  通过操作系统实现，比如Windows、Linux</p>
-<h2 id="二、RAID5-3块硬盘-热备-1块硬盘"><a href="#二、RAID5-3块硬盘-热备-1块硬盘" class="headerlink" title="二、RAID5 (3块硬盘) + 热备(1块硬盘)"></a>二、RAID5 (3块硬盘) + 热备(1块硬盘)</h2><ol>
-<li><p>准备4块硬盘<br>[root@ecs-ea9d ~]# ll /dev/sd*<br>brw-rw—- 1 root disk 8,  48 Jan 13 16:07 /dev/sdd<br>brw-rw—- 1 root disk 8,  64 Jan 13 16:07 /dev/sde<br>brw-rw—- 1 root disk 8,  80 Jan 13 16:07 /dev/sdf<br>brw-rw—- 1 root disk 8,  80 Jan 13 16:07 /dev/sdg</p>
+        <p>生成树协议STP（使交换机的分布像一棵树一样，不会出现环路）</p>
+<p>工作原理：</p>
+<ol>
+<li>选则根交换机</li>
+<li>选择根端口、指定端口、可选端口</li>
+<li>关闭所有阻塞端口的流量转发功能</li>
+</ol>
+<p>各端口以及作用：</p>
+<ol>
+<li>根端口—————-&gt;转发</li>
+<li>指定端口————-&gt;转发</li>
+<li>阻塞端口————-&gt;阻塞</li>
+</ol>
+<p>工作工程：</p>
+<ol>
+<li>选举根交换机<ul>
+<li>查看STP优先级（小的优先）</li>
+<li>MAC地址比较（小的优先）</li>
+</ul>
 </li>
-<li><p>创建RAID<br>[root@ecs-ea9d ~]# yum -y install mdadm              //确保mdadm命令可用<br>[root@ecs-ea9d ~]# mdadm -C /dev/md0 -l5 -n3 -x1 /dev/sd{d,e,f,g}<br>mdadm: array /dev/md0 started.<br>-C                      创建RAID<br>/dev/md0        第一个RAID设备<br>-l5                     RAID5<br>-n                      RAID成员的数量<br>-x                      热备磁盘的数量</p>
+<li>非根交换机的根端口选举（每台非根交换机根端口只有一个，<strong>根端口对面一定是指定端口</strong>）<ul>
+<li>比较cost值（小的优先）</li>
+<li>比较上行交换及的mac地址（小的优先）</li>
+<li>比较上行交换机的端口标</li>
+</ul>
 </li>
-<li><p>格式化，挂载<br>[root@ecs-ea9d ~]# mkfs.xfs /dev/md0<br>[root@ecs-ea9d ~]# mkdir /mnt/raid5<br>[root@ecs-ea9d ~]# mount /dev/md0 /mnt/raid5     //也可选择永久挂载<br>[root@ecs-ea9d ~]# cp -rf /etc /mnt/raid5/etc1</p>
-</li>
-<li><p>查看RAID信息<br>[root@ecs-ea9d ~]# mdadm -D /dev/md0                 //-D 查看详细信息<br>/dev/md0:<br>  Version : 1.2<br>  Creation Time : Mon Jan 13 16:28:47 2014<br>  Raid Level : raid5<br>  Array Size : 2095104 (2046.34 MiB 2145.39 MB)<br>  Used Dev Size : 1047552 (1023.17 MiB 1072.69 MB)<br>  Raid Devices : 3<br>  Total Devices : 4<br>  Persistence : Superblock is persistent</p>
-<p>  Update Time : Mon Jan 13 16:34:51 2014</p>
-<pre><code>   State : clean 
-</code></pre><p> Active Devices : 3<br> Working Devices : 4<br> Failed Devices : 0<br> Spare Devices : 1</p>
-<p> Layout : left-symmetric</p>
-<p>  Chunk Size : 512K<br> Number   Major   Minor   RaidDevice State</p>
-<pre><code>0       8       48        0      active sync   /dev/sdd
-1       8       64        1      active sync   /dev/sde
-4       8       80        2      active sync   /dev/sdf
-</code></pre><p>​    3       8       96        -      spare   /dev/sdg</p>
-</li>
-<li><p>模拟一块硬盘损坏，并移除<br>终端一：<br>[root@ecs-ea9d ~]# watch -n 0.5 ‘mdadm -D /dev/md0 | tail’      //watch持续查看<br>终端二：<br>[root@ecs-ea9d ~]# mdadm /dev/md0 -f /dev/sde -r /dev/sde<br>//模拟坏了并移除  -f  –fail  -r  –remove</p>
-</li>
-<li><p>设置RAID开机生效<br>[root@ecs-ea9d ~]# mdadm -D -s<br>ARRAY /dev/md0 metadata=1.2 name=sxl1.com:0 UUID=c6761621:8878498f:f5be209e<br>[root@ecs-ea9d ~]# mdadm -D -s &gt; /etc/mdadm.conf</p>
+<li>指定端口的选择（没有根端口的链路上有一个指定端口与阻塞端口）<ul>
+<li>根路径的开销</li>
+<li>端口所属桥ID</li>
+<li>端口ID（端口优先级+端口MAC）</li>
+</ul>
 </li>
 </ol>
-<p>========================================================<br>mdadm选项：<br>-s  –scan<br>-S  –stop<br>-D  –detail<br>-C  –create<br>-f   –fail<br>-r   –remove<br>-n  –raid-devices=3<br>-x  –spare-devices=1</p>
-<p>-l   –level=5</p>
-<p>参考：<br>    Update Time : Mon Aug  4 22:47:47 2014<br>          State : clean, degraded, recovering<br> Active Devices : 2<br>Working Devices : 3<br> Failed Devices : 0<br>  Spare Devices : 1</p>
-<p> Layout : left-symmetric<br> Chunk Size : 512K</p>
-<p> Rebuild Status : 3% complete</p>
-<p>​       Name : localhost.localdomain:0  (local to host localhost.localdomain)<br>​       UUID : 3df9624c:138a5b3e:2f557132:59a43d04<br>​     Events : 41</p>
-<p>Number   Major   Minor   RaidDevice State<br>   0     252       16        0    active sync   /dev/vdb<br>   3     252       64        1    spare rebuilding   /dev/vde<br>   4     252       48        2    active sync   /dev/vdd</p>
+<p>快速生成树协议RSTP</p>
+<p>端口五种状态：</p>
+<ul>
+<li>Blocking state(阻塞)</li>
+<li>Listening state(监听)</li>
+<li>Learning state（学习）</li>
+<li>Forwarding state（转发）</li>
+<li>Disabled state（不接收）</li>
+</ul>
+<p>五种状态的转化：</p>
+<ul>
+<li>从初始化到阻塞或禁用状态</li>
+<li>从阻塞到侦听或禁用状态</li>
+<li>从侦听到学习或禁用状态</li>
+<li>从学习到转发或禁用状态</li>
+<li>从转发到禁用状态</li>
+</ul>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -597,12 +551,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-20磁盘阵列</p>
+    <p><span class="copy-title">文章标题:</span>STP</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-29, 10:06:44</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-31, 13:15:02</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/29/每天一点Linux-20磁盘阵列/" title="每天一点Linux-20磁盘阵列">https://DROBP.github.io/2019/08/29/每天一点Linux-20磁盘阵列/</a>
+    <p><span class="copy-title">发布时间:</span>2019-09-08, 08:47:42</p>
+    <p><span class="copy-title">最后更新:</span>2019-09-08, 08:48:09</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/08/STP/" title="STP">https://DROBP.github.io/2019/09/08/STP/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
