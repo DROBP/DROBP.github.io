@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-02bash使用技巧 | DROBP</title>
+  <title>IP | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-02bash使用技巧 | DROBP">
+  <meta name="description" content="IP | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -427,9 +427,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-02bash使用技巧" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-IP" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-02bash使用技巧</h1>
+        <h1 class="article-title">IP</h1>
     
     <div class="article-meta">
         
@@ -437,7 +437,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="Linux">Linux</a>
+                <a href="javascript:" data-rel="计算机网络">计算机网络</a>
             
         </span>
         
@@ -445,7 +445,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-10 22:54:28">2019-08-10 22:47</time>
+        创建时间:<time class="date" title="更新时间: 2019-09-09 12:30:45">2019-09-09 12:25</time>
         
     </div>
     <div class="article-meta">
@@ -478,7 +478,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#bash使用技巧"><span class="toc-text">bash使用技巧</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux获得帮助"><span class="toc-text">Linux获得帮助</span></a></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -493,95 +493,50 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="bash使用技巧"><a href="#bash使用技巧" class="headerlink" title="bash使用技巧"></a>bash使用技巧</h1><pre><code class="python">[yang@ecs-ea9d ~]$ id
-uid=1001(yang) gid=1001(yang) groups=1001(yang),10(wheel)
-</code></pre>
+        <p>IP</p>
+<p>特点：</p>
+<ol>
+<li>提供了一种无连接的传输机制</li>
+<li>不保证数据报传输的可靠性</li>
+<li>提供了尽最大努力的投递机制</li>
+</ol>
+<p>五类地址：再互联网中的所有路由器，对目的地址是私有地址的数据报一律不进行转发</p>
 <ul>
-<li>~ 表示现在在home目录下，/表示当前在根目录下</li>
-<li><p>$表示现在是普通用户；$位置的符号变为#时，表示为root。</p>
+<li><p>A类：以1开头，8位网络位，24位主机位，私有地址范围10.0.0.0/8<strong>（10.0.0.0~10.255.255.255）</strong></p>
 </li>
-<li><p>用Tab可以进行命令的自动补全。</p>
+<li><p>B类：以10开头，16位网络位，16位主机地址，私有地址范围127.16.0.0/12<strong>（172.16.0.0~172.31.255.255）</strong></p>
 </li>
-<li>用键盘的上下键进行历史命令翻查</li>
-<li>用Ctrl + a （ahead）可以在终端中将光标移至命令开头。</li>
-<li>用Ctrl + e（end）可以在终端中将光标移至命令末。</li>
-<li>用Ctrl + k 可以删除光标后面的命令</li>
-<li>用Ctrl + u 可以删除光标前面的命令</li>
-<li>用Ctrl + r 可以以检索的方式查找历史命令</li>
-<li>在命令空格后长按Alt + . 可以自动补全上一条命令的参数</li>
-<li>在命令空格后按一下ESC后再加 . 可以自动补全上一条命令的参数</li>
-<li>在命令空格后输入要!$（一样）可以自动补全上一条命令的参数</li>
-<li>通过history查看历史命令；后输入！+数字，显示历史中的第”数字“条命令</li>
-<li>在！+ 字符串，搜索历史中最近的以”字符串“开口的命令</li>
-<li>使用”alias name=’命令’来进行命令的别名（如果不进行保存，关闭当前终端后别名功能无效）。例如 alias catnet=’cat /etc/sysconfig/network-scripts/ifcfg-enpls0’定义一条命令，以后在终端中直接输入catnet即执行cat /etc/sysconfig/network-scripts/ifcfg-enpls0这条命令。在终端中输入alias可以查看以别名（别名优先，\ +命令：跳过别名）</li>
-<li>使用type + 字符串 用来查询字符串（命令）的类型（命令类型可能是一个哈希[hash]、别名[alias]、内置命令[builtin]、关键字[keyword]、函数[function]、文件[file]，第一次输入命令时按hash-&gt;alias-&gt;builtin-&gt;$PATH顺序进行执行，即当命令不是hash而是是一个<strong>别名（alias）</strong>时就只执行这个<strong>别名（alias）</strong>不执行后面的其他类型命令）  </li>
+<li><p>C类：以110开头，24位网络位，8位主机位，私有地址范围192.168.0.0/16<strong>（192.168.0.0~192.168.255.255）</strong></p>
+</li>
+<li><p>D类：以1110开头，多播地址，主要用于IGMP协议中多播</p>
+</li>
+<li><p>E类：以1111开头，保留为今后使用</p>
+<p>注：网络位全1保留作为本地软件<strong>环回测试</strong>本主机的进程之间的通信用，网络位全为0表示<strong>this（这个）</strong>；主机位全为1表示广播地址，主机位全为0表示主机所在的网络地址。</p>
+</li>
 </ul>
-<h1 id="Linux获得帮助"><a href="#Linux获得帮助" class="headerlink" title="Linux获得帮助"></a>Linux获得帮助</h1><p>命令帮助</p>
-<p>命令 –help</p>
-<pre><code class="python">[yang@ecs-ea9d linux]$ ls --help
-Usage: ls [OPTION]... [FILE]...
-</code></pre>
-<p>方括号[]表示可有可无不是必须要加，…表示可有多个选项</p>
-<p><strong>date命令</strong></p>
-<p>文件帮助</p>
-<p>man（manual：手册）：可以理解为是一个工具的说明书</p>
-<p>在man中使用<strong>/字符串</strong>可以在手册中进行搜索字符串的信息，n（next）去找下一个。</p>
-<p>man手册章节（可使用man man命令查手册章节以及章节类型）</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">部分</th>
-<th style="text-align:center">man手册类型</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"><strong>1</strong></td>
-<td style="text-align:center"><strong>用户命令</strong></td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">内核系统调用</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">函数库调用</td>
-</tr>
-<tr>
-<td style="text-align:center">4</td>
-<td style="text-align:center">设备文件和特殊文件</td>
-</tr>
-<tr>
-<td style="text-align:center"><strong>5</strong></td>
-<td style="text-align:center"><strong>配置文件及格式</strong></td>
-</tr>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">游戏</td>
-</tr>
-<tr>
-<td style="text-align:center">7</td>
-<td style="text-align:center">杂项（规范、标准和其他页面）</td>
-</tr>
-<tr>
-<td style="text-align:center"><strong>8</strong></td>
-<td style="text-align:center"><strong>管理类命令</strong></td>
-</tr>
-<tr>
-<td style="text-align:center">9</td>
-<td style="text-align:center">Linux 内核 API（内核调用）</td>
-</tr>
-</tbody>
-</table>
-<pre><code class="python">[yang@ecs-ea9d ~]$ ll /usr/bin/passwd  /etc/passwd
--rw-r--r--  1 root root  1544 Aug  6 10:36 /etc/passwd
--rwsr-xr-x. 1 root root 27832 Jun 10  2014 /usr/bin/passwd
-</code></pre>
-<p>当上述两个passwd名字相同，使用man时可能得到的不是你想要的结果，可使用手册章节号来进行区分。(绿色为章节号)</p>
-<pre><code class="python">[yang@ecs-ea9d ~]$ man 1 passwd
-[yang@ecs-ea9d ~]$ man 5 passwd
-</code></pre>
-<p>也可使用man -f 手册名（例如：man -f passwd）来确定手册名（passwd）在那个章节。</p>
+<p>IP数据报：首部有固定长度20字节，首部最小长度20字节，最大长度60字节，IP数据报只对首部进行校验</p>
+<ul>
+<li><strong>首部长度</strong>：占4为，以为代表4字节，最大1111（15 <em> 4=60字节）最小值为0101（5 </em> 4=20字节）</li>
+<li><strong>总长度</strong>：占16位，这里指首部长度与数据长度的和，以字节为单位（不同于首部长度），数据报的最大长度2^16-1=65535字节（很少遇到）</li>
+<li><strong>标识</strong>：占16位，每产生一个数据报就加1，当IP分片后，拥有相同标识号的IP数据报是属于同一IP原始数据报。（数据报不存在按序接收的问题）</li>
+<li><strong>标志</strong>：占3位<ul>
+<li>MF=1时，表示后面还有分片</li>
+<li>MF=9时，表示这时最后一个分片</li>
+<li>DF=0时，表示允许分片</li>
+<li>DF=1时，表示不允许分片</li>
+</ul>
+</li>
+<li><strong>片偏移</strong>：占13位，在较长的分片中用来表示某个分片在原报文中的相对位置。</li>
+</ul>
+<p>IP分组转发算法：</p>
+<ol>
+<li>从数据报的首部提取目的主机的IP地址D，与子网掩码相与得出目的网络地址N</li>
+<li>若N就是与此路由器直接相连的某个网络地址，则进行直接交付，不需要在经过其他的路由器，直接把数据报交付目的主机（这里包括把目的主机地址D转换为具体的硬件地址，把数据报封装为MAC帧，再发送此帧）；否则就是间接交付，执行3</li>
+<li>若路由表中有目的地址为D的特定主机路由，则把数据包传送给路由表中所指明的下一跳路由器；否则执行4</li>
+<li>若路由表中有到达网络N的路由，则把数据报传送给路由表中所指明的下一跳路由器；否则，执行5</li>
+<li>若路由表中有一条默认路由，则把数据报传送给路由表中所指明的默认路由器；否则，执行6</li>
+<li>报告转发分组出错</li>
+</ol>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -595,12 +550,12 @@ Usage: ls [OPTION]... [FILE]...
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-02bash使用技巧</p>
+    <p><span class="copy-title">文章标题:</span>IP</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-10, 22:47:01</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-10, 22:54:28</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/10/每天一点Linux-02bash使用技巧/" title="每天一点Linux-02bash使用技巧">https://DROBP.github.io/2019/08/10/每天一点Linux-02bash使用技巧/</a>
+    <p><span class="copy-title">发布时间:</span>2019-09-09, 12:25:20</p>
+    <p><span class="copy-title">最后更新:</span>2019-09-09, 12:30:45</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/09/IP/" title="IP">https://DROBP.github.io/2019/09/09/IP/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
