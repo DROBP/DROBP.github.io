@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-01文件系统 | DROBP</title>
+  <title>RIP | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-01文件系统 | DROBP">
+  <meta name="description" content="RIP | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -432,9 +432,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-01文件系统" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-RIP" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-01文件系统</h1>
+        <h1 class="article-title">RIP</h1>
     
     <div class="article-meta">
         
@@ -442,7 +442,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="Linux">Linux</a>
+                <a href="javascript:" data-rel="计算机网络">计算机网络</a>
             
         </span>
         
@@ -450,7 +450,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-09 21:55:27">2019-08-09 21:01</time>
+        创建时间:<time class="date" title="更新时间: 2019-09-10 18:24:14">2019-09-10 18:23</time>
         
     </div>
     <div class="article-meta">
@@ -483,7 +483,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux文件系统"><span class="toc-text">Linux文件系统</span></a></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -498,46 +498,24 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Linux文件系统"><a href="#Linux文件系统" class="headerlink" title="Linux文件系统"></a>Linux文件系统</h1><p>Windows:     以多根的方式组织文件  C:\   D:\   E:\<br>Linux:           以单根的方式组织文件  /</p>
-<p>/目录结构： FSH (Filesystem Hierarchy Standard)</p>
-<pre><code class="python">[root@yang ~]# ls /
-bin     dev   lib          media  net   root     srv  usr
-boot    etc   lib64       misc   opt   sbin     sys  var
-cgroup  home  lost+found  mnt    proc  selinux  tmp
-</code></pre>
-<p>利用BASH Shell对文件进行管理</p>
-<ul>
-<li><strong>bin 二进制文件，存放这Linux常用操作命令的执行文件</strong></li>
-<li><strong>dev 设备目录</strong></li>
-<li>home 相当于windows的c盘下的用户文件夹</li>
-<li><strong>lib64 64的库文件</strong></li>
-<li>media 媒体文件</li>
-<li>mnt 外设目录（插u盘硬盘）</li>
-<li>opt 第三方软件安装目录（安装qq等）</li>
-<li>root root用户的home</li>
-<li>usr 用户共享目录（相当于windows中c盘的Program Files,系统内置软件都装在这个文件夹中）</li>
-<li><strong>boot 内核启动目录</strong></li>
-<li>etc 配置文件目录</li>
-<li><strong>lib 库目录</strong></li>
-<li>lost+found 丢失目录</li>
-<li>sbin 超级管理员的目录</li>
-<li>tmp 临时目录（重启后会清空）</li>
-<li><strong>var 变量目录</strong></li>
-<li><strong>proc 虚拟的文件系统，反应出来的时内核，进程信息或是实时状态</strong></li>
-<li>selinux Linux安全</li>
-</ul>
-<p><strong>挂载</strong>的意义是将一个设备与一个目录关联起来，这个目录可以很深也可以很浅。一个磁盘可被挂载到多个目录下。</p>
-<p>Linux是一个单根结构，windows是一个多根结构。</p>
-<p>如何确定文件在那个磁盘中存放：</p>
-<ul>
-<li>例如新建一个文件为：/boot/dirl/file1</li>
-</ul>
+        <p>内部网关协议RIP：<strong>基于距离向量，最大跳数15（16表示不可达），适用于小型网络，使用UDP（520端口）进行传送，一个RIP报文最多课包括25个路由，因此RIP报文的最大长度是4+20*25=504字节，如超过必须再使用一个RIP报文来传送。</strong></p>
+<p>特点：</p>
 <ol>
-<li>先查看此文件的父亲（/boot/dirl/）是否为挂载点（可以通过df命令查看挂载点信息），如果是即该文件占用父亲挂载点相对应的文件系统（设备）的空间。如果不是则进行第二部。</li>
-<li>向上继续推一层即/boot是否为挂载点，是则进行对比找到文件系统（设备），如果不是继续向上推直到是为止（直到根目录 <strong>/</strong>）。</li>
+<li>仅和相邻路由器交换信息</li>
+<li>交换的信息是当前路由器所知道的全部信息，即自己现在的路由表</li>
+<li>按固定时间间隔交换路由信息（30s），当链路发生变化时也发送路由信息</li>
+<li>好消息传播快，坏消息传播慢</li>
 </ol>
-<p>当你向根下的文件内创建文件时提示空间不够，但是你发现根下空间充足，错误可能是因为该目录挂载设备与根目录挂载设备不同。</p>
-<p><strong>挂载会遮盖录下的原有数据，所以一般会选择空目录进行挂载。</strong></p>
+<p>距离向量算法：</p>
+<ol>
+<li>对地址为X的相邻路由器发来的RIP报文，先修改此报文中的所有项目：把下一跳字段中的地址都改为X，并把所有的距离“距离”字段的值加1.每一个项目都有三个关键数据，即：到目的网路N，距离是d，下一跳路由器是X</li>
+<li>对修改后的RIP报文中内一个项目，进行以下步骤：<ul>
+<li>若原来的路由表中没有目的地网络N，则把该项目添加到路由表中，否则（即在路由表中有目的网络N，这时就再查看下一跳路由器地址），若下一跳路由器的地址是X，则把收到的项目替换原路由表中的项目，否则（即这个项目是：到目的网络N，但下一跳路由器不是X），若收到的项目中的距离d小于路由表中的距离，则进行更新，否则什么也不做。</li>
+</ul>
+</li>
+<li>若3分钟还没有收到相邻路由器的跟新路由表，则把此相邻路由器记为不可达的路由器，即把距离置为16</li>
+<li>返回</li>
+</ol>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -551,12 +529,12 @@ cgroup  home  lost+found  mnt    proc  selinux  tmp
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-01文件系统</p>
+    <p><span class="copy-title">文章标题:</span>RIP</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-09, 21:01:36</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-09, 21:55:27</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/09/每天一点Linux-01文件系统/" title="每天一点Linux-01文件系统">https://DROBP.github.io/2019/08/09/每天一点Linux-01文件系统/</a>
+    <p><span class="copy-title">发布时间:</span>2019-09-10, 18:23:00</p>
+    <p><span class="copy-title">最后更新:</span>2019-09-10, 18:24:14</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/10/RIP/" title="RIP">https://DROBP.github.io/2019/09/10/RIP/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
