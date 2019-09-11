@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>路由追踪 | DROBP</title>
+  <title>TCP | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="路由追踪 | DROBP">
+  <meta name="description" content="TCP | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -437,9 +437,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-路由追踪" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-TCP" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">路由追踪</h1>
+        <h1 class="article-title">TCP</h1>
     
     <div class="article-meta">
         
@@ -455,7 +455,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-25 11:53:05">2019-08-23 15:28</time>
+        创建时间:<time class="date" title="更新时间: 2019-09-11 23:17:01">2019-09-11 23:15</time>
         
     </div>
     <div class="article-meta">
@@ -488,7 +488,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP"><span class="toc-text">TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特点"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP的连接"><span class="toc-text">TCP的连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可靠传输的工作原理"><span class="toc-text">可靠传输的工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#停止等待协议（信道利用率低）"><span class="toc-text">停止等待协议（信道利用率低）</span></a></li></ol></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -503,33 +503,99 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>​        tracert从源主机向目的主机发送一连串的IP数据报，数据包中封装的是无法交付的UDP用户数据报。第一个数据报P1的生存时间TTL设置为1.当P1到达路径上的第一个路由器R1时，路由器R1收下它，接着把TTL值减1。由于TTL值等于零了，R1就把P1丢弃了，并向源主机发送一个ICMP<strong>时间超时</strong>报文。</p>
-<p>​        源主机接着发送第二个数据报P2，并把TTL设置为2。P2先到达路由器R1，R1收下后把TTL减1再转发给路由器R2。R2收到P2时TTL值为1，但减1后TTL值变为零了。R2就丢弃P2，并向源主机发送一个ICMP时间超过的差错报文。这样一直继续下去。当最后一数据报刚刚到达目的主机时，数据报的TTL是1。主机不转发数据报，也不把TTL值减1。但因IP数据报中分装的是无法交付的运输层UDP用户数据报，一次目的主机要向源主机发送<strong>ICMP终点不可达</strong>差错报告报文。</p>
-<p>​        这样，源主机达到了自己的目的，因为这些路由器和最后目的主机发来的ICMP报文正好给出了源主机想知道的路由器信息——到达目的主机所经过的路由器的IP地址，以及到这其中的每一个路由器的往返时间。</p>
-<pre><code class="python">C:\Users\29&gt;tracert www.baidu.com
-
-通过最多 30 个跃点跟踪
-到 www.a.shifen.com [39.156.66.18] 的路由:
-
-  1     2 ms     2 ms     4 ms  10.10.70.11
-  2     7 ms     *        8 ms  172.16.253.1
-  3     5 ms     2 ms     2 ms  111.20.192.125
-  4     *        *        *     请求超时。
-  5     *        *        *     请求超时。
-  6     *        *        3 ms  221.183.47.149
-  7    27 ms    23 ms    40 ms  221.183.37.157
-  8     *        *        *     请求超时。
-  9     *        *        *     请求超时。
- 10     *        *        *     请求超时。
- 11     *        *        *     请求超时。
- 12     *        *        *     请求超时。
- 13     *        *        *     请求超时。
- 14     *        *        *     请求超时。
- 15    23 ms    24 ms    22 ms  39.156.66.18
-
-跟踪完成。
-</code></pre>
-<p>命令执行过程中*：核心路由器可能禁ping但其任可以进行数据的转发。windows中 使用tracert进行路由追踪，Linux中使用tracertoute进行路由追踪。</p>
+        <h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><p>提供一条全双工的可靠逻辑信道，在传输数据之前必须先建立连接，数据传送结束后要释放接连，TCP不提供广播或多多播。发送多少报文时TCP决定的（而不是应用进程），对方窗口值以及网络的拥塞程度。</p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ol>
+<li>TCP是面向连接的运输层协议</li>
+<li>每一条TCP连接只能有两个端点</li>
+<li>TCP提供可靠交付的服务</li>
+<li>TCP提供全双工通信</li>
+<li>面向字节流</li>
+</ol>
+<h3 id="TCP的连接"><a href="#TCP的连接" class="headerlink" title="TCP的连接"></a>TCP的连接</h3><p>TCP连接的端点叫做套接字或者插口。每一条TCP连接唯一地被通信两端地两个端点（即两个套接字）所确定。</p>
+<p>​    TCP连接  ::={socket1,socket}={（IP1：port1），（IP2：port2）}</p>
+<h3 id="可靠传输的工作原理"><a href="#可靠传输的工作原理" class="headerlink" title="可靠传输的工作原理"></a>可靠传输的工作原理</h3><h4 id="停止等待协议（信道利用率低）"><a href="#停止等待协议（信道利用率低）" class="headerlink" title="停止等待协议（信道利用率低）"></a>停止等待协议（信道利用率低）</h4><p>停止等待就是每发送完一个分组就停止发送，等待对方的确认，在收到确认后再发送下一个分组。</p>
+<ol>
+<li><strong>无差错情况</strong></li>
+</ol>
+<ul>
+<li>发送完一个分组就停止发送，等待对方的确认，在收到确认后再发送下一个分组。</li>
+</ul>
+<ol start="2">
+<li><p><strong>出现差错</strong></p>
+<ul>
+<li><p><strong>超时重传</strong>：当接收端收到一个分组检测出了错误，就丢弃该分组，其它什么也不做（不通知发送方）；或者数据报在传输过程中丢失了，这时接收方什么也不知道。发送方只要超过了一段时间任然没有收到确认，就认为刚才发送的分组丢失了，因而重传前面发送过的分组，这就是超时重传。要实现超时重传需要设置一个<strong>超时时数器</strong></p>
+<p>需要注意：</p>
+<ul>
+<li>发送端在发送一个分组后，必须暂时保存已发送的分组副本，只有得到确认才能清除。</li>
+<li>分组和确认分组都必须进行编号</li>
+<li>超市计时器设置的重传时间应当比数据在分组传输的平均往返时间更长一些</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>确认丢失和确认迟到</strong></p>
+<p>确认丢失：接收方收到正确分组，恢复确认报文M1，但在发送方设定的超时重传时间内没有收到确认，此时发送方不知道自己发送的分组出错、丢失或者是接收方发送的确认丢失了。因此发送方在超时计时器到期后就要重传报文。接收方收到了以接收过的报文，采取两个动作：</p>
+<ul>
+<li>丢弃这个重复的分组</li>
+<li>向发送方发送确认（不能认为已经发送过确认就不再发送，因为发送方之所以重传就表示发送方没有收到对分组的确认）</li>
+</ul>
+<p>确认迟到：传输过程中没有出现差错，但接收方对分组的确认迟到了。A会收到重复的确认。处理方法：</p>
+<ul>
+<li>发送方收下迟到的信息后就丢弃，什么也不做</li>
+</ul>
+</li>
+<li><p>信道利用率</p>
+<p>为了提高传输效率，发送方可以不使用低效率的停止等待协议，而是采用<strong>流水线传输</strong>。流水线传输就是发送方可连续发送多个分组，不必没发完一个分组就停顿下来等待对方的确认。这样可使信道上一直有数据不间断地在传送。（需要使用<strong>连续ARQ协议</strong>和<strong>滑动窗口协议</strong>）</p>
+</li>
+</ol>
+<p>字节为单位的滑动窗口</p>
+<p>TCP的滑动窗口是以字节为单位的。A的发送窗口一般一定不能超过B的接收窗口数值。</p>
+<p>流量控制：就是让发送方的发送速度不要太快，要让接收方来得及接收。ACK表示首部中的确认位，ack表示确认字段的值。</p>
+<p>拥塞控制</p>
+<p>就是防止过多的数据注入到网络中，这样可以使网络中的路由器或链路不致过载。</p>
+<p>方法：慢开始、拥塞避免、快重传、快恢复</p>
+<ul>
+<li>满开始：指数增长到门限停止</li>
+<li>拥塞避免：每经过一个RTT就把发送方的拥塞窗口cwnd加1，直到超时或者收到3个ACK</li>
+<li>快重传：在收到三个连续ACK后开始快重传，快重传可使整个网络的的吞吐量提高20%</li>
+<li>快恢复：收到连续的三个ACK开始快恢复算法，门限为3个ACK式窗口的一半，继续开始拥塞避免初始值与门限值相同。</li>
+</ul>
+<p>发送方的窗口上限值=Min[ rwnd，cwnd ]   rwnd：接收方窗口   cwnd：拥塞窗口</p>
+<p>三次握手：</p>
+<p>发送消息时ACK必须等于1</p>
+<p>ack=上一次seq的值加一</p>
+<p>SYN等于1（不能携带数据但是消耗序列号）</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">SYN=1</td>
+<td style="text-align:center">ACK=0</td>
+<td style="text-align:center">表示请求建立连接</td>
+</tr>
+<tr>
+<td style="text-align:center">SYN=1</td>
+<td style="text-align:center">ACK=1</td>
+<td style="text-align:center">表示同意建立连接</td>
+</tr>
+</tbody>
+</table>
+<p>为什么还要最后一次握手：</p>
+<p>防止前面的一个在网络上滞留的连接请求（已失效的连接请求报文段）到了服务器，服务器以为是正常的连接请求处理，如果没有最后客户端的确认，服务器会浪费资源。</p>
+<p>四次挥手：</p>
+<p>FIN为1时表明此报文段的发送方的数据已发送完毕，并要求释放运输连接。服务器向客户端发送释放连接时ack值与上次ack值相同。</p>
+<p>三个计时器：</p>
+<ol>
+<li>超时计时器：发送方发送的消息可能会丢失或者在网络上滞留所以发送方在超过超时计时器是重新发送消息。</li>
+<li>持续计时器：在流量控制时当对方接收窗口为零时，启动持续计时器，超过这个时间发送探测报文段，检测对方窗口是否还为0。</li>
+<li>保活计时器：防止客户端突然故障，若服务器在保活计时器时间内（2小时）没有收到客户端的信息会进行探测，在探测后客户端无信息回应，服务器就关闭连接。</li>
+</ol>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -543,12 +609,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>路由追踪</p>
+    <p><span class="copy-title">文章标题:</span>TCP</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-23, 15:28:56</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-25, 11:53:05</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/23/路由追踪/" title="路由追踪">https://DROBP.github.io/2019/08/23/路由追踪/</a>
+    <p><span class="copy-title">发布时间:</span>2019-09-11, 23:15:54</p>
+    <p><span class="copy-title">最后更新:</span>2019-09-11, 23:17:01</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/11/TCP/" title="TCP">https://DROBP.github.io/2019/09/11/TCP/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
