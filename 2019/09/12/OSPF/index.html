@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-25使用YUM管理RPM包 | DROBP</title>
+  <title>OSPF | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-25使用YUM管理RPM包 | DROBP">
+  <meta name="description" content="OSPF | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -442,9 +442,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-25使用YUM管理RPM包" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-OSPF" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-25使用YUM管理RPM包</h1>
+        <h1 class="article-title">OSPF</h1>
     
     <div class="article-meta">
         
@@ -452,7 +452,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="Linux">Linux</a>
+                <a href="javascript:" data-rel="计算机网络">计算机网络</a>
             
         </span>
         
@@ -460,7 +460,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-09-03 10:24:38">2019-09-03 10:24</time>
+        创建时间:<time class="date" title="更新时间: 2019-09-12 20:55:32">2019-09-12 20:54</time>
         
     </div>
     <div class="article-meta">
@@ -493,7 +493,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用YUM管理RPM包"><span class="toc-text">使用YUM管理RPM包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-查看可用仓库"><span class="toc-text">1.查看可用仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-安装"><span class="toc-text">2.安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-查询（从本地-rpm数据库-和-yum源-中查询）"><span class="toc-text">3.查询（从本地 rpm数据库 和 yum源 中查询）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-卸载"><span class="toc-text">4.卸载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-history"><span class="toc-text">5.history</span></a></li></ol></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -508,37 +508,19 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="使用YUM管理RPM包"><a href="#使用YUM管理RPM包" class="headerlink" title="使用YUM管理RPM包"></a>使用YUM管理RPM包</h1><p>yum优点：自动解决包的依赖关系                </p>
-<h2 id="1-查看可用仓库"><a href="#1-查看可用仓库" class="headerlink" title="1.查看可用仓库"></a>1.查看可用仓库</h2><p>[root@ecs-ea9d  ~]# yum clean all                                   //清空缓存及其它文件<br>[root@ecs-ea9d  ~]# yum makecache                             //重建缓存<br>[root@ecs-ea9d  ~]# yum repolist                                   //查询可用的仓库</p>
-<h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h2><p>yum -y install httpd vsftpd *vnc</p>
-<p>yum -y reinstall httpd</p>
-<p>yum -y update httpd</p>
-<p>yum -y update</p>
-<p>yum -y install /root/OpenIPMI-2.0.19-11.el7.x86_64.rpm        //从本地安装</p>
-<p>yum -y install <a href="https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm" target="_blank" rel="noopener">https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm</a></p>
-<p>yum -y groupinstall mariadb</p>
-<p>yum -y remove httpd</p>
-<p>yum -y groupremove mariadb</p>
-<h2 id="3-查询（从本地-rpm数据库-和-yum源-中查询）"><a href="#3-查询（从本地-rpm数据库-和-yum源-中查询）" class="headerlink" title="3.查询（从本地 rpm数据库 和 yum源 中查询）"></a>3.查询（从本地 rpm数据库 和 yum源 中查询）</h2><p>yum list httpd</p>
-<p>yum list <em>vnc</em></p>
-<p>yum list |grep vnc</p>
-<p>yum list installed</p>
-<p>yum info httpd</p>
-<p>yum group list</p>
-<p>yum grouplist</p>
-<p>yum groupinfo mariadb</p>
-<h2 id="4-卸载"><a href="#4-卸载" class="headerlink" title="4.卸载"></a>4.卸载</h2><p>[root@ecs-ea9d  ~]# yum -y remove mysql-server<br>[root@ecs-ea9d  ~]# yum -y groupremove mysql-server</p>
-<h2 id="5-history"><a href="#5-history" class="headerlink" title="5.history"></a>5.history</h2><p>yum history</p>
-<p>yum history info 4</p>
-<p>yum history undo 4         //撤销</p>
-<p>扩展查询：<br>例1: 从包名和包描述中查找带有关键字chinese的包</p>
-<p>yum list |grep chinese</p>
-<p>yum list |grep piny</p>
-<p>yum search chinese    </p>
-<p>例2：查找/etc/vsftpd/vsftpd.conf属由哪个包提供？<br>[root@server0 ~]# yum provides /etc/vsftpd/vsftpd.conf<br>Loaded plugins: langpacks<br>vsftpd-3.0.2-9.el7.x86_64 : Very Secure Ftp Daemon<br>Repo        : classroom_content_rhel7.0_x86_64_dvd_<br>Matched from:<br>Filename    : /etc/vsftpd/vsftpd.conf<br>[root@server0 ~]# yum -y install vsftpd-3.0.2-9.el7.x86_64</p>
-<p>例3：查找vsftpd.conf属由哪个包提供？<br>[root@server0 ~]# yum provides */vsftpd.conf</p>
-<p>例4：查找命令gnuplot属由哪个包提供？<br>[root@server0 ~]# gnuplot<br>bash: gnuplot: command not found…<br>[root@server0 ~]#<br>[root@server0 ~]# yum provides gnuplot<br>Loaded plugins: langpacks<br>gnuplot-4.6.2-3.el7.x86_64 : A program for plotting mathematical expressions and data<br>Repo        : classroom_content_rhel7.0_x86_64_dvd</p>
-<p>例5：查找命令pip属由哪个包提供？<br>[root@server0 ~]# pip<br>bash: pip: command not found…<br>[root@server0 ~]# yum -y install pip</p>
+        <p>内部网关协议OSPF：基于链路状态，更新收敛快</p>
+<p>特点：</p>
+<ol>
+<li>向本自治系统中所有路由器发送信息。这里使用的方法是<strong>洪泛法</strong></li>
+<li>发送的信息就是与本路由器相邻的所有路由器的链路状态，但这只是路由器所知道的部分信息。</li>
+<li>只有到链路状态发生变化时，路由器才向所有路由器用泛洪法发送此信息。不像RIP一样。</li>
+<li>OSPF对于不同类型的业务可计算出不同的路由</li>
+<li>如果到同一个目的网络有多条相同代价的路径，可以进行负载均衡。</li>
+<li>OSPF路由器具有鉴别功能，保证了仅在可信赖的路由器之间交换信息。</li>
+<li>OSPF支持可变长度的子网划分和无分类的编址CIDR（rip1不支持，rip2支持）</li>
+<li>OSPF让每一个链路状态都带上一个32位的序号，序号越大状态就越新。</li>
+</ol>
+<p>所有的路由器最终都能建立一个<strong>链路状态数据库</strong>，这个数据库实际是u是全网的拓扑结构图。每个区域都有一个点分十进制的32位区域标识符（主干区域标识符为0.0.0.0），一个区域内的路由器最好不要超过200个。OSPF直接用IP数据报（协议字段为89）传送.</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -552,12 +534,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-25使用YUM管理RPM包</p>
+    <p><span class="copy-title">文章标题:</span>OSPF</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-09-03, 10:24:02</p>
-    <p><span class="copy-title">最后更新:</span>2019-09-03, 10:24:38</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/03/每天一点Linux-25使用YUM管理RPM包/" title="每天一点Linux-25使用YUM管理RPM包">https://DROBP.github.io/2019/09/03/每天一点Linux-25使用YUM管理RPM包/</a>
+    <p><span class="copy-title">发布时间:</span>2019-09-12, 20:54:58</p>
+    <p><span class="copy-title">最后更新:</span>2019-09-12, 20:55:32</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/12/OSPF/" title="OSPF">https://DROBP.github.io/2019/09/12/OSPF/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
