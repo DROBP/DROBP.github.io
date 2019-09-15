@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-01文件系统 | DROBP</title>
+  <title>路由策略 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-01文件系统 | DROBP">
+  <meta name="description" content="路由策略 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -452,9 +452,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-01文件系统" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-路由策略" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-01文件系统</h1>
+        <h1 class="article-title">路由策略</h1>
     
     <div class="article-meta">
         
@@ -462,7 +462,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="Linux">Linux</a>
+                <a href="javascript:" data-rel="计算机网络">计算机网络</a>
             
         </span>
         
@@ -470,7 +470,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-09 21:55:27">2019-08-09 21:01</time>
+        创建时间:<time class="date" title="更新时间: 2019-09-15 18:00:54">2019-09-15 17:59</time>
         
     </div>
     <div class="article-meta">
@@ -503,7 +503,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux文件系统"><span class="toc-text">Linux文件系统</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#route-policy"><span class="toc-text">route-policy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ip-Prefix-List"><span class="toc-text">ip-Prefix List</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#filter-policy"><span class="toc-text">filter-policy</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -518,46 +518,76 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Linux文件系统"><a href="#Linux文件系统" class="headerlink" title="Linux文件系统"></a>Linux文件系统</h1><p>Windows:     以多根的方式组织文件  C:\   D:\   E:\<br>Linux:           以单根的方式组织文件  /</p>
-<p>/目录结构： FSH (Filesystem Hierarchy Standard)</p>
-<pre><code class="python">[root@yang ~]# ls /
-bin     dev   lib          media  net   root     srv  usr
-boot    etc   lib64       misc   opt   sbin     sys  var
-cgroup  home  lost+found  mnt    proc  selinux  tmp
-</code></pre>
-<p>利用BASH Shell对文件进行管理</p>
+        <p>路由策略：针对路由表，对网络中的路由进行控制、操作、过滤等等，对路由进行引入或者重发布。</p>
+<h2 id="route-policy"><a href="#route-policy" class="headerlink" title="route-policy"></a>route-policy</h2><p>route-policy：可将不同的路由协议引入到自己的路由中。</p>
+<p>一个route-policy包含多个node，每个node有自己的序号，在每个node下可定义相关的条件与满足条件的结果。</p>
+<p>逐级向下对比，匹配每一个<strong>if-match</strong>语句，如果都满足，则执行<strong>apply</strong>命令，否则进入下一个node</p>
+<ol>
+<li><p>创建route-policy</p>
+<p><strong>route-policy</strong> <em>name</em> <strong>{permit | deny} node</strong> <em>node</em> </p>
 <ul>
-<li><strong>bin 二进制文件，存放这Linux常用操作命令的执行文件</strong></li>
-<li><strong>dev 设备目录</strong></li>
-<li>home 相当于windows的c盘下的用户文件夹</li>
-<li><strong>lib64 64的库文件</strong></li>
-<li>media 媒体文件</li>
-<li>mnt 外设目录（插u盘硬盘）</li>
-<li>opt 第三方软件安装目录（安装qq等）</li>
-<li>root root用户的home</li>
-<li>usr 用户共享目录（相当于windows中c盘的Program Files,系统内置软件都装在这个文件夹中）</li>
-<li><strong>boot 内核启动目录</strong></li>
-<li>etc 配置文件目录</li>
-<li><strong>lib 库目录</strong></li>
-<li>lost+found 丢失目录</li>
-<li>sbin 超级管理员的目录</li>
-<li>tmp 临时目录（重启后会清空）</li>
-<li><strong>var 变量目录</strong></li>
-<li><strong>proc 虚拟的文件系统，反应出来的时内核，进程信息或是实时状态</strong></li>
-<li>selinux Linux安全</li>
-</ul>
-<p><strong>挂载</strong>的意义是将一个设备与一个目录关联起来，这个目录可以很深也可以很浅。一个磁盘可被挂载到多个目录下。</p>
-<p>Linux是一个单根结构，windows是一个多根结构。</p>
-<p>如何确定文件在那个磁盘中存放：</p>
+<li><p>permit指定节点的匹配模式为允许。当路由项通过该节点的过滤后，将执行该节点的apply子句，不能进入下一个节点的过滤；如果路由项没有通过该节点过滤，将进入下一个节点继续过滤。</p>
+</li>
+<li><p>deny指定节点的匹配模式为拒绝，这时apply子句不会被执行。当路由项目满足该节点的所有if-match子句时，将被拒绝通过该节点，不进入下一个节点；如果路由项目不满足该节点的任何if-match子句，将进入下一个节点继续过滤。</p>
+</li>
+<li><p>默认所有未匹配的路由将被拒绝通过route-policy。如果route-policy中定义了一个以上的节点，则各节点中至少应该有一个节点的匹配模式是permit。</p>
+<ol>
+<li><p>配置if-match子句</p>
+<p><strong>if-match ？</strong></p>
+<p>|                                               |                                                  |<br>| :——————————————-: | :———————————————-: |<br>|                      acl                      |                     配置ACL                      |<br>|                     cost                      |                匹配路由信息的cost                |<br>|                   interface                   |               匹配路由信息的出接口               |<br>| ip{next-hop | route-source | group-address} | 匹配IPV4的路由信息（下一跳、源地址或组播组地址） |<br>|                   ip-prefix                   |                   匹配前缀列表                   |<br>|                  route-type                   |               匹配各种类型路由信息               |<br>|                      tag                      |               匹配路由信息的标记域               |<br>|                   。。。。                    |                     。。。。                     |</p>
+</li>
+</ol>
 <ul>
-<li>例如新建一个文件为：/boot/dirl/file1</li>
+<li>对于同一个route-policy节点，命令if-match acl和命令if-match ip-prefix不能同时配置，后配置的命令会覆盖先配置的命令。</li>
+<li>对于同一个route-policy节点，在匹配的过程中，各个if-match子句间是“于”的关系，即路由信息必须同时满足所有匹配条件，才可以执行apply子句的动作。但命令if-match route-type和if-match interface除外，这两个命令的各自if-match子句间是“或”的关系，于其他命令的if-match子句间仍是“与”的关系。</li>
+<li>如不指定if-match子句，则所有路由信息都会通过该节点的过滤。</li>
 </ul>
 <ol>
-<li>先查看此文件的父亲（/boot/dirl/）是否为挂载点（可以通过df命令查看挂载点信息），如果是即该文件占用父亲挂载点相对应的文件系统（设备）的空间。如果不是则进行第二部。</li>
-<li>向上继续推一层即/boot是否为挂载点，是则进行对比找到文件系统（设备），如果不是继续向上推直到是为止（直到根目录 <strong>/</strong>）。</li>
+<li><p>配置apply子句</p>
+<p><strong>apply ？</strong></p>
+<p>|                             |                              |<br>| :————————-: | :————————–: |<br>|            cost             |        设置路由的cost        |<br>| cost-type{type-1 | type-2} |      设置OSPF的开销类型      |<br>|     ip-address next-hop     | 设置IPv4路由信息的下一跳地址 |<br>|         preference          |     设置路由协议的优先级     |<br>|             tag             |     设置路由信息的标记域     |</p>
+</li>
 </ol>
-<p>当你向根下的文件内创建文件时提示空间不够，但是你发现根下空间充足，错误可能是因为该目录挂载设备与根目录挂载设备不同。</p>
-<p><strong>挂载会遮盖录下的原有数据，所以一般会选择空目录进行挂载。</strong></p>
+<p>示例：</p>
+<p><code>`</code>python<br>[R1]acl 2000                                      # 使用ACL2000匹配路由<br>[R1-acl-basic-2000] rule permit source 172.16.1.0 0.0.0.0</p>
+</li>
+</ul>
+</li>
+</ol>
+<pre><code> [R1] route-policy RP permit node 10  #使用route-policy RP调用ACL2000
+ [R1-route-policy] if-match acl 2000
+ [R1-route-policy] apply cost 20      #将此条路由cost的值设置为20
+
+
+ [R1] ospf 1                             #在路由注入时调用route-policy RP
+ [R1] import-route direct route-policy RP 
+ ```
+</code></pre><h2 id="ip-Prefix-List"><a href="#ip-Prefix-List" class="headerlink" title="ip-Prefix List"></a>ip-Prefix List</h2><p>ip-Prefix List（ip前缀列表）：与ACL相似，但是补充了ACL中的不足，例如， 只能匹配路由前缀中的网络号，没办法去匹配路由前缀的前缀长度或者网络掩码。</p>
+<p>ACL缺陷：</p>
+<p><img src="/2019/09/15/路由策略/ACL缺陷.png" alt="ACL缺陷"></p>
+<p>ip-Prefix List：</p>
+<ul>
+<li>ip-Prefix List相比于ACL，它的可控性更强、更为灵活。</li>
+<li>ip-Prefix List不仅仅能匹配路由条目中的网络号，还能匹配网络掩码（也就是前缀长度），增强了路由匹配的精确度。</li>
+<li>每一个ip-Prefix List包含一条或者多条语句，每条语句都有自己的序号，按序号从小到大的顺序排列。</li>
+<li>在匹配过程中，系统按索引号升序一次检查各个表项，只要有一个表项满足条件，就认为通过该过滤列表，不在去匹配其他表项</li>
+<li>默认所有未匹配的路由将被拒绝通过过滤列表。如果所有表项都配置成deny模式，则任何路由都不能通过该过滤列表。因此，需要在多条deny模式的表项后定义一条permit 0.0.0.0  0 less-equal 32表项，允许其他所有IPv4路由信息通过。</li>
+</ul>
+<p>ip ip-prefix <em>aaa</em> index <em>10</em> permit <em>192.168.4.0 24</em></p>
+<p>ip ip-prefix <em>aaa</em> index <em>10</em> permit <em>192.168.0.0 16</em>  <code>greater-equal 24 less-equal 24（可选）</code></p>
+<ul>
+<li>需要满足所有条件</li>
+<li>如果只配置了greater-equal，则掩码长度范围需在greater-equal-value和32之间</li>
+<li>如果配置了less-equal，则掩码长度范围须在mask-length和less-equal-value之间</li>
+</ul>
+<p>示例：</p>
+<p>匹配以下路由：</p>
+<p>192.168.4.0/24</p>
+<p>192.168.5.0/24</p>
+<p>192.168.6.0/24</p>
+<p>192.168.7.0/24</p>
+<p><strong>ip ip-prefix abcd permit 192.168.4.0 22 greater-equal 24 less-equal 24</strong></p>
+<h3 id="filter-policy"><a href="#filter-policy" class="headerlink" title="filter-policy"></a>filter-policy</h3><p>用于过滤路由更新、接收的一个工具，只能过滤路由信息，无法过滤LSA</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -571,12 +601,12 @@ cgroup  home  lost+found  mnt    proc  selinux  tmp
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-01文件系统</p>
+    <p><span class="copy-title">文章标题:</span>路由策略</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-09, 21:01:36</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-09, 21:55:27</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/09/每天一点Linux-01文件系统/" title="每天一点Linux-01文件系统">https://DROBP.github.io/2019/08/09/每天一点Linux-01文件系统/</a>
+    <p><span class="copy-title">发布时间:</span>2019-09-15, 17:59:07</p>
+    <p><span class="copy-title">最后更新:</span>2019-09-15, 18:00:54</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/15/路由策略/" title="路由策略">https://DROBP.github.io/2019/09/15/路由策略/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
