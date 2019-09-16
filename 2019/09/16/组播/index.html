@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>STP | DROBP</title>
+  <title>组播 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="STP | DROBP">
+  <meta name="description" content="组播 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -457,9 +457,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-STP" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-组播" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">STP</h1>
+        <h1 class="article-title">组播</h1>
     
     <div class="article-meta">
         
@@ -475,7 +475,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-09-08 08:48:09">2019-09-08 08:47</time>
+        创建时间:<time class="date" title="更新时间: 2019-09-16 19:34:16">2019-09-16 19:30</time>
         
     </div>
     <div class="article-meta">
@@ -508,7 +508,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#IP组播"><span class="toc-text">IP组播</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#组播路由协议"><span class="toc-text">组播路由协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组播路由表项"><span class="toc-text">组播路由表项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组播分发树的分类"><span class="toc-text">组播分发树的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组播环路问题"><span class="toc-text">组播环路问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IGMP"><span class="toc-text">IGMP</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -523,56 +523,74 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>生成树协议STP（使交换机的分布像一棵树一样，不会出现环路）</p>
-<p>工作原理：</p>
+        <h1 id="IP组播"><a href="#IP组播" class="headerlink" title="IP组播"></a>IP组播</h1><ul>
+<li>组播非常适合“一对多”的模型，只有加入到特定组组播组的成员，才会收到组播数据。当存在多个组播成员时，源无需发送多个数据拷贝，仅需发送一份即可，组播网络设备会根据实际需要转发或拷贝组播数据</li>
+<li>数据流只会发送给加入组播组的接收者，而不需要该数据的设备不会收到该组播流量</li>
+<li>相同的组播报文，在一段链路上仅有一份数据，大大提高了网络资源的利用率</li>
+</ul>
+<p>组播IP地址与MAC地址的映射</p>
+<p><img src="/2019/09/16/组播/IP地址与组播mac.png" alt="IP地址与组播mac"></p>
+<p>组播mac地址：第一个8位的值为1表示组播mac地址，为0表示单播mac地址。</p>
+<h2 id="组播路由协议"><a href="#组播路由协议" class="headerlink" title="组播路由协议"></a>组播路由协议</h2><p>主要功能：</p>
 <ol>
-<li>选则根交换机</li>
-<li>选择根端口、指定端口、可选端口</li>
-<li>关闭所有阻塞端口的流量转发功能</li>
+<li>在接收组播报文时，判断该报文是否在正确的接口上到达，从而确保组播数据转发的五环化</li>
+<li>在网络中建立一棵组播分发树（组播流量转发的路径数树）</li>
+<li>组播分发树体现在每一台组播路由器上便是（S,G）或（*，G）的组播转发表项</li>
 </ol>
-<p>各端口以及作用：</p>
-<ol>
-<li>根端口—————-&gt;转发</li>
-<li>指定端口————-&gt;转发</li>
-<li>阻塞端口————-&gt;阻塞</li>
-</ol>
-<p>工作工程：</p>
-<ol>
-<li>选举根交换机<ul>
-<li>查看STP优先级（小的优先）</li>
-<li>MAC地址比较（小的优先）</li>
+<h2 id="组播路由表项"><a href="#组播路由表项" class="headerlink" title="组播路由表项"></a>组播路由表项</h2><ul>
+<li>PIM路由表项即通过PIM协议建立的组播路由表项。PIM网络中存在两种路由表项：（S，G）路由表项或（ <em>，G）路由表项。S表示组播源，G表示组播组， </em>表示任意<ul>
+<li>（S，G）路由表项知道组播源S的位置，主要用于在PIM路由器上建立SPT。对于PIM-DM网络和PIM-SM网络适用</li>
+<li>（S，G）路由表项由于只知道组播组G的存在，主要用于在PIM路由器上建立RPT。用于PIM-SM网络和双向PIM网络适用</li>
 </ul>
 </li>
-<li>非根交换机的根端口选举（每台非根交换机根端口只有一个，<strong>根端口对面一定是指定端口</strong>）<ul>
-<li>比较cost值（小的优先）</li>
-<li>比较上行交换及的mac地址（小的优先）</li>
-<li>比较上行交换机的端口标</li>
+<li>PIM路由器上可能同时存在两种路由表项。当收到源地址为S，组地址为G的组播报文，且通过RPF检查的情况下，按照如下的规则转发<ul>
+<li>如果存在（S，G）路由表项，则由（S，G)路由表项指导报文转发</li>
+<li>如果不存在（S，G）路由表项，只存在（<em>，G）路由表项，则先依照（ </em>，G）路由表项创建（S，G）路由表项，再由（S，G）路由表项指导报文转发</li>
 </ul>
 </li>
-<li>指定端口的选择（没有根端口的链路上有一个指定端口与阻塞端口）<ul>
-<li>根路径的开销</li>
-<li>端口所属桥ID</li>
-<li>端口ID（端口优先级+端口MAC）</li>
+</ul>
+<h2 id="组播分发树的分类"><a href="#组播分发树的分类" class="headerlink" title="组播分发树的分类"></a>组播分发树的分类</h2><ul>
+<li>SPT（Shortest-Path or Source Distribution Tree,最短路径树或源树）<ul>
+<li>源树是以组播为树根的组播分发树</li>
+<li>树源的分支形成了通过网络到达接收者所在分支的分布树。因为树源使用最短的、从源起失贯穿网络到达组播接收者的路径，所以又叫最短路径树</li>
+<li>SPT同时适用于PIM-DM网络和PIM-SM网络</li>
+<li>主要使用（S，G）表项</li>
 </ul>
 </li>
-</ol>
-<p>快速生成树协议RSTP</p>
-<p>端口五种状态：</p>
+<li>RPT（Rendezvous Point Tree，共享树）<ul>
+<li>与源树使用组播源作为根不同，共享树使用RP（Rendezvous Point）作为汇聚点</li>
+<li>多个组播可以共用一个RP，期望接收组播流量的路由器通过组播协议在自己与RP之间建立一条RPT的分支，组播流量首先需要从源发送到RP，然后再由RP将组播流量转发下来，组播流量顺着RPT最终到达各个接收者所在的终端网络</li>
+<li>RPT适用于PIM-SM网络和双向PIM网络</li>
+<li>主要使用（*，G）表项</li>
+</ul>
+</li>
+</ul>
+<h2 id="组播环路问题"><a href="#组播环路问题" class="headerlink" title="组播环路问题"></a>组播环路问题</h2><p><strong>RPF</strong></p>
 <ul>
-<li>Blocking state(阻塞)</li>
-<li>Listening state(监听)</li>
-<li>Learning state（学习）</li>
-<li>Forwarding state（转发）</li>
-<li>Disabled state（不接收）</li>
+<li>在组播网络中，如果组播流量出现转发环路，比起单播报文的转发环路的危害要大得多。路由器在转发一个组播报文时，出了会关注报文的目的地址，还会特别关心该报文的源地址。组播路由器通过一个被称为RPF（Reverse Path Forwarding，反向路径转发）的机制来实现组播数据转发的无环变化。</li>
+<li>RPF机制确保组播地址数据从正确的接口被收到，只有RPF检查的组播数据包才会被路由器沿着组播树进行转发，如果数据包从错误的接口被收到，路由器将丢弃这些报文。这里所谓的正确的接口，其实就是RPF接口（通过RPF检查的接口），也就是我们常说的上游接口，一种常见的情况是，设备借助其单播路由表实现RPF检查，接口选举依赖单播路由表。</li>
 </ul>
-<p>五种状态的转化：</p>
+<p>组播路由协议分类</p>
 <ul>
-<li>从初始化到阻塞或禁用状态</li>
-<li>从阻塞到侦听或禁用状态</li>
-<li>从侦听到学习或禁用状态</li>
-<li>从学习到转发或禁用状态</li>
-<li>从转发到禁用状态</li>
+<li>密集模式协议：PIM-DM<ul>
+<li>PIM-DM使用“推（PUSH）”模式转发组播报文，一般应用于组播组成员规模相对较小、相对密集的网络。Push方式假设网络中每一个子网至少有一个（S，G）组播组的接收者，因此组播数据被推送到网络中的各个角落，然后在进行剪枝操作，不需要组播流量的路由器将自己从组播分发树上修剪掉</li>
 </ul>
+</li>
+<li>稀疏模式：PIM-SM<ul>
+<li>稀疏模式协议使用“拉（Pull）”的方式，而不是强推。这种方式假定网络中不存在接收者，除非设备用显示的加入（Join）机制来申请。</li>
+</ul>
+</li>
+</ul>
+<h2 id="IGMP"><a href="#IGMP" class="headerlink" title="IGMP"></a>IGMP</h2><ul>
+<li>报文用IP封装，协议号为2，而且TTL字段值为1</li>
+<li>用于主机（组播成员）和组后一跳路由器之间</li>
+<li>主机使用IGMP报文向路由器申请加入和退出组播组。默认时路由器是不会向接口下转发组播数据流的，除非该接口上存在组成员</li>
+<li>路由器通过IGMP查询网段上是否有组播组成员</li>
+<li>在路由器上使用时需要先激活组播路由功能</li>
+</ul>
+<p>IGMP查询器</p>
+<p><img src="/2019/09/16/组播/IGMP查询器.png" alt="IGMP查询器"></p>
+<p><img src="/2019/09/16/组播/IGMP组和路由表.png" alt="IGMP组和路由表"></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -586,12 +604,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>STP</p>
+    <p><span class="copy-title">文章标题:</span>组播</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-09-08, 08:47:42</p>
-    <p><span class="copy-title">最后更新:</span>2019-09-08, 08:48:09</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/08/STP/" title="STP">https://DROBP.github.io/2019/09/08/STP/</a>
+    <p><span class="copy-title">发布时间:</span>2019-09-16, 19:30:52</p>
+    <p><span class="copy-title">最后更新:</span>2019-09-16, 19:34:16</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/16/组播/" title="组播">https://DROBP.github.io/2019/09/16/组播/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
