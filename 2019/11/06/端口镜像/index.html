@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-02bash使用技巧 | DROBP</title>
+  <title>端口镜像 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-02bash使用技巧 | DROBP">
+  <meta name="description" content="端口镜像 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -472,25 +472,19 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-02bash使用技巧" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-端口镜像" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-02bash使用技巧</h1>
+        <h1 class="article-title">端口镜像</h1>
     
     <div class="article-meta">
         
         
-        
-        <span class="book">
-            
-                <a href="javascript:" data-rel="Linux">Linux</a>
-            
-        </span>
         
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-10 22:54:28">2019-08-10 22:47</time>
+        创建时间:<time class="date" title="更新时间: 2019-11-06 20:58:49">2019-11-06 20:57</time>
         
     </div>
     <div class="article-meta">
@@ -523,7 +517,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#bash使用技巧"><span class="toc-text">bash使用技巧</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux获得帮助"><span class="toc-text">Linux获得帮助</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#以太网端口镜像"><span class="toc-text">以太网端口镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#实验"><span class="toc-text">实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-通过端口本地镜像实现"><span class="toc-text">1. 通过端口本地镜像实现</span></a></li></ol></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -538,95 +532,28 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="bash使用技巧"><a href="#bash使用技巧" class="headerlink" title="bash使用技巧"></a>bash使用技巧</h1><pre><code class="python">[yang@ecs-ea9d ~]$ id
-uid=1001(yang) gid=1001(yang) groups=1001(yang),10(wheel)
-</code></pre>
+        <h1 id="以太网端口镜像"><a href="#以太网端口镜像" class="headerlink" title="以太网端口镜像"></a>以太网端口镜像</h1><p>技术背景：在某些场景中，我们可能需要监控交换机特定端口的入站或出站报文。</p>
+<p>端口镜像：可以将交换机的某些端口发送的或者接收的数据进行数据拷贝至某个端口。</p>
+<p>镜像的应用：1、流量观测  2、故障定位</p>
+<p>被监控端口为镜像端口，接收复制数据的为观察端口或者监控端口</p>
+<p>镜像的分类：</p>
 <ul>
-<li>~ 表示现在在home目录下，/表示当前在根目录下</li>
-<li><p>$表示现在是普通用户；$位置的符号变为#时，表示为root。</p>
-</li>
-<li><p>用Tab可以进行命令的自动补全。</p>
-</li>
-<li>用键盘的上下键进行历史命令翻查</li>
-<li>用Ctrl + a （ahead）可以在终端中将光标移至命令开头。</li>
-<li>用Ctrl + e（end）可以在终端中将光标移至命令末。</li>
-<li>用Ctrl + k 可以删除光标后面的命令</li>
-<li>用Ctrl + u 可以删除光标前面的命令</li>
-<li>用Ctrl + r 可以以检索的方式查找历史命令</li>
-<li>在命令空格后长按Alt + . 可以自动补全上一条命令的参数</li>
-<li>在命令空格后按一下ESC后再加 . 可以自动补全上一条命令的参数</li>
-<li>在命令空格后输入要!$（一样）可以自动补全上一条命令的参数</li>
-<li>通过history查看历史命令；后输入！+数字，显示历史中的第”数字“条命令</li>
-<li>在！+ 字符串，搜索历史中最近的以”字符串“开口的命令</li>
-<li>使用”alias name=’命令’来进行命令的别名（如果不进行保存，关闭当前终端后别名功能无效）。例如 alias catnet=’cat /etc/sysconfig/network-scripts/ifcfg-enpls0’定义一条命令，以后在终端中直接输入catnet即执行cat /etc/sysconfig/network-scripts/ifcfg-enpls0这条命令。在终端中输入alias可以查看以别名（别名优先，\ +命令：跳过别名）</li>
-<li>使用type + 字符串 用来查询字符串（命令）的类型（命令类型可能是一个哈希[hash]、别名[alias]、内置命令[builtin]、关键字[keyword]、函数[function]、文件[file]，第一次输入命令时按hash-&gt;alias-&gt;builtin-&gt;$PATH顺序进行执行，即当命令不是hash而是是一个<strong>别名（alias）</strong>时就只执行这个<strong>别名（alias）</strong>不执行后面的其他类型命令）  </li>
+<li>基于端口的镜像：端口镜像就是将监控端口上的数据复制到指定的监控端口，对数据进行分析和监控<ul>
+<li>本地镜像：本地端口镜像中，监控主机与观察端口在同一交换机上（直接相连）</li>
+<li>远程端口镜像中，监控主机与观察端口所在设备直接通过二层网络或三层网络相连。<ul>
+<li>二层端口镜像：若通过二层网络互联，S9300将镜像端口的报文封装VLAN，然后通过观察端口将报文在远程<strong>镜像VLAN</strong>中进行广播。远程的设备收到报文后，比较报文的VLAN ID，如果相同，则将报文转发到远程观察端口。</li>
+<li>三层端口镜像：若通过三层网络互联，S3900使用GRE报文头封装和解封镜像报文，使得镜像报文可以穿透三层网络，从而实现镜像端口所在设备与观察端口所在设备之间通过三层网络相连时的端口镜像。</li>
 </ul>
-<h1 id="Linux获得帮助"><a href="#Linux获得帮助" class="headerlink" title="Linux获得帮助"></a>Linux获得帮助</h1><p>命令帮助</p>
-<p>命令 –help</p>
-<pre><code class="python">[yang@ecs-ea9d linux]$ ls --help
-Usage: ls [OPTION]... [FILE]...
-</code></pre>
-<p>方括号[]表示可有可无不是必须要加，…表示可有多个选项</p>
-<p><strong>date命令</strong></p>
-<p>文件帮助</p>
-<p>man（manual：手册）：可以理解为是一个工具的说明书</p>
-<p>在man中使用<strong>/字符串</strong>可以在手册中进行搜索字符串的信息，n（next）去找下一个。</p>
-<p>man手册章节（可使用man man命令查手册章节以及章节类型）</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">部分</th>
-<th style="text-align:center">man手册类型</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"><strong>1</strong></td>
-<td style="text-align:center"><strong>用户命令</strong></td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">内核系统调用</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">函数库调用</td>
-</tr>
-<tr>
-<td style="text-align:center">4</td>
-<td style="text-align:center">设备文件和特殊文件</td>
-</tr>
-<tr>
-<td style="text-align:center"><strong>5</strong></td>
-<td style="text-align:center"><strong>配置文件及格式</strong></td>
-</tr>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">游戏</td>
-</tr>
-<tr>
-<td style="text-align:center">7</td>
-<td style="text-align:center">杂项（规范、标准和其他页面）</td>
-</tr>
-<tr>
-<td style="text-align:center"><strong>8</strong></td>
-<td style="text-align:center"><strong>管理类命令</strong></td>
-</tr>
-<tr>
-<td style="text-align:center">9</td>
-<td style="text-align:center">Linux 内核 API（内核调用）</td>
-</tr>
-</tbody>
-</table>
-<pre><code class="python">[yang@ecs-ea9d ~]$ ll /usr/bin/passwd  /etc/passwd
--rw-r--r--  1 root root  1544 Aug  6 10:36 /etc/passwd
--rwsr-xr-x. 1 root root 27832 Jun 10  2014 /usr/bin/passwd
-</code></pre>
-<p>当上述两个passwd名字相同，使用man时可能得到的不是你想要的结果，可使用手册章节号来进行区分。(绿色为章节号)</p>
-<pre><code class="python">[yang@ecs-ea9d ~]$ man 1 passwd
-[yang@ecs-ea9d ~]$ man 5 passwd
-</code></pre>
-<p>也可使用man -f 手册名（例如：man -f passwd）来确定手册名（passwd）在那个章节。</p>
+</li>
+</ul>
+</li>
+<li>基于流的镜像：流镜像就是将匹配访问控制列表规则的业务流复制到指定的监控端口，用于报文的分析和监控。<ul>
+<li>流镜像到接口，是把通过配置了流镜像的接口上的符合要求的报文复制一份然后发送到观察端口分析诊断</li>
+<li>流镜像到CPU，是把通过配置了流镜像的接口上的符合要求的报文复制一份，然后发送到CPU以供分析诊断。这里的CPU指的是配置了流镜像的接口所在接口板上的CPU。</li>
+</ul>
+</li>
+</ul>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><h3 id="1-通过端口本地镜像实现"><a href="#1-通过端口本地镜像实现" class="headerlink" title="1. 通过端口本地镜像实现"></a>1. 通过端口本地镜像实现</h3><p><img src="/2019/11/06/端口镜像/以太网端口镜像.png" alt="以太网端口镜像"></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -640,12 +567,12 @@ Usage: ls [OPTION]... [FILE]...
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-02bash使用技巧</p>
+    <p><span class="copy-title">文章标题:</span>端口镜像</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-10, 22:47:01</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-10, 22:54:28</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/10/每天一点Linux-02bash使用技巧/" title="每天一点Linux-02bash使用技巧">https://DROBP.github.io/2019/08/10/每天一点Linux-02bash使用技巧/</a>
+    <p><span class="copy-title">发布时间:</span>2019-11-06, 20:57:12</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-06, 20:58:49</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/06/端口镜像/" title="端口镜像">https://DROBP.github.io/2019/11/06/端口镜像/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
