@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>网络信息安全攻防学习平台-基础关 | DROBP</title>
+  <title>链路聚合 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="网络信息安全攻防学习平台-基础关 | DROBP">
+  <meta name="description" content="链路聚合 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -477,9 +477,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-网络信息安全攻防学习平台-基础关" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-链路聚合" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">网络信息安全攻防学习平台-基础关</h1>
+        <h1 class="article-title">链路聚合</h1>
     
     <div class="article-meta">
         
@@ -487,7 +487,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="网络安全">网络安全</a>
+                <a href="javascript:" data-rel="计算机网络">计算机网络</a>
             
         </span>
         
@@ -495,7 +495,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-03 09:50:27">2019-04-01 14:37</time>
+        创建时间:<time class="date" title="更新时间: 2019-11-07 19:55:30">2019-11-07 19:52</time>
         
     </div>
     <div class="article-meta">
@@ -528,7 +528,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一题"><span class="toc-text">第一题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二题"><span class="toc-text">第二题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三题"><span class="toc-text">第三题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四题"><span class="toc-text">第四题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第五题"><span class="toc-text">第五题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第六题"><span class="toc-text">第六题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第七题"><span class="toc-text">第七题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第八题"><span class="toc-text">第八题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第九题"><span class="toc-text">第九题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十题"><span class="toc-text">第十题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十一题"><span class="toc-text">第十一题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十二题"><span class="toc-text">第十二题</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#链路聚合"><span class="toc-text">链路聚合</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#实验"><span class="toc-text">实验</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -543,21 +543,26 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>游戏地址【<a href="http://hackinglab.cn/ShowQues.php?type=bases】" target="_blank" rel="noopener">http://hackinglab.cn/ShowQues.php?type=bases】</a></p>
-<h2 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h2><p>key在哪里？<br>这类题时最简单的，一般只需在浏览器内打开开发者选项（键盘F12）即可。<br><img src="https://img-blog.csdnimg.cn/20181102105210914.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="开发者选项后的界面！"></p>
-<h2 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h2><p><img src="https://img-blog.csdnimg.cn/20181102105502672.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>此题加密方法为rot13，百度rot13在线解密即可得到key</p>
-<h2 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h2><p>我们看到此题的密文以符号结尾，判断其为base64加密后的密文，复制密文到百度在线解码（需要多解几次）后得到key<br><img src="https://img-blog.csdnimg.cn/20181102105956650.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h2><p>题中说时MD5加密，我们去百度MD5解密即可得到key<br><img src="https://img-blog.csdnimg.cn/20181102110202282.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> </p>
-<h2 id="第五题"><a href="#第五题" class="headerlink" title="第五题"></a>第五题</h2><p><em>种族歧视<br>分值: 300<br>小明同学今天访问了一个网站，竟然不允许中国人访问！太坑了，于是小明同学决心一定要进去一探究竟！</em><br><img src="https://img-blog.csdnimg.cn/20181104155141132.png" alt="在这里插入图片描述"><br>如图即可的到key：key is: <em>(TU687jksf6&amp;</em></p>
-<h2 id="第六题"><a href="#第六题" class="headerlink" title="第六题"></a>第六题</h2><p>HAHA浏览器<br>分值: 200<br>据说信息安全小组最近出了一款新的浏览器，叫HAHA浏览器，有些题目必须通过HAHA浏览器才能答对。小明同学坚决不要装HAHA浏览器，怕有后门，但是如何才能过这个需要安装HAHA浏览器才能过的题目呢？<img src="https://img-blog.csdnimg.cn/20181104164543243.png" alt="在这里插入图片描述"><br>恭喜您，成功安装HAHA浏览器！key is: meiyouHAHAliulanqi</p>
-<h2 id="第七题"><a href="#第七题" class="headerlink" title="第七题"></a>第七题</h2><p>key究竟在哪里呢？<br>分值: 200<br>上一次小明同学轻松找到了key，感觉这么简单的题目多无聊，于是有了找key的加强版，那么key这次会藏在哪里呢？<img src="https://img-blog.csdnimg.cn/20181104172457217.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第八题"><a href="#第八题" class="headerlink" title="第八题"></a>第八题</h2><p>key又找不到了<br>分值: 350<br>小明这次可真找不到key去哪里了，你能帮他找到key吗？<br><img src="https://img-blog.csdnimg.cn/20181104182548679.png" alt="在这里插入图片描述"></p>
-<h2 id="第九题"><a href="#第九题" class="headerlink" title="第九题"></a>第九题</h2><p>冒充登陆用户<br>分值: 200<br>小明来到一个网站，还是想要key，但是却怎么逗登陆不了，你能帮他登陆吗？<img src="https://img-blog.csdnimg.cn/20181104182819634.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>key is: yescookieedit7823789KJ</p>
-<h2 id="第十题"><a href="#第十题" class="headerlink" title="第十题"></a>第十题</h2><p>比较数字大小<br>分值: 100<br>只要比服务器上的数字大就可以了！<br>说明：此题的html代码中，对输入框的最大输入长度进行了限制，我们只要取消这个限制即可。<br>解法：进入过关网址，打开开发人员工具中的查看器，将输入框的maxLength改为4以上的数值，再在文本框中输入值即可。<br><img src="https://img-blog.csdnimg.cn/20181104183656894.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第十一题"><a href="#第十一题" class="headerlink" title="第十一题"></a>第十一题</h2><p>说明:此题要求从本地访问。HTTP包中的X-Forwarded-For<br>字段是用来表示你IP地址和代理IP地址(如果有的话),<br>我们在请求包中加上此值改为127.0.0.1即可。<br><img src="https://img-blog.csdnimg.cn/20181106194531183.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="第十二题"><a href="#第十二题" class="headerlink" title="第十二题"></a>第十二题</h2><p>说明：此题考察robots.txt作用。进入此网页的robots.txt<br>如下图:<br><img src="https://img-blog.csdnimg.cn/20181106194647162.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>此文件不让我们爬取/9fb7531fe95594603aff7e794ab2f5f里的文件，我们接下来就进入此文件夹,<br>网页显示：you find me,but I am not the login page. keep search.<br>我们就猜测key在login.php里，进入此目录下的login.php得到key<br><img src="https://img-blog.csdnimg.cn/20181106195754177.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NyYXp5eWFuZ3Jvbmc=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>   <strong><em>ps:此关需要对http包有所了解，知道了http包内的内容后对解决此关有很大帮助！</em></strong></p>
+        <h1 id="链路聚合"><a href="#链路聚合" class="headerlink" title="链路聚合"></a>链路聚合</h1><p><strong>技术背景</strong>：1、网络中某些链路承载的流量非常大，链路带宽存在瓶颈 2、链路存在单点故障（冗余性低）；通过以太网链路聚合技术，能够将多条以太网链路进行捆绑，捆绑之后的聚合链路不仅仅在带宽上有了提升，还同时提供了负载分担及链路冗余。</p>
+<p>链路聚合（Link Aggregation）是将一组物理接口捆绑在一起作为一个逻辑接口来增加带宽的方法，又称为多接口负载均衡组（Load Sharing Group）或链路聚合组（Link Aggregation Group）,相关的标准协议请参考IEEE802.3ad；通过两台设备之间建立链路聚合组，可以提供更高的通讯带宽和更高的可靠性。链路聚合不仅仅为设备间通信提供了冗余保护，而且不需要对硬件进行升级。</p>
+<p>工作方式：手工负载均衡</p>
+<ul>
+<li>手工负载分担模式允许在聚合组中手工加入多个成员接口，所有的接口均处于转发状态，分担负载的流量。S3900支持的负载均衡分担方式包括目的MAC、源MAC、源MAC异或目的MAC、源IP、目的IP、源IP异或目的IP和增强模式</li>
+<li>Eth-Trunk的创建、成员接口的加入都需要手工配置完成，没有LACP协议报文的参与</li>
+<li>手工负载分担模式通常应用在对端设备不支持LACP协议的情况下。（LACP：Link Agregation Control Protocol）</li>
+</ul>
+<p>工作方式：静态LACP</p>
+<p><img src="/2019/11/07/链路聚合/LACP工作方式.png" alt="LACP工作方式"></p>
+<ul>
+<li>静态LACP（Static LACP）模式是一种利用LACP协议进行聚合参数协商、确定活动接口和非活动接口的链路聚合方式。该模式下，需手工创建Eth-Trunk，手工加入Eth-Trunk成员接口，由LACP协议协商确定活动接口和非活动接口。</li>
+<li>静态LACP模式也称为M∶N模式。这种方式同时可以实现链路负载分担和链路冗余备份的双重功能。在链路聚合组中M条链路处于活动状态，这些链路负责转发数据并进行负载分担，另外N条链路处于非活动状态作为备份链路，不转发数据。当M条链路中有链路出现故障时，系统会从N条备份链路中选择优先级最高的接替出现故障的链路，同时这条替换故障链路的备份链路状态变为活动状态开始转发数据。</li>
+<li>静态LACP模式与手工负载分担模式的主要区别为：静态LACP模式有备份链路，而手工负载分担模式所有成员接口均处于转发状态，分担负载流量。</li>
+<li>和静态LACP模式相对应的还包括动态LACP模式。动态LACP模式的链路聚合，从Eth-Trunk的创建到加入成员接口都不需要人工的干预，由LACP协议自动协商完成。虽然这种方式对于用户来说很简单，但由于这种方式过于灵活，不便于管理，所以S9300上不支持动态LACP模式链路聚合。</li>
+</ul>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>手工负载分担模式</p>
+<p><img src="/2019/11/07/链路聚合/端口手工聚合.png" alt="端口手工聚合"></p>
+<p>静态LACP模式</p>
+<p><img src="/2019/11/07/链路聚合/LACP实验.png" alt="LACP实验"></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -571,12 +576,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>网络信息安全攻防学习平台-基础关</p>
+    <p><span class="copy-title">文章标题:</span>链路聚合</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-04-01, 14:37:24</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-03, 09:50:27</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/04/01/网络信息安全攻防学习平台-基础关/" title="网络信息安全攻防学习平台-基础关">https://DROBP.github.io/2019/04/01/网络信息安全攻防学习平台-基础关/</a>
+    <p><span class="copy-title">发布时间:</span>2019-11-07, 19:52:42</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-07, 19:55:30</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/07/链路聚合/" title="链路聚合">https://DROBP.github.io/2019/11/07/链路聚合/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
