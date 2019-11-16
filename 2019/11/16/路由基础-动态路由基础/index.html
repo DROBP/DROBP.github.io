@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-08文件权限ACL | DROBP</title>
+  <title>路由基础-动态路由基础 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-08文件权限ACL | DROBP">
+  <meta name="description" content="路由基础-动态路由基础 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -497,9 +497,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-08文件基本权限" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-路由基础-动态路由基础" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-08文件权限ACL</h1>
+        <h1 class="article-title">路由基础-动态路由基础</h1>
     
     <div class="article-meta">
         
@@ -507,7 +507,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="Linux">Linux</a>
+                <a href="javascript:" data-rel="计算机网络">计算机网络</a>
             
         </span>
         
@@ -515,7 +515,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-16 23:09:01">2019-08-16 23:06</time>
+        创建时间:<time class="date" title="更新时间: 2019-11-16 17:52:03">2019-11-16 17:50</time>
         
     </div>
     <div class="article-meta">
@@ -548,7 +548,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本权限ACL（FACL）"><span class="toc-text">基本权限ACL（FACL）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL基本用法"><span class="toc-text">ACL基本用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-setuid的作用"><span class="toc-text">1.setuid的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-setgid的作用"><span class="toc-text">2.setgid的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-sticky-bid的作用"><span class="toc-text">3.sticky bid的作用</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#动态路由协议"><span class="toc-text">动态路由协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#动态路由协议的分类"><span class="toc-text">动态路由协议的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#距离矢量协议"><span class="toc-text">距离矢量协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RIP"><span class="toc-text">RIP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#距离矢量路由选择协议的防环机制"><span class="toc-text">距离矢量路由选择协议的防环机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链路状态协议"><span class="toc-text">链路状态协议</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -563,49 +563,65 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="基本权限ACL（FACL）"><a href="#基本权限ACL（FACL）" class="headerlink" title="基本权限ACL（FACL）"></a>基本权限ACL（FACL）</h1><p>文件权限管理之： ACL设置基本权限(r、w、x)<br>UGO设置基本权限：  只能一个用户，一个组和其他人<br>ACL 设置基本权限：  r,w,x</p>
-<h2 id="ACL基本用法"><a href="#ACL基本用法" class="headerlink" title="ACL基本用法"></a>ACL基本用法</h2><p>设置：<br>[root@ecs-ea9d ~]# touch /home/test.txt<br>[root@ecs-ea9d ~]# ll /home/test.txt<br>-rw-r–r– 1 root root 0 10-26 13:59 /home/test.txt</p>
-<p>[root@ecs-ea9d ~]# getfacl /home/test.txt<br>[root@ecs-ea9d ~]# setfacl -m u:alice:rw /home/test.txt            //增加用户alice权限<br>[root@ecs-ea9d ~]# setfacl -m u:jack:- /home/test.txt             //增加用户jack权限<br>[root@ecs-ea9d ~]# setfacl -m o::rw /home/test.txt</p>
-<p>查看/删除：<br>[root@ecs-ea9d ~]# ll /home/test.txt<br>-rw-rw-r–+ 1 root root 0 10-26 13:59 /home/test.txt<br>[root@ecs-ea9d ~]# getfacl /home/test.txt</p>
-<p>[root@ecs-ea9d ~]# setfacl -m g:hr:r /home/test.txt<br>[root@ecs-ea9d ~]# setfacl -x g:hr /home/test.txt                     //删除组hr的acl权限<br>[root@ecs-ea9d ~]# setfacl -b /home/test.txt                              //删除所有acl权限</p>
-<p>=查看帮助=<br>[root@ecs-ea9d ~]# man setfacl<br>/EXAMPLES<br>[root@ecs-ea9d ~]# getfacl file1 |setfacl  –set-file=- file2       //复制file1的ACL权限给file2</p>
-<p>＝ACL高级用法＝<br>mask：<br><strong>用于临时降低用户或组（除属主和其他人）的权限</strong><br><strong>建议：为了方便管理文件权限，其他人的权限置为空</strong><br>[root@ecs-ea9d ~]# setfacl -m m::— /home/file100.txt</p>
-<p>default: 继承（默认）<br><strong>要求： 希望alice能够对/home以及以后在/home下新建的文件有读、写、执行权限</strong></p>
-<p>思路：<br>步骤一： 赋予alice对/home读、写、执行权限<br>[root@ecs-ea9d ~]# setfacl -m u:alice:rwx /home</p>
-<p>步骤二： 赋予alice对以后在/home下新建的文件有读、写、执行权限 （使alice的权限继承）<br>[root@ecs-ea9d ~]# setfacl -m d:u:alice:rwx /home</p>
-<p>高级权限 suid,sgid,sticky</p>
-<p>文件权限管理之：高级权限</p>
-<p>问题1： 为什么会失败！<br>[root@ecs-ea9d ~]# ll /root/install.log<br>-rw-r–r–. 1 root root 46571 6月   1 23:37 /root/install.log<br>[alice@ecs-ea9d ~]$ cat /root/install.log<br>cat: /root/install.log: 权限不够</p>
-<p>分析：<br>alice           /usr/bin/cat (alice)            /root/install.log<br>alice           /usr/bin/passwd (root)      /etc/shadow</p>
-<p>高级权限的类型<br>suid         4<br>sgid          2<br>sticky       1   粘滞位</p>
-<p>设置特殊权限<br>a、字符<br>chmod u+s file<br>chmod g+s file<br>chmod g+s dir<br>chmod o+t dir</p>
-<p>b、数字<br>chmod 4777 file<br>chmod 7777 file<br>chmod 2770 dir<br>chmod 3770 dir</p>
-<h2 id="1-setuid的作用"><a href="#1-setuid的作用" class="headerlink" title="1.setuid的作用"></a>1.setuid的作用</h2><p>jack用户执行命令passwd jack；修改自己的密码成功,修改密码其实就是修改/etc/passwd这个文件,查看/etc/passwd这个文件的权限;发现其他人没有写权限，但是passwd jack执行成功，其原因就在于passwd这个命令的权限是rwsrw—-,其中’s’的作用就是:让执行命令的人具有和该命令拥有者相同的权限</p>
-<p>注:当原来权限有x时，再给文件设置setuid，此时x位变为小写的s,当没有x权限时，此时x位变为S.</p>
-<p>操作方法</p>
-<p>chmod u+s xxx</p>
-<p>chmod 4765 xxx</p>
-<p>示例1：suid   普通用户通过suid提权     &lt;针对文件&gt;<br>在进程文件（二进制，可执行）上增加suid权限<br>[root@ecs-ea9d ~]# chmod u+s /bin/cat<br>[root@ecs-ea9d ~]# chmod u+s /bin/rm</p>
-<p>[alice@ecs-ea9d ~]$ cat /root/install.log</p>
-<p>普通用户可以修改密码：<br>alice           /usr/bin/passwd      /etc/shadow</p>
-<p>[alice@ecs-ea9d ~]$ ll /etc/shadow<br>———- 1 root root 1487 6月   4 13:43 /etc/shadow</p>
-<p>[alice@ecs-ea9d ~]$ ll /usr/bin/passwd<br>-rwsr-xr-x. 1 root root 30768 2月  17 2012 /usr/bin/passwd</p>
-<p>[alice@ecs-ea9d ~]$ passwd<br>更改用户 alice 的密码 。<br>为 alice 更改 STRESS 密码。<br>（当前）UNIX 密码：</p>
-<p>[root@ecs-ea9d ~]# ps aux |grep passwd</p>
-<p>root      3674  0.0  0.0 165764  1884 pts/1    S+   14:34   0:00 passwd</p>
-<h2 id="2-setgid的作用"><a href="#2-setgid的作用" class="headerlink" title="2.setgid的作用"></a>2.setgid的作用</h2><p>   当用户以root身份登录系统并创建一个目录dir时,此时目录所有者和所属组是root,root;切换到另外一个用户jack,进入dir目录并创建文件，此时创建的文件所属者所属组都是jack,jack;当想要在dir目录创建的所有文件的所属组都是root时,可以以root身份登录给dir目录,执行命令chmod g+s dir或者chmod 2765,之后任何用户登录系统在目录dir中创建的文件的所属组默认都是root.</p>
-<p>总结： 目录有s权限， 任何用户在此目录下创建的文件都具有和该目录所属的组相同的组</p>
-<p>示例2：sticky 用户只能删除自己的文件  &lt;针对目录&gt;<br>[root@ecs-ea9d ~]# mkdir /home/dir1<br>[root@ecs-ea9d ~]# chmod 777 /home/dir1<br>测试：user1在/home/dir1建立文件, user2尝试删除！</p>
-<p>[root@ecs-ea9d ~]# chmod o+t /home/dir1<br>[root@ecs-ea9d ~]# ll -d /home/dir1<br>rwxrwxrwt 2 root root 4096 09-02 02:26 /home/dir1</p>
-<h2 id="3-sticky-bid的作用"><a href="#3-sticky-bid的作用" class="headerlink" title="3.sticky bid的作用"></a>3.sticky bid的作用</h2><p>应用场景:超级管理员创建了两用户a,b；超级管理员创建了一个目录dir,a用户登录系统在dir目录中创建文件a.txt;b用户登录系统创建文件b.txt，现在需要a不能删除b创建的文件即使b.txt(即使文件other为w)，同理b也是如此.</p>
-<p>(正常情况下a用户和b用户是可以删除对方创建的文件)</p>
-<p>要想做到a用户可以添加文件并且只能删除自己创建的文件,b用户也如此</p>
-<p>可以执行命令 chmod o+t dir 或者 chmod 1765 dir</p>
-<p>示例3：sgid 新建文件继承目录属组   &lt;针对目录&gt;<br>[root@ecs-ea9d ~]# mkdir /home/hr<br>[root@ecs-ea9d ~]# chgrp hr /home/hr/<br>[root@ecs-ea9d ~]# chmod g+s /home/hr<br>[root@ecs-ea9d ~]# ll -d /home/hr/<br>drwxr-sr-x. 2 root hr 4096 Dec  5 16:03 /home/hr/</p>
-<p>[root@ecs-ea9d ~]# touch /home/hr/file9<br>[root@ecs-ea9d ~]# ll /home/hr/<br>-rw-r–r–. 1 root hr   0 Dec  5 16:03 file9</p>
-<p>============================================================================</p>
-<p>小知识：注意以下目录的正确权限，否则会导致程序不能正常运行<br>[root@ecs-ea9d ~]# ll -d /tmp /var/tmp/<br>drwxrwxrwt 14 root root 4096 07-26 10:15 /tmp</p>
-<p>drwxrwxrwt  2 root root 4096 07-24 19:02 /var/tmp/</p>
+        <h1 id="动态路由协议"><a href="#动态路由协议" class="headerlink" title="动态路由协议"></a>动态路由协议</h1><h2 id="动态路由协议的分类"><a href="#动态路由协议的分类" class="headerlink" title="动态路由协议的分类"></a>动态路由协议的分类</h2><p>一、</p>
+<ol>
+<li>距离矢量协议（路径矢量）[RIP,BGP]<ul>
+<li>直接将自己的路由表更新给其他路由器</li>
+<li>路由器之间会交换各自的路由表</li>
+</ul>
+</li>
+<li>链路状态协议[OSPF,IS-IS]<ul>
+<li>传递的不是直接的路由条目，而是描述拓扑的信息（链路状态信息）</li>
+<li>通过这些链路状态信息的泛洪和收集每台路由器可进行相应的拓扑数据库的构建</li>
+<li>通过这些数据库，产生一个以自己为根的无环的最短路径的树</li>
+</ul>
+</li>
+</ol>
+<p>二、</p>
+<ol>
+<li>IGP（RIP，OSPF，IS-IS）<ul>
+<li>运行在同一个AS内</li>
+</ul>
+</li>
+<li>EGP（BGP）<ul>
+<li>运行在不同的AS之间</li>
+</ul>
+</li>
+</ol>
+<h2 id="距离矢量协议"><a href="#距离矢量协议" class="headerlink" title="距离矢量协议"></a>距离矢量协议</h2><p>使用距离矢量路由协议的路由器并不了解网络的拓扑。该路由器只知道：</p>
+<ul>
+<li>自身与目的的网络之间的<strong>距离</strong></li>
+<li>应该往哪个<strong>方向</strong>或使用哪个接口转发数据包</li>
+</ul>
+<h3 id="RIP"><a href="#RIP" class="headerlink" title="RIP"></a>RIP</h3><p>RIP以跳数（Hops）作为度量值，虽然简单，但是事实上不够科学的。例如去目标网络时有两条链路一条为中间只有两个路由器（Hops=2）且带宽为10M的链路，另一条链路中间有三个路由器（Hops=3）但其带宽为1G，虽然第一条链路带宽低，但是还是会被RIP优选。</p>
+<p>华为路由表中的cost字段标示Hops数</p>
+<h3 id="距离矢量路由选择协议的防环机制"><a href="#距离矢量路由选择协议的防环机制" class="headerlink" title="距离矢量路由选择协议的防环机制"></a>距离矢量路由选择协议的防环机制</h3><ul>
+<li>定义最大度量以防止计数至无穷大<ul>
+<li>定义最大跳数（16跳为不可达）</li>
+</ul>
+</li>
+<li>水平分割<ul>
+<li>路由器从一个接口收到的路由更新，不会再从同一个接口发出去</li>
+</ul>
+</li>
+<li>路由中毒<ul>
+<li>当路由器发现一条路由不可达时（跳数为16），会立刻向其他路由器发送路由更新，告诉网络不可达</li>
+</ul>
+</li>
+<li>毒性逆转<ul>
+<li>路由器从一个接口收到的路由更新，会以16跳从该接口更新出去</li>
+</ul>
+</li>
+<li>抑制计时器</li>
+<li>触发更新</li>
+</ul>
+<h2 id="链路状态协议"><a href="#链路状态协议" class="headerlink" title="链路状态协议"></a>链路状态协议</h2><p>运行链路状态路由协议的路由器，彼此之间交互的就不是路由信息了，而是LSA（链路状态通告）</p>
+<ul>
+<li>什么是链路（LINK）：路由器接口</li>
+<li>什么是状态（State）：描述接口以及其与邻居路由器之间的关系</li>
+</ul>
+<p>每台路由器将搜集到的LSAs放入自己的LSDB（链路状态数据库）存储起来，有了LSDB，路由器相当于掌握了全网的拓扑。</p>
+<p>每台路由器基于LSDB，使用SPF（最短路径算法）进行计算，得到一个与自己为根、覆盖全网的一棵无环的数。</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -619,12 +635,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-08文件权限ACL</p>
+    <p><span class="copy-title">文章标题:</span>路由基础-动态路由基础</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-16, 23:06:27</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-16, 23:09:01</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/16/每天一点Linux-08文件基本权限/" title="每天一点Linux-08文件权限ACL">https://DROBP.github.io/2019/08/16/每天一点Linux-08文件基本权限/</a>
+    <p><span class="copy-title">发布时间:</span>2019-11-16, 17:50:18</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-16, 17:52:03</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/11/16/路由基础-动态路由基础/" title="路由基础-动态路由基础">https://DROBP.github.io/2019/11/16/路由基础-动态路由基础/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

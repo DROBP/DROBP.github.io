@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-08文件权限ACL | DROBP</title>
+  <title>OSPF1 | DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-08文件权限ACL | DROBP">
+  <meta name="description" content="OSPF1 | DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -497,9 +497,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-08文件基本权限" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-OSPF1" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">每天一点Linux-08文件权限ACL</h1>
+        <h1 class="article-title">OSPF1</h1>
     
     <div class="article-meta">
         
@@ -507,7 +507,7 @@
         
         <span class="book">
             
-                <a href="javascript:" data-rel="Linux">Linux</a>
+                <a href="javascript:" data-rel="计算机网络">计算机网络</a>
             
         </span>
         
@@ -515,7 +515,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-16 23:09:01">2019-08-16 23:06</time>
+        创建时间:<time class="date" title="更新时间: 2019-11-16 17:47:45">2019-09-12 20:54</time>
         
     </div>
     <div class="article-meta">
@@ -548,7 +548,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本权限ACL（FACL）"><span class="toc-text">基本权限ACL（FACL）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL基本用法"><span class="toc-text">ACL基本用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-setuid的作用"><span class="toc-text">1.setuid的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-setgid的作用"><span class="toc-text">2.setgid的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-sticky-bid的作用"><span class="toc-text">3.sticky bid的作用</span></a></li></ol></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -563,49 +563,89 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="基本权限ACL（FACL）"><a href="#基本权限ACL（FACL）" class="headerlink" title="基本权限ACL（FACL）"></a>基本权限ACL（FACL）</h1><p>文件权限管理之： ACL设置基本权限(r、w、x)<br>UGO设置基本权限：  只能一个用户，一个组和其他人<br>ACL 设置基本权限：  r,w,x</p>
-<h2 id="ACL基本用法"><a href="#ACL基本用法" class="headerlink" title="ACL基本用法"></a>ACL基本用法</h2><p>设置：<br>[root@ecs-ea9d ~]# touch /home/test.txt<br>[root@ecs-ea9d ~]# ll /home/test.txt<br>-rw-r–r– 1 root root 0 10-26 13:59 /home/test.txt</p>
-<p>[root@ecs-ea9d ~]# getfacl /home/test.txt<br>[root@ecs-ea9d ~]# setfacl -m u:alice:rw /home/test.txt            //增加用户alice权限<br>[root@ecs-ea9d ~]# setfacl -m u:jack:- /home/test.txt             //增加用户jack权限<br>[root@ecs-ea9d ~]# setfacl -m o::rw /home/test.txt</p>
-<p>查看/删除：<br>[root@ecs-ea9d ~]# ll /home/test.txt<br>-rw-rw-r–+ 1 root root 0 10-26 13:59 /home/test.txt<br>[root@ecs-ea9d ~]# getfacl /home/test.txt</p>
-<p>[root@ecs-ea9d ~]# setfacl -m g:hr:r /home/test.txt<br>[root@ecs-ea9d ~]# setfacl -x g:hr /home/test.txt                     //删除组hr的acl权限<br>[root@ecs-ea9d ~]# setfacl -b /home/test.txt                              //删除所有acl权限</p>
-<p>=查看帮助=<br>[root@ecs-ea9d ~]# man setfacl<br>/EXAMPLES<br>[root@ecs-ea9d ~]# getfacl file1 |setfacl  –set-file=- file2       //复制file1的ACL权限给file2</p>
-<p>＝ACL高级用法＝<br>mask：<br><strong>用于临时降低用户或组（除属主和其他人）的权限</strong><br><strong>建议：为了方便管理文件权限，其他人的权限置为空</strong><br>[root@ecs-ea9d ~]# setfacl -m m::— /home/file100.txt</p>
-<p>default: 继承（默认）<br><strong>要求： 希望alice能够对/home以及以后在/home下新建的文件有读、写、执行权限</strong></p>
-<p>思路：<br>步骤一： 赋予alice对/home读、写、执行权限<br>[root@ecs-ea9d ~]# setfacl -m u:alice:rwx /home</p>
-<p>步骤二： 赋予alice对以后在/home下新建的文件有读、写、执行权限 （使alice的权限继承）<br>[root@ecs-ea9d ~]# setfacl -m d:u:alice:rwx /home</p>
-<p>高级权限 suid,sgid,sticky</p>
-<p>文件权限管理之：高级权限</p>
-<p>问题1： 为什么会失败！<br>[root@ecs-ea9d ~]# ll /root/install.log<br>-rw-r–r–. 1 root root 46571 6月   1 23:37 /root/install.log<br>[alice@ecs-ea9d ~]$ cat /root/install.log<br>cat: /root/install.log: 权限不够</p>
-<p>分析：<br>alice           /usr/bin/cat (alice)            /root/install.log<br>alice           /usr/bin/passwd (root)      /etc/shadow</p>
-<p>高级权限的类型<br>suid         4<br>sgid          2<br>sticky       1   粘滞位</p>
-<p>设置特殊权限<br>a、字符<br>chmod u+s file<br>chmod g+s file<br>chmod g+s dir<br>chmod o+t dir</p>
-<p>b、数字<br>chmod 4777 file<br>chmod 7777 file<br>chmod 2770 dir<br>chmod 3770 dir</p>
-<h2 id="1-setuid的作用"><a href="#1-setuid的作用" class="headerlink" title="1.setuid的作用"></a>1.setuid的作用</h2><p>jack用户执行命令passwd jack；修改自己的密码成功,修改密码其实就是修改/etc/passwd这个文件,查看/etc/passwd这个文件的权限;发现其他人没有写权限，但是passwd jack执行成功，其原因就在于passwd这个命令的权限是rwsrw—-,其中’s’的作用就是:让执行命令的人具有和该命令拥有者相同的权限</p>
-<p>注:当原来权限有x时，再给文件设置setuid，此时x位变为小写的s,当没有x权限时，此时x位变为S.</p>
-<p>操作方法</p>
-<p>chmod u+s xxx</p>
-<p>chmod 4765 xxx</p>
-<p>示例1：suid   普通用户通过suid提权     &lt;针对文件&gt;<br>在进程文件（二进制，可执行）上增加suid权限<br>[root@ecs-ea9d ~]# chmod u+s /bin/cat<br>[root@ecs-ea9d ~]# chmod u+s /bin/rm</p>
-<p>[alice@ecs-ea9d ~]$ cat /root/install.log</p>
-<p>普通用户可以修改密码：<br>alice           /usr/bin/passwd      /etc/shadow</p>
-<p>[alice@ecs-ea9d ~]$ ll /etc/shadow<br>———- 1 root root 1487 6月   4 13:43 /etc/shadow</p>
-<p>[alice@ecs-ea9d ~]$ ll /usr/bin/passwd<br>-rwsr-xr-x. 1 root root 30768 2月  17 2012 /usr/bin/passwd</p>
-<p>[alice@ecs-ea9d ~]$ passwd<br>更改用户 alice 的密码 。<br>为 alice 更改 STRESS 密码。<br>（当前）UNIX 密码：</p>
-<p>[root@ecs-ea9d ~]# ps aux |grep passwd</p>
-<p>root      3674  0.0  0.0 165764  1884 pts/1    S+   14:34   0:00 passwd</p>
-<h2 id="2-setgid的作用"><a href="#2-setgid的作用" class="headerlink" title="2.setgid的作用"></a>2.setgid的作用</h2><p>   当用户以root身份登录系统并创建一个目录dir时,此时目录所有者和所属组是root,root;切换到另外一个用户jack,进入dir目录并创建文件，此时创建的文件所属者所属组都是jack,jack;当想要在dir目录创建的所有文件的所属组都是root时,可以以root身份登录给dir目录,执行命令chmod g+s dir或者chmod 2765,之后任何用户登录系统在目录dir中创建的文件的所属组默认都是root.</p>
-<p>总结： 目录有s权限， 任何用户在此目录下创建的文件都具有和该目录所属的组相同的组</p>
-<p>示例2：sticky 用户只能删除自己的文件  &lt;针对目录&gt;<br>[root@ecs-ea9d ~]# mkdir /home/dir1<br>[root@ecs-ea9d ~]# chmod 777 /home/dir1<br>测试：user1在/home/dir1建立文件, user2尝试删除！</p>
-<p>[root@ecs-ea9d ~]# chmod o+t /home/dir1<br>[root@ecs-ea9d ~]# ll -d /home/dir1<br>rwxrwxrwt 2 root root 4096 09-02 02:26 /home/dir1</p>
-<h2 id="3-sticky-bid的作用"><a href="#3-sticky-bid的作用" class="headerlink" title="3.sticky bid的作用"></a>3.sticky bid的作用</h2><p>应用场景:超级管理员创建了两用户a,b；超级管理员创建了一个目录dir,a用户登录系统在dir目录中创建文件a.txt;b用户登录系统创建文件b.txt，现在需要a不能删除b创建的文件即使b.txt(即使文件other为w)，同理b也是如此.</p>
-<p>(正常情况下a用户和b用户是可以删除对方创建的文件)</p>
-<p>要想做到a用户可以添加文件并且只能删除自己创建的文件,b用户也如此</p>
-<p>可以执行命令 chmod o+t dir 或者 chmod 1765 dir</p>
-<p>示例3：sgid 新建文件继承目录属组   &lt;针对目录&gt;<br>[root@ecs-ea9d ~]# mkdir /home/hr<br>[root@ecs-ea9d ~]# chgrp hr /home/hr/<br>[root@ecs-ea9d ~]# chmod g+s /home/hr<br>[root@ecs-ea9d ~]# ll -d /home/hr/<br>drwxr-sr-x. 2 root hr 4096 Dec  5 16:03 /home/hr/</p>
-<p>[root@ecs-ea9d ~]# touch /home/hr/file9<br>[root@ecs-ea9d ~]# ll /home/hr/<br>-rw-r–r–. 1 root hr   0 Dec  5 16:03 file9</p>
-<p>============================================================================</p>
-<p>小知识：注意以下目录的正确权限，否则会导致程序不能正常运行<br>[root@ecs-ea9d ~]# ll -d /tmp /var/tmp/<br>drwxrwxrwt 14 root root 4096 07-26 10:15 /tmp</p>
-<p>drwxrwxrwt  2 root root 4096 07-24 19:02 /var/tmp/</p>
+        <p>内部网关协议OSPF（开放最短路径优先）：基于链路状态，更新收敛快，首部固定24字节（版本1、类型1、分组长度2、路由器标识符4、区域标识符4、检验和2、鉴别类型2[0不用，1用]、鉴别8）</p>
+<p>特点：</p>
+<ol>
+<li>向本自治系统中所有路由器发送信息。这里使用的方法是<strong>洪泛法</strong></li>
+<li>发送的信息就是与本路由器相邻的所有路由器的链路状态，但这只是路由器所知道的部分信息。</li>
+<li>只有到链路状态发生变化时，路由器才向所有路由器用泛洪法发送此信息。不像RIP一样。</li>
+<li>OSPF对于不同类型的业务可计算出不同的路由</li>
+<li>如果到同一个目的网络有多条相同代价的路径，可以进行负载均衡。</li>
+<li>OSPF支持可变长度的子网划分和无分类的编址CIDR（rip1不支持，rip2支持）</li>
+<li>OSPF让每一个链路状态都带上一个32位的序号，序号越大状态就越新。</li>
+<li>OSPF允许管理员给每条路由指派不同的代价。OSPF对于不同类型的业务可计算出不同的路由，链路代价可以是1至65535中的任何一个无量纲的数。</li>
+<li>如果到同一个网络有多条相同代价的路径，那么可以将通信量分配给这几条路径，这叫多路径间的<strong>负载均衡</strong>。</li>
+<li>所有在OSPF路由器之间的交换的分组都具有<strong>鉴别</strong>功能，保证了仅在可信赖的路由器之间交换信息。（例如：链路状态信息，）</li>
+</ol>
+<p>所有的路由器最终都能建立一个<strong>链路状态数据库</strong>，这个数据库实际就是全网的拓扑结构图。OSPF直接用IP数据报（协议字段为89）传送.</p>
+<p>OSPF与RIP的区别：</p>
+<ul>
+<li><p>给谁发：</p>
+<ul>
+<li>OSPF向本自治系统中的所有路由器发送信息。这里使用洪泛法，这就是路由器通过所有输出端口向所有相邻路由器发送信息。而每一个相邻路由器又再将此信息发往起所有的相邻路由器。</li>
+</ul>
+</li>
+<li><p>发什么</p>
+<ul>
+<li>发送的信息就是与本路由器<strong>相邻的所有路由器的链路状态</strong>，但这只是路由器所知道的部分信息。所谓“链路状态”就是说明本路由器都和那些路由器相邻，以及该链路的“<strong>度量</strong>”。度量用来表示费用、距离、时延、带宽等等，这些都是由网络管理员来决定的。（RIP发送的信息是：到所有网络的距离和下一跳路由器）</li>
+</ul>
+</li>
+<li><p>什么时候发</p>
+<ul>
+<li>只有当<strong>链路状态发生变化</strong>时，路由器才向所有路由器用洪范法发送此信息。而不像RIP，定时交换路由信息。</li>
+</ul>
+</li>
+</ul>
+<p>为什么OSPF的收殓速度快：</p>
+<ol>
+<li><p>将一个自治域划分为若干个更小的范围，叫做区域（每个区域都有一个点分十进制的32位区域标识符（主干区域标识符为0.0.0.0），一个区域内的路由器最好不要超过200个。）</p>
+<p>注：主干区域的作用：连通其他在下层的区域。主干区域还要有一个路由器专门和本自治域外的其他自治系统交换路由信息。</p>
+</li>
+</ol>
+<p>OSPF的好处（个人观点）：</p>
+<ol>
+<li>有指定路由器，可以减少网络中资源的消耗</li>
+<li>可在域内在进行区域划分，层次划分，方便管理</li>
+<li>可根据距离、带宽、时延等条件进行灵活路由</li>
+</ol>
+<p>OSPF的五种分组类型：</p>
+<ul>
+<li>问候Hello：<strong>用来发现和维护邻站的可达性</strong>。OSPF规定，每隔10s要交换一次问候分组。可以确认那些邻站是可达的。若40s没有收到某个相邻路由器发来的问候分组，则认为该相邻路由器不可达，需修改链路状态数据库，并重新计算路由表。</li>
+<li>DD（数据库描述）：向邻站给出自己的链路状态数据库中的所有链路状态项目的摘要信息（LSA头部信息）。</li>
+<li>LSR（链路状态请求）：向对方请求发送某些链路状态项目的状态<strong>详细信息</strong>。</li>
+<li>LSU（链路状态更新）：用洪范法对全网更新链路状态。</li>
+<li>LSAACK（链路状态确认）：对链路更新分组的确认。</li>
+</ul>
+<p>注：为了减少网络上的信息，OSPF使用<strong>指定的路由器</strong>（DR），指定路由器代表该局域网上的路由器向连接到该网络的各路由器发送链路状态信息。</p>
+<p>DR：指定路由器</p>
+<p>ABR：区域边界路由器（只有连接到主干区域[area 0]的路由器才能叫做ABR）</p>
+<p>ASBR：域边界路由器</p>
+<p>BDR：备用指定路由器</p>
+<p>OSPF的LSA类型：</p>
+<ul>
+<li>一类LSA（Router LSA）：每台路由器都会产生，描述了路由所有直连链路的状态和cost值，<strong>只能在所属区域内泛洪，不能跨越ABR</strong></li>
+<li>二类LSA（Network LSA）：由DR产生，描述该DR连接的所有路由器的Route ID，其中包括DR自己的Router ID。<strong>只能在所属区域内泛洪，</strong></li>
+</ul>
+<p>一二类总结：都不能跨区，两类LSA可以解决区域内部通信问题。区域内路由（intra-area）</p>
+<ul>
+<li><p>三类LSA（Network Summary LSA）：只能由ABR产生，描述一个区域内的路由，可跨区泛洪，<strong>区域间的路由通过此LSA实现</strong></p>
+<p>三类LSA可能导致路由环路问题：</p>
+<p>解决方法：OSPF规定三类LSA只能由主干区域内（Area 0）内的路由器发布，也就是三类LSA只能由ABR来发送。</p>
+</li>
+<li><p>四类LSA（ASBR Summary LSA）：由ABR产生，是一条主机LSA，指向ASBR，与ASBR同一域的ABR发送给与ASBR不同区域的ABR同域的路由器。</p>
+</li>
+<li><p>五类LSA（AS External LSA）：由ASBR产生，用于描述本AS之外的外部路由。</p>
+<p>五类LSA的两种metric：</p>
+<ol>
+<li>type1：cost=外部路由cost值+内部路由cost值</li>
+<li>type2：为默认类型，cost=外部路由cost值（不考虑内部的cost值）</li>
+</ol>
+</li>
+<li><p>七类LSA（NSSA LSA）：由ASBR产生，只能在NSSA区域内泛洪，不能直接进入骨干区域，NSSA的ABR会将七类LSA转换为五类LSA注入到骨干区域。</p>
+</li>
+</ul>
+<p>OSPF邻居间发送的是LSDB，LSDB内是LSA信息</p>
+<p>OSPF特殊区域</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -619,12 +659,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-08文件权限ACL</p>
+    <p><span class="copy-title">文章标题:</span>OSPF1</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-16, 23:06:27</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-16, 23:09:01</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/16/每天一点Linux-08文件基本权限/" title="每天一点Linux-08文件权限ACL">https://DROBP.github.io/2019/08/16/每天一点Linux-08文件基本权限/</a>
+    <p><span class="copy-title">发布时间:</span>2019-09-12, 20:54:58</p>
+    <p><span class="copy-title">最后更新:</span>2019-11-16, 17:47:45</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/09/12/OSPF1/" title="OSPF1">https://DROBP.github.io/2019/09/12/OSPF1/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
