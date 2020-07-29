@@ -2,9 +2,9 @@
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <title>每天一点Linux-14管道 | DROBP</title>
+  <title>DROBP</title>
   <meta name="keywords" content>
-  <meta name="description" content="每天一点Linux-14管道 | DROBP">
+  <meta name="description" content="DROBP">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="页面未找到！">
 <meta property="og:type" content="website">
@@ -502,25 +502,17 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-每天一点Linux-14管道" class="article article-type-post" itemscope itemprop="blogPost">
-    
-        <h1 class="article-title">每天一点Linux-14管道</h1>
+        <article id="post-端口安全" class="article article-type-post" itemscope itemprop="blogPost">
     
     <div class="article-meta">
         
         
-        
-        <span class="book">
-            
-                <a href="javascript:" data-rel="Linux">Linux</a>
-            
-        </span>
         
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title="更新时间: 2019-08-22 20:17:11">2019-08-22 20:14</time>
+        创建时间:<time class="date" title="更新时间: 2020-07-29 09:52:36">2020-07-29 09:51</time>
         
     </div>
     <div class="article-meta">
@@ -553,7 +545,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#进程管道-Piping"><span class="toc-text">进程管道 Piping</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#进程管道"><span class="toc-text">进程管道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tee管道"><span class="toc-text">tee管道</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#端口安全"><span class="toc-text">端口安全</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -568,23 +560,32 @@
 </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="进程管道-Piping"><a href="#进程管道-Piping" class="headerlink" title="进程管道 Piping"></a>进程管道 Piping</h1><p>•   Use redirection characters to control output to <strong>files</strong>.<br>•   Use piping to control output to other <strong>programs</strong>.        </p>
-<p>files:   &gt; 2&gt; file1.txt  /dev/pts/2  /dev/tty1  /dev/null  /dev/sda<br>programs: |</p>
-<h2 id="进程管道"><a href="#进程管道" class="headerlink" title="进程管道"></a>进程管道</h2><p>用法：command1 | command2 |command3 |…</p>
-<p>[yang@ecs-ea9d ~]$ ll /dev/ |less<br>[yang@ecs-ea9d ~]$ ps aux |grep ‘sshd’<br>[yang@ecs-ea9d ~]$ rpm -qa  |grep ‘httpd’                         //查询所有安装的软件包，过滤包含httpd的包<br>[yang@ecs-ea9d ~]$ yum list  |grep ‘httpd’</p>
-<p>案例1：将/etc/passwd中的用户按UID大小排序<br>[yang@ecs-ea9d ~]$ sort -t”:” -k3 -n /etc/passwd                //以: 分隔，将第三列按字数升序<br>[yang@ecs-ea9d ~]$ sort -t”:” -k3 -n /etc/passwd -r           //逆序<br>[yang@ecs-ea9d ~]$ sort -t”:” -k3 -n /etc/passwd |head<br>-t     指定字段分隔符–field-separator<br>-k 指定列<br>-n 按数值</p>
-<p>案例2：统计出最占CPU的5个进程<br>[yang@ecs-ea9d ~]$ ps aux –sort=-%cpu |head -6</p>
-<p>案例3：统计当前/etc/passwd中用户使用的shell类型<br>思路：取出第七列（shell） | 排序（把相同归类）| 去重<br>[yang@ecs-ea9d ~]$ awk -F: ‘{print $7}’ /etc/passwd<br>[yang@ecs-ea9d ~]$ awk -F: ‘{print $7}’ /etc/passwd |sort<br>[yang@ecs-ea9d ~]$ awk -F: ‘{print $7}’ /etc/passwd |sort |uniq<br>[yang@ecs-ea9d ~]$ awk -F: ‘{print $7}’ /etc/passwd |sort |uniq -c<br>    131     /bin/bash<br>      1     /bin/sync<br>      1     /sbin/halt<br>     63     /sbin/nologin<br>      1     /sbin/shutdown<br>-F:     指定字段分隔符<br>$7     第七个字段</p>
-<p>案例4： 统计网站的访问情况 top 20<br>思路： 打印所有访问的连接 | 过滤访问网站的连接 | 打印用户的IP | 排序 | 去重<br>[yang@ecs-ea9d ~]$ ss -an |grep :80 |awk -F”:” ‘{print $8}’ |sort |uniq -c<br>    4334 192.168.0.66<br>    1338 192.168.10.11<br>    1482 192.168.10.125<br>     44 192.168.10.183<br>   3035 192.168.10.213<br>    375 192.168.10.35<br>    362 192.168.10.39<br>[yang@ecs-ea9d ~]$ ss -an |grep :80 |awk -F”:” ‘{print $8}’ |sort |uniq -c |sort -k1 -rn |head -n 20 </p>
-<p>案例5： 打印当前所有IP<br>[yang@ecs-ea9d ~]$ ip addr |grep ‘inet ‘ |awk ‘{print $2}’ |awk -F”/“ ‘{print $1}’<br>127.0.0.1<br>192.168.2.115</p>
-<p>案例6：打印根分区已用空间的百分比（仅打印数字）<br>[yang@ecs-ea9d ~]$ df -P |grep ‘/$’ |awk ‘{print $5}’ |awk -F”%” ‘{print $1}’</p>
-<h2 id="tee管道"><a href="#tee管道" class="headerlink" title="tee管道"></a>tee管道</h2><p>tee管道（分叉管道）：常规管道只能在一个方向进行传输，tee管道可以保证将管道前的程序执行结果进行保存到文档然后顺利通过管道传给下一个程序。</p>
-<p><img src="/2019/08/22/每天一点Linux-14管道/1tee.png" alt="1tee"></p>
-<p>[yang@ecs-ea9d ~]$ ip addr |grep ‘inet ‘ |tee ip.txt |awk -F”/“ ‘{print $1}’ |awk ‘{print $2}’<br>127.0.0.1<br>172.16.60.1<br>[yang@ecs-ea9d ~]$ cat ip.txt<br>    inet 127.0.0.1/8 scope host lo<br>    inet 172.16.60.1/24 brd 172.16.60.255 scope global eth0</p>
-<p>[yang@ecs-ea9d ~]$ ip addr |grep ‘inet ‘ |tee -a ip.txt |awk -F”/“ ‘{print $1}’ |awk ‘{print $2}’<br>127.0.0.1<br>172.16.60.1</p>
-<p><strong>-a相当于重定向的追加</strong></p>
-<p>[yang@ecs-ea9d ~]$ date |tee date.txt<br>Sat Mar 11 10:22:31 CST 2017</p>
-<p>匿名管道和命名管道的区别？</p>
+        <h1 id="端口安全"><a href="#端口安全" class="headerlink" title="端口安全"></a>端口安全</h1><p><img src="/2020/07/29/端口安全/端口安全.PNG" alt="端口安全"></p>
+<p><strong>LSW1</strong></p>
+<pre><code class="java">#
+interface GigabitEthernet0/0/1
+ port-security enable      //开启端口安全，该接口就只允许一个MAC地址通信
+#
+
+[Huawei-GigabitEthernet0/0/1]port-security mac-address sticky ?
+  H-H-H  Mac address       //绑定特定的MAC地址
+
+[Huawei-GigabitEthernet0/0/1]port-security max-mac-num ?   //最多可以通过几个mac地址
+  INTEGER&lt;1-4096&gt;  Maximum mac address can learn
+
+[Huawei-GigabitEthernet0/0/1]port-security ?
+  aging-time      Aging time
+  enable          Enable port security
+  mac-address     Mac address
+  max-mac-num     Maximum mac address can learn
+  protect-action  Action if beyond the limit
+
+[Huawei-GigabitEthernet0/0/1]port-security pr    
+[Huawei-GigabitEthernet0/0/1]port-security protect-action ?
+  protect   Discard packets
+  restrict  Discard packets and warning
+  shutdown  Shutdown 
+</code></pre>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 2924854739@qq.com </span>
@@ -598,12 +599,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>每天一点Linux-14管道</p>
+    <p><span class="copy-title">文章标题:</span></p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="DROBP">DROBP</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-22, 20:14:52</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-22, 20:17:11</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/08/22/每天一点Linux-14管道/" title="每天一点Linux-14管道">https://DROBP.github.io/2019/08/22/每天一点Linux-14管道/</a>
+    <p><span class="copy-title">发布时间:</span>2020-07-29, 09:51:46</p>
+    <p><span class="copy-title">最后更新:</span>2020-07-29, 09:52:36</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/07/29/端口安全/" title>https://DROBP.github.io/2020/07/29/端口安全/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
